@@ -1,8 +1,7 @@
-package yjj.nanasreunion.Actors.Components;
-
-import java.util.Vector;
+package yjj.nanasreunion.Actors.Components.Physics;
 
 import yjj.nanasreunion.Vector2d;
+import yjj.nanasreunion.Actors.Actor;
 
 public class Physics
 {
@@ -37,12 +36,13 @@ public class Physics
     {
         m_Acceleration = Vector2d.Scale(Force, 1.f/ m_Mass);
     }
+
     public void ApplyForce(Vector2d Force)
     {
         m_Acceleration = Vector2d.Add(m_Acceleration, Vector2d.Scale(Force, 1.f/m_Mass));
     }
 
-    public Vector2d UpdatePosition(Vector2d Position, float DeltaTime)
+    public void Update(Actor actor, float DeltaTime)
     {
         //Friction
         {
@@ -58,16 +58,13 @@ public class Physics
 
         m_Acceleration = Vector2d.Add(m_Acceleration, new Vector2d(0.f, m_Gravity));
         m_Velocity = Vector2d.Add(m_Velocity, Vector2d.Scale(m_Acceleration, DeltaTime));
-        Position = Vector2d.Add(Position, Vector2d.Scale(m_Velocity, DeltaTime));
-
+        actor.position = Vector2d.Add(actor.position, Vector2d.Scale(m_Velocity, DeltaTime));
 
         //LOWEST LEVEL
-        if(Position.y < 0.f)
+        if(actor.position.y < 0.f)
         {
             m_Velocity.y = 0.f;
-            Position.y = 0.f;
+            actor.position.y = 0.f;
         }
-
-        return Position;
     }
 }
