@@ -18,4 +18,6 @@ public interface Scene {
     public boolean OnKeyDown(int keyCode, KeyEvent event);
 
     public boolean OnTouchEvent(MotionEvent event);
+
+    public void SurfaceChange(int width, int height);
 }

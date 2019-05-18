@@ -5,7 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.content.Context;
 
-public class ServiceHub {
+public class ServiceHub
+{
 
     public static final class Assert { private Assert() {} }
 

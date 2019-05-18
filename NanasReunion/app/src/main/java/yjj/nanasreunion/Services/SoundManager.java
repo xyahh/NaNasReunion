@@ -48,8 +48,8 @@ public class SoundManager
         float streamVolume = m_AudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         streamVolume = streamVolume /
                 m_AudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        m_SoundPool.play((Integer) m_SoundPoolMap.get(index),
-                streamVolume, streamVolume,
-                1, loop, 1f);
+        Integer idx = (Integer)m_SoundPoolMap.get(index);
+        if(idx == null) return;
+        m_SoundPool.play(idx, streamVolume, streamVolume,1, loop, 1f);
     }
 }

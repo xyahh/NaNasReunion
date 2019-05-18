@@ -8,26 +8,41 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
+import yjj.nanasreunion.MyStack;
 import yjj.nanasreunion.Scenes.*;
 
 
-public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-
-    private Scene m_Scene;
+public class GameView extends SurfaceView implements SurfaceHolder.Callback
+{
+    private MyStack<Scene> m_Scenes;
 
     public GameView(Context context)
     {
         super(context);
         setFocusable(true);
-        m_Scene = new NullScene();
+        m_Scenes = new MyStack<>();
+        m_Scenes.push(new NullScene());
     }
 
     public void ChangeScene(Scene scene)
     {
         if(scene == null) return; // nothing happens if input scene is null
-        m_Scene.Destroy();
-        m_Scene = scene;
-        m_Scene.Init();
+
+        PopScene();
+        PushScene(scene);
+    }
+
+    public void PopScene()
+    {
+        m_Scenes.pop().Destroy();
+    }
+
+    public void PushScene(Scene scene)
+    {
+        if(scene == null) return;
+
+        m_Scenes.push(scene);
+        m_Scenes.top().Init();
     }
 
     @Override
@@ -65,30 +80,33 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas)
+    {
         Draw(canvas);
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        m_Scene.OnKeyDown(keyCode, event);
-        return super.onKeyDown(keyCode, event);
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        super.onKeyDown(keyCode, event);
+        return m_Scenes.top().OnKeyDown(keyCode, event);
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        m_Scene.OnTouchEvent(event);
-        return super.onTouchEvent(event);
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        super.onTouchEvent(event);
+        return m_Scenes.top().OnTouchEvent(event);
     }
 
     public void Draw(Canvas canvas)
     {
         canvas.drawColor(Color.BLACK);
-        m_Scene.Render(canvas, Timer.Interpolation());
+        m_Scenes.top().Render(canvas, Timer.Interpolation());
     }
 
     public void Update()
     {
-        m_Scene.Update(Timer.DELTA_TIME);
+        m_Scenes.top().Update(Timer.DELTA_TIME);
     }
 }

@@ -36,4 +36,10 @@ public class NullScene implements Scene {
     public boolean OnTouchEvent(MotionEvent event) {
         return false;
     }
+
+    @Override
+    public void SurfaceChange(int width, int height)
+    {
+
+    }
 }
