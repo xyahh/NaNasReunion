@@ -1,7 +1,7 @@
-package yjj.nanasreunion.Actors.Components.Physics;
+package yjj.nanasreunion.Objects.Components.Physics;
 
 import yjj.nanasreunion.Vector2d;
-import yjj.nanasreunion.Actors.Actor;
+import yjj.nanasreunion.Objects.Actor;
 
 public class Physics
 {

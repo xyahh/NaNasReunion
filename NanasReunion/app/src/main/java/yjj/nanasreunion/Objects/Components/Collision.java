@@ -1,4 +1,4 @@
-package yjj.nanasreunion.Actors.Components;
+package yjj.nanasreunion.Objects.Components;
 
 import yjj.nanasreunion.Vector2d;
 

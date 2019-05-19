@@ -1,6 +1,6 @@
-package yjj.nanasreunion.Actors.Components.State;
+package yjj.nanasreunion.Objects.Components.State;
 
-import yjj.nanasreunion.Actors.Actor;
+import yjj.nanasreunion.Objects.Actor;
 
 public class NullState implements State
 {

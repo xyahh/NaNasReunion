@@ -1,4 +1,4 @@
-package yjj.nanasreunion.Actors.Components;
+package yjj.nanasreunion.Objects.Components;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -30,6 +30,7 @@ public class Graphics
     {
         //check if ScreenPos is inside or out + counting Bitmap offsets to check if to draw the
         // object or not
+
 
         canvas.drawBitmap(m_Bitmap,
                 ScreenPosition.x + m_Offset.x,

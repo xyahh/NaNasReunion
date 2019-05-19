@@ -1,14 +1,13 @@
-package yjj.nanasreunion.Actors;
+package yjj.nanasreunion.Objects;
 
 /* Core Classes */
-import yjj.nanasreunion.MyStack;
 import yjj.nanasreunion.Vector2d;
 
 
 /* Component Classes */
-import yjj.nanasreunion.Actors.Components.*;
-import yjj.nanasreunion.Actors.Components.Physics.*;
-import yjj.nanasreunion.Actors.Components.State.*;
+import yjj.nanasreunion.Objects.Components.*;
+import yjj.nanasreunion.Objects.Components.Physics.*;
+
 import android.graphics.Canvas;
 
 public class Actor

@@ -1,9 +1,9 @@
-package yjj.nanasreunion.Actors;
+package yjj.nanasreunion.Objects;
 
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import yjj.nanasreunion.Actors.Components.State.*;
+import yjj.nanasreunion.Objects.Components.State.*;
 import yjj.nanasreunion.MyStack;
 
 public class Pawn extends Actor
@@ -14,7 +14,25 @@ public class Pawn extends Actor
     {
         super();
         states      = new MyStack<>();
-        states.push(new NullState());
+        PushState(new NullState());
+    }
+
+
+    public void PushState(State state)
+    {
+        states.push(state);
+        states.top().Enter(this);
+    }
+
+    public void PopState()
+    {
+        states.pop().Exit(this);
+    }
+
+    public void ChangeState(State state)
+    {
+        PopState();
+        PushState(state);
     }
 
     @Override

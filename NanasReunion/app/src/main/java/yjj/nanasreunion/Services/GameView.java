@@ -21,7 +21,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
         super(context);
         setFocusable(true);
         m_Scenes = new MyStack<>();
-        m_Scenes.push(new NullScene());
+
+        PushScene(new GameplayScene());
     }
 
     public void ChangeScene(Scene scene)

@@ -31,6 +31,10 @@ public class Vector2d
         return new Vector2d(a.x + b.x, a.y + b.y);
     }
 
+    public static Vector2d Subtract(Vector2d a, Vector2d b)
+    {
+        return new Vector2d(a.x - b.x, a.y - b.y);
+    }
 
 
 }
