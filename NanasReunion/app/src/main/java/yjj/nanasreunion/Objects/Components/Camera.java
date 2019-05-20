@@ -31,8 +31,11 @@ public class Camera
 
    public Vector2d GetScreenPosition(Vector2d position)
    {
-       return Vector2d.Subtract(position, m_ViewVector);
+       Vector2d v = Vector2d.Subtract(position, m_ViewVector);
+
+       return v;
    }
+
 
    public void UpdateViewport(int width, int height)
    {

@@ -13,14 +13,13 @@ import android.graphics.Canvas;
 
 public class Actor
 {
-
     public Vector2d position;
     public Graphics graphics;
     public Physics  physics;
 
-
     public Actor()
     {
+        position    = new Vector2d(0.f, 0.f);
         physics     = new NullPhysics();
         graphics    = new NullGraphics();
     }
