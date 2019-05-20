@@ -21,8 +21,10 @@ public class GameplayScene implements Scene
     {
         m_Actors        = new Actor[50];
         m_Widgets       = new Widget[10];
+
         m_Camera        = new Camera();
         m_PlayerPawn    = new Pawn();
+        m_Actors[0]      = m_PlayerPawn;
 
         m_Camera.SetTarget(m_PlayerPawn.position);
         m_Camera.SetCameraOffset(new Vector2d(0.f, 0.f));
@@ -45,8 +47,6 @@ public class GameplayScene implements Scene
     {
         for(Actor a : m_Actors)
             a.Update(deltaTime);
-        for(Widget w: m_Widgets)
-            w.Update(deltaTime);
     }
 
     @Override
@@ -56,18 +56,12 @@ public class GameplayScene implements Scene
         for(Actor a : m_Actors)
             a.Draw(canvas, m_Camera, interp);
         for(Widget w: m_Widgets)
-            w.Draw(canvas, interp);
+            w.Draw(canvas);
     }
 
     @Override
     public boolean OnKeyDown(int keyCode, KeyEvent event)
     {
-        //process Widget input first. If processed, do NOT process player input
-        for(Widget w : m_Widgets)
-        {
-            if(w.OnKeyDown(keyCode, event))
-                return true;
-        }
         return m_PlayerPawn.OnKeyDown(keyCode, event);
     }
 

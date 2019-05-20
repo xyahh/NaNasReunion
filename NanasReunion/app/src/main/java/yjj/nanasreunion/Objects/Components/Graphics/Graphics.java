@@ -1,4 +1,4 @@
-package yjj.nanasreunion.Objects.Components;
+package yjj.nanasreunion.Objects.Components.Graphics;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,6 +9,10 @@ public class Graphics
 {
     protected Bitmap            m_Bitmap;
     protected Vector2d          m_Offset;
+
+    protected Graphics()
+    {
+    }
 
     public Graphics(Bitmap bitmap)
     {

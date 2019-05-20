@@ -7,23 +7,22 @@ import yjj.nanasreunion.Vector2d;
 /* Component Classes */
 import yjj.nanasreunion.Objects.Components.*;
 import yjj.nanasreunion.Objects.Components.Physics.*;
+import yjj.nanasreunion.Objects.Components.Graphics.*;
 
 import android.graphics.Canvas;
 
 public class Actor
 {
 
-    public Vector2d             position;
-
-    public Graphics             graphics;
-    public Physics              physics;
-
+    public Vector2d position;
+    public Graphics graphics;
+    public Physics  physics;
 
 
     public Actor()
     {
         physics     = new NullPhysics();
-
+        graphics    = new NullGraphics();
     }
 
     public void Update(float DeltaTime)
