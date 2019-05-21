@@ -8,12 +8,12 @@ import yjj.nanasreunion.MyStack;
 
 public class Pawn extends Actor
 {
-    public    MyStack<State> states;
+    private    MyStack<State> states;
 
     public Pawn()
     {
         super();
-        states      = new MyStack<>();
+        states = new MyStack<>();
         PushState(new NullState());
     }
 
@@ -26,7 +26,8 @@ public class Pawn extends Actor
 
     public void PopState()
     {
-        states.pop().Exit(this);
+        if(states.size() > 1) //always have NullState. Never empty.
+            states.pop().Exit(this);
     }
 
     public void ChangeState(State state)
@@ -44,11 +45,11 @@ public class Pawn extends Actor
 
     public boolean OnTouchEvent(MotionEvent event)
     {
-        return false;
+        return states.top().OnTouchEvent(this, event);
     }
 
     public boolean OnKeyDown(int keyCode, KeyEvent event)
     {
-        return false;
+        return states.top().OnKeyDown(this, keyCode, event);
     }
 }

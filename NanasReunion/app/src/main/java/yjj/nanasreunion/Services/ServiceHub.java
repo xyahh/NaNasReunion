@@ -13,7 +13,7 @@ public class ServiceHub
     private static final Assert         m_Assert = new Assert();
 
     private static  ServiceHub          m_Instance = new ServiceHub();
-    private SoundManager m_SoundManager;
+    private         SoundManager        m_SoundManager;
     private         GameView            m_GameView;
     private         Resources           m_Resources;
     private         GameThread          m_Thread;

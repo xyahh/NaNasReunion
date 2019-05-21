@@ -31,7 +31,7 @@ public class Actor
 
     public void Draw(Canvas canvas, Camera camera, float interp)
     {
-        graphics.Draw(canvas, camera.GetScreenPosition(position));
+        graphics.Draw(canvas, camera, position, interp);
     }
 
 }

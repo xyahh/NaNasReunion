@@ -6,11 +6,13 @@ public class Camera
 {
    private Vector2d m_Target;
    private Vector2d m_CameraOffset;
+   private float    m_CameraDistance;
    private Vector2d m_ViewVector;
 
    public Camera()
    {
        m_CameraOffset = new Vector2d(0.f, 0.f);
+       m_CameraDistance = 10.f;
        m_Target = new Vector2d(0.f, 0.f);
    }
 
@@ -26,19 +28,30 @@ public class Camera
 
    public void GenerateView()
    {
-       m_ViewVector = Vector2d.Add(m_CameraOffset, m_Target);
+       m_ViewVector = Vector2d.Add(m_Target, m_CameraOffset);
    }
 
-   public Vector2d GetScreenPosition(Vector2d position)
+   public Vector2d ToCameraSpace(Vector2d world_position)
    {
-       Vector2d v = Vector2d.Subtract(position, m_ViewVector);
+       //Camera Space of range [-1, 1] and origin (0, 0);
+       Vector2d v = Vector2d.Subtract(world_position, m_ViewVector);
 
        return v;
    }
 
+   public Vector2d ToScreenSpace(Vector2d camera_position)
+   {
+       Vector2d v = new Vector2d();
+
+        return v;
+   }
+
+   public boolean AppearsOnCamera(Collision collision)
+   {
+        return Collision.Check(collision, -1.f, -1.f, 1.f, 1.f);
+   }
 
    public void UpdateViewport(int width, int height)
    {
-
    }
 }
