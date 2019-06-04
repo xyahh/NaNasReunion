@@ -63,7 +63,7 @@ public class GameplayScene implements Scene
     @Override
     public void Render(Canvas canvas, float interp)
     {
-        m_Camera.GenerateView(m_PlayerPawn.position); // pre compute view once per frame
+        m_Camera.UpdateCameraView(m_PlayerPawn.position); // pre compute view once per frame
 
         for(Actor a : m_Actors)
             a.Draw(canvas, m_Camera, interp);

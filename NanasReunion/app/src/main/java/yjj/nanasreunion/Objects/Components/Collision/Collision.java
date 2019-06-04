@@ -4,14 +4,6 @@ import android.graphics.Canvas;
 
 import yjj.nanasreunion.Vector2d;
 
-enum COLLISION_TYPES
-{
-    DEFAULT,
-    OBSTACLE,
-    DESTRUCTIVE,
-    EDIBLE
-}
-
 public class Collision
 {
     private Vector2d m_Position;
@@ -40,7 +32,6 @@ public class Collision
     public void Draw(Canvas canvas)
     {
         //ALSO DRAW IF COLLISION IS DISABLED BUT IN ANOTHER COLOR
-
     }
 
     public void SetPosition(Vector2d position)
@@ -88,7 +79,7 @@ public class Collision
         Vector2d Min = collision.GetMin();
 
         return collision.m_CollisionEnabled &&
-                !( left > Max.x 
+                !( left > Max.x
                         || right < Min.x
                         || top > Max.y
                         || bottom < Min.y);

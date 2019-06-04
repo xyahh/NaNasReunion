@@ -6,26 +6,28 @@ import yjj.nanasreunion.Vector2d;
 public class Camera
 {
    private Vector2d m_CameraOffset;
+   private Vector2d m_CameraOffsetScreen;
    private Vector2d m_ViewVector;
+
    private float    m_ScreenWidth = 0.f;
    private float    m_ScreenHeight = 0.f;
-
 
    public Camera()
    {
        m_CameraOffset = new Vector2d();
        m_ViewVector = new Vector2d();
+       m_CameraOffsetScreen = new Vector2d();
    }
 
    public void SetCameraOffset(Vector2d CameraOffset)
    {
        m_CameraOffset = CameraOffset;
+       m_CameraOffsetScreen = Vector2d.Scale(m_CameraOffset, m_ScreenWidth, m_ScreenHeight);
    }
 
-   public void GenerateView(Vector2d Target)
+   public void UpdateCameraView(Vector2d Target)
    {
-       m_ViewVector = Vector2d.Add(Target,
-               Vector2d.Scale(m_CameraOffset, m_ScreenWidth, m_ScreenHeight));
+       m_ViewVector = Vector2d.Subtract(Target, m_CameraOffsetScreen);
    }
 
    public Vector2d ToScreenSpace(Vector2d world_position)
@@ -42,5 +44,6 @@ public class Camera
    {
        m_ScreenWidth  = width;
        m_ScreenHeight = height;
+       m_CameraOffsetScreen = Vector2d.Scale(m_CameraOffset, m_ScreenWidth, m_ScreenHeight);
    }
 }

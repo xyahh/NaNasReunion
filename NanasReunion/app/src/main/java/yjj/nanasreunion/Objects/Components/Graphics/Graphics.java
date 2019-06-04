@@ -36,7 +36,6 @@ public class Graphics
     {
         Vector2d ScreenPosition = camera.ToScreenSpace(WorldPosition);
         m_BitmapBox.SetPosition(ScreenPosition);
-
         if(camera.AppearsOnScreen(m_BitmapBox))
         {
             canvas.drawBitmap(m_Bitmap,

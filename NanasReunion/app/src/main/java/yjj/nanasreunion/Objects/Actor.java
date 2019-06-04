@@ -3,6 +3,7 @@ package yjj.nanasreunion.Objects;
 /* Core Classes */
 import yjj.nanasreunion.Command.Command;
 import yjj.nanasreunion.Objects.Components.Collision.ActorCollision;
+import yjj.nanasreunion.Objects.Components.Collision.COLLISION_TYPES;
 import yjj.nanasreunion.Vector2d;
 
 
@@ -34,15 +35,15 @@ public class Actor
         m_Destroy = false;
     }
 
-    public void Destroy()
+    public void DestroyActor()
     {
         m_Destroy = true;
     }
 
     public void ProcessCollision(Actor other)
     {
-        Command c = ActorCollision.ProcessCollision(this.collision, other.collision);
-        if(c!=null) c.Execute(this);
+        if(other != this)
+            ActorCollision.ProcessCollision(this.collision, other.collision).Execute(this);
     }
 
     public boolean IsDestroyed()
