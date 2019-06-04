@@ -26,6 +26,11 @@ public class Vector2d
         return new Vector2d(v.x * scale, v.y * scale);
     }
 
+    public static Vector2d Scale(Vector2d v, float scaleX, float scaleY)
+    {
+        return new Vector2d(v.x * scaleX, v.y * scaleY);
+    }
+
     public static Vector2d Add(Vector2d a, Vector2d b)
     {
         return new Vector2d(a.x + b.x, a.y + b.y);

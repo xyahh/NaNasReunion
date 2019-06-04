@@ -58,7 +58,11 @@ public class Physics
 
         m_Acceleration = Vector2d.Add(m_Acceleration, new Vector2d(0.f, m_Gravity));
         m_Velocity = Vector2d.Add(m_Velocity, Vector2d.Scale(m_Acceleration, DeltaTime));
-        actor.position = Vector2d.Add(actor.position, Vector2d.Scale(m_Velocity, DeltaTime));
+
+        Vector2d newPos = Vector2d.Add(actor.position, Vector2d.Scale(m_Velocity, DeltaTime));
+
+        actor.position.x = newPos.x;
+        actor.position.y = newPos.y;
 
         //LOWEST LEVEL
         if(actor.position.y < 0.f)

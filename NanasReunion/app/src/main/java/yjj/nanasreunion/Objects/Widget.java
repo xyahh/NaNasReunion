@@ -1,11 +1,10 @@
 package yjj.nanasreunion.Objects;
 
 import android.graphics.Canvas;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import yjj.nanasreunion.Command.Command;
-import yjj.nanasreunion.Objects.Components.Collision;
+import yjj.nanasreunion.Objects.Components.Collision.Collision;
 import yjj.nanasreunion.Objects.Components.Graphics.Graphics;
 import yjj.nanasreunion.Vector2d;
 

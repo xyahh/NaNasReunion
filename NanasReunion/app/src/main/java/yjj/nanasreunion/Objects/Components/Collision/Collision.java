@@ -1,9 +1,16 @@
-package yjj.nanasreunion.Objects.Components;
+package yjj.nanasreunion.Objects.Components.Collision;
 
 import android.graphics.Canvas;
-import android.graphics.Rect;
 
 import yjj.nanasreunion.Vector2d;
+
+enum COLLISION_TYPES
+{
+    DEFAULT,
+    OBSTACLE,
+    DESTRUCTIVE,
+    EDIBLE
+}
 
 public class Collision
 {
@@ -86,4 +93,5 @@ public class Collision
                         || top > Max.y
                         || bottom < Min.y);
     }
+
 }

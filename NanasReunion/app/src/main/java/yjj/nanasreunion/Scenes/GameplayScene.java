@@ -6,30 +6,31 @@ import android.graphics.Canvas;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
+import java.util.ArrayDeque;
+
 import yjj.nanasreunion.Objects.*;
-import yjj.nanasreunion.Objects.Components.Graphics.Graphics;
 import yjj.nanasreunion.Vector2d;
 
 public class GameplayScene implements Scene
 {
     private Camera      m_Camera;
-    private Actor[]     m_Actors;
-    private Widget[]    m_Widgets;
+
+    private ArrayDeque<Actor> m_Actors;
+    private ArrayDeque<Widget> m_Widgets;
+
     private Pawn        m_PlayerPawn;
-    private Graphics    m_Background;
 
     @Override
     public void Init()
     {
-        m_Actors        = new Actor[50];
-        m_Widgets       = new Widget[10];
+        m_Actors = new ArrayDeque<>();
+        m_Widgets = new ArrayDeque<>();
 
         m_Camera        = new Camera();
         m_PlayerPawn    = new Pawn();
-        m_Actors[0]     = m_PlayerPawn;
 
-        m_Camera.SetTarget(m_PlayerPawn.position);
-        m_Camera.SetCameraOffset(new Vector2d(0.f, 0.f));
+        m_Actors.addFirst(m_PlayerPawn);
+        m_Camera.SetCameraOffset(new Vector2d(0.1f, 0.9f));
     }
 
     @Override
@@ -49,12 +50,20 @@ public class GameplayScene implements Scene
     {
         for(Actor a : m_Actors)
             a.Update(deltaTime);
+
+        for(Actor a : m_Actors)
+            for(Actor b: m_Actors)
+                a.ProcessCollision(b);
+
+        for(Actor a : m_Actors)
+            if(a.IsDestroyed())
+                m_Actors.remove(a);
     }
 
     @Override
     public void Render(Canvas canvas, float interp)
     {
-        m_Camera.GenerateView(); // pre compute view once per frame
+        m_Camera.GenerateView(m_PlayerPawn.position); // pre compute view once per frame
 
         for(Actor a : m_Actors)
             a.Draw(canvas, m_Camera, interp);
