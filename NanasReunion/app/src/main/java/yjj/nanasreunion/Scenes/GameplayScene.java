@@ -2,6 +2,7 @@ package yjj.nanasreunion.Scenes;
 
 import yjj.nanasreunion.Objects.Components.Camera;
 
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -9,6 +10,8 @@ import android.view.MotionEvent;
 import java.util.ArrayDeque;
 
 import yjj.nanasreunion.Objects.*;
+import yjj.nanasreunion.Objects.Components.Graphics.SpriteGraphics;
+import yjj.nanasreunion.Services.ServiceHub;
 import yjj.nanasreunion.Vector2d;
 
 public class GameplayScene implements Scene
@@ -28,6 +31,9 @@ public class GameplayScene implements Scene
 
         m_Camera        = new Camera();
         m_PlayerPawn    = new Pawn();
+        //android.R.drawable._normal_banana;
+        //m_PlayerPawn.graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(android.R.drawable.n))
+
 
         m_Actors.addFirst(m_PlayerPawn);
         m_Camera.SetCameraOffset(new Vector2d(0.1f, 0.9f));
@@ -69,7 +75,7 @@ public class GameplayScene implements Scene
             a.Draw(canvas, m_Camera, interp);
 
         for(Widget w: m_Widgets)
-            w.Draw(canvas);
+            w.Draw(canvas, m_Camera, interp);
     }
 
     @Override

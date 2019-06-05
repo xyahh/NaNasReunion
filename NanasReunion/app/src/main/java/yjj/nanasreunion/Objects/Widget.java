@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 
 import yjj.nanasreunion.Command.Command;
+import yjj.nanasreunion.Objects.Components.Camera;
 import yjj.nanasreunion.Objects.Components.Collision.Collision;
 import yjj.nanasreunion.Objects.Components.Graphics.Graphics;
 import yjj.nanasreunion.Vector2d;
@@ -26,9 +27,9 @@ public class Widget
         m_Collision = new Collision(m_ScreenPosition, extents);
     }
 
-    public void Draw(Canvas canvas)
+    public void Draw(Canvas canvas, Camera camera, float interp)
     {
-        graphics.Draw(canvas, m_ScreenPosition);
+        graphics.Draw(canvas, camera, m_ScreenPosition, interp);
     }
 
     public boolean OnTouchEvent(MotionEvent event)
