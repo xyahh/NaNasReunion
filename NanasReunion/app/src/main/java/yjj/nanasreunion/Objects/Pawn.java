@@ -1,8 +1,10 @@
 package yjj.nanasreunion.Objects;
 
+import android.graphics.Canvas;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
+import yjj.nanasreunion.Objects.Components.Camera;
 import yjj.nanasreunion.Objects.Components.State.*;
 import yjj.nanasreunion.MyStack;
 
@@ -28,6 +30,11 @@ public class Pawn extends Actor
     {
         if(states.size() > 1) //always have NullState. Never empty.
             states.pop().Exit(this);
+    }
+
+    @Override
+    public void Draw(Canvas canvas, Camera camera, float interp) {
+        super.Draw(canvas, camera, interp);
     }
 
     public void ChangeState(State state)

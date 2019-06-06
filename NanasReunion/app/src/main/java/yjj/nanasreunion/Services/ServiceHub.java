@@ -4,6 +4,9 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.content.Context;
+import android.util.DisplayMetrics;
+
+import yjj.nanasreunion.Scenes.GameplayScene;
 
 public class ServiceHub
 {
@@ -23,9 +26,12 @@ public class ServiceHub
     public void InitServices(Context context)
     {
         m_GameView      = new GameView(context);
+        m_GameView.getHolder().addCallback(m_GameView);
         m_Thread        = new GameThread(m_GameView.getHolder(), m_GameView);
         m_Resources     = m_GameView.getResources();
         m_SoundManager  = SoundManager.Get(m_Assert);
+
+        m_GameView.PushScene(new GameplayScene());
     }
 
     public static ServiceHub Inst()          { return m_Instance; }

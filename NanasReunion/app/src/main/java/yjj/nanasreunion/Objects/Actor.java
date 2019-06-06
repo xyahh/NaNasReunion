@@ -8,15 +8,16 @@ import yjj.nanasreunion.Vector2d;
 
 
 /* Component Classes */
+import yjj.nanasreunion.Objects.Object;
 import yjj.nanasreunion.Objects.Components.*;
 import yjj.nanasreunion.Objects.Components.Physics.*;
 import yjj.nanasreunion.Objects.Components.Graphics.*;
 
 import android.graphics.Canvas;
+import android.util.Log;
 
-public class Actor
+public class Actor extends Object
 {
-    public Vector2d     position;
     public Graphics     graphics;
     public Physics      physics;
     public ActorCollision collision;
@@ -53,6 +54,7 @@ public class Actor
 
     public void Update(float DeltaTime)
     {
+        graphics.Update(DeltaTime);
         physics.Update(this, DeltaTime);
     }
 

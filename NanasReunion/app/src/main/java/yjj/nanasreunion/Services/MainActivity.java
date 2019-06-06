@@ -9,7 +9,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ServiceHub.Inst().InitServices(this);
-
         setContentView(ServiceHub.Inst().GetGameView());
     }
 }

@@ -4,13 +4,16 @@ import yjj.nanasreunion.Objects.Components.Camera;
 
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import java.util.ArrayDeque;
 
 import yjj.nanasreunion.Objects.*;
+import yjj.nanasreunion.Objects.Components.Graphics.Graphics;
 import yjj.nanasreunion.Objects.Components.Graphics.SpriteGraphics;
+import yjj.nanasreunion.R;
 import yjj.nanasreunion.Services.ServiceHub;
 import yjj.nanasreunion.Vector2d;
 
@@ -18,10 +21,38 @@ public class GameplayScene implements Scene
 {
     private Camera      m_Camera;
 
-    private ArrayDeque<Actor> m_Actors;
+    private ArrayDeque<Actor>  m_Actors;
     private ArrayDeque<Widget> m_Widgets;
 
-    private Pawn        m_PlayerPawn;
+    private Pawn                m_PlayerPawn;
+
+    private void InitActors()
+    {
+        Actor a;
+        a = new Actor();
+        a.graphics = new Graphics(ServiceHub.Inst().GetBitmap(R.drawable.sun), 0.25f);
+        a.position = new Vector2d(100.f, 100.f);
+        m_Actors.addFirst(a);
+
+        a = new Actor();
+        a.position = new Vector2d(100.f, 10.f);
+        a.graphics = new Graphics(ServiceHub.Inst().GetBitmap(R.drawable.normal_banana), 0.5f);
+        m_Actors.addLast(a);
+
+        m_PlayerPawn    = new Pawn();
+        m_PlayerPawn.position = new Vector2d(0.f, 0.f);
+        m_PlayerPawn.graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.normal_banana),
+                10, 6, 6, 0.25f);
+        m_Actors.addLast(m_PlayerPawn);
+    }
+
+    private void InitCamera()
+    {
+        DisplayMetrics displayMetrics = ServiceHub.Inst().GetResources().getDisplayMetrics();
+        m_Camera        = new Camera();
+        m_Camera.UpdateViewport(displayMetrics.widthPixels, displayMetrics.heightPixels);
+        m_Camera.SetCameraOffset(new Vector2d(-100.f, -50.f));
+    }
 
     @Override
     public void Init()
@@ -29,14 +60,8 @@ public class GameplayScene implements Scene
         m_Actors = new ArrayDeque<>();
         m_Widgets = new ArrayDeque<>();
 
-        m_Camera        = new Camera();
-        m_PlayerPawn    = new Pawn();
-        //android.R.drawable._normal_banana;
-        //m_PlayerPawn.graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(android.R.drawable.n))
-
-
-        m_Actors.addFirst(m_PlayerPawn);
-        m_Camera.SetCameraOffset(new Vector2d(0.1f, 0.9f));
+        InitActors();
+        InitCamera();
     }
 
     @Override
@@ -48,12 +73,20 @@ public class GameplayScene implements Scene
     @Override
     public void SurfaceChange(int width, int height)
     {
-        m_Camera.UpdateViewport(width, height);
     }
 
+    float time =0.f;
+    boolean scaled = false;
     @Override
     public void Update(float deltaTime)
     {
+        time += deltaTime;
+        if(time > 5.f && !scaled)
+        {
+            m_PlayerPawn.graphics.Scale(5.f);
+            scaled = true;
+        }
+
         for(Actor a : m_Actors)
             a.Update(deltaTime);
 
@@ -70,12 +103,11 @@ public class GameplayScene implements Scene
     public void Render(Canvas canvas, float interp)
     {
         m_Camera.UpdateCameraView(m_PlayerPawn.position); // pre compute view once per frame
+       for(Actor a : m_Actors)
+           a.Draw(canvas, m_Camera, interp);
 
-        for(Actor a : m_Actors)
-            a.Draw(canvas, m_Camera, interp);
-
-        for(Widget w: m_Widgets)
-            w.Draw(canvas, m_Camera, interp);
+       for(Widget w: m_Widgets)
+           w.Draw(canvas, m_Camera, interp);
     }
 
     @Override

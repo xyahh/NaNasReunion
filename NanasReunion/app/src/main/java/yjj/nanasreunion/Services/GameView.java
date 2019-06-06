@@ -3,6 +3,7 @@ package yjj.nanasreunion.Services;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
@@ -21,8 +22,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
         super(context);
         setFocusable(true);
         m_Scenes = new MyStack<>();
-
-        PushScene(new GameplayScene());
     }
 
     public void ChangeScene(Scene scene)
@@ -50,7 +49,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     public void surfaceCreated(SurfaceHolder holder)
     {
         GameThread _GameThread = ServiceHub.Inst().GetGameThread();
-
         _GameThread.SetRunning(true);
         _GameThread.start();
     }
@@ -102,6 +100,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
     public void Draw(Canvas canvas)
     {
+        if(canvas==null) return;
         canvas.drawColor(Color.BLACK);
         m_Scenes.top().Render(canvas, Timer.Interpolation());
     }
