@@ -1,36 +1,30 @@
 package yjj.nanasreunion.Objects;
 
 /* Core Classes */
-import yjj.nanasreunion.Command.Command;
-import yjj.nanasreunion.Objects.Components.Collision.ActorCollision;
-import yjj.nanasreunion.Objects.Components.Collision.COLLISION_TYPES;
-import yjj.nanasreunion.Vector2d;
+import yjj.nanasreunion.Components.Collision.ActorCollision;
+import yjj.nanasreunion.Vector2f;
 
 
 /* Component Classes */
-import yjj.nanasreunion.Objects.Object;
-import yjj.nanasreunion.Objects.Components.*;
-import yjj.nanasreunion.Objects.Components.Physics.*;
-import yjj.nanasreunion.Objects.Components.Graphics.*;
+import yjj.nanasreunion.Components.*;
+import yjj.nanasreunion.Components.Physics.*;
 
 import android.graphics.Canvas;
-import android.util.Log;
 
 public class Actor extends Object
 {
-    public Graphics     graphics;
-    public Physics      physics;
-    public ActorCollision collision;
 
-    private boolean     m_Destroy;
+    public Physics          physics;
+    public ActorCollision   collision;
+
+    private boolean         m_Destroy;
 
     public Actor()
     {
-        position    = new Vector2d(0.f, 0.f);
+        super();
         physics     = new NullPhysics();
-        graphics    = new NullGraphics();
 
-        collision   = new ActorCollision(position, new Vector2d());
+        collision   = new ActorCollision(position, new Vector2f());
         collision.SetCollisionEnabled(false);
 
         m_Destroy = false;
@@ -54,8 +48,9 @@ public class Actor extends Object
 
     public void Update(float DeltaTime)
     {
-        graphics.Update(DeltaTime);
         physics.Update(this, DeltaTime);
+        graphics.Update(DeltaTime);
+        collision.UpdatePosition(position);
     }
 
     public void Draw(Canvas canvas, Camera camera, float interp)

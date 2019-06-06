@@ -4,9 +4,10 @@ import android.graphics.Canvas;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import yjj.nanasreunion.Objects.Components.Camera;
-import yjj.nanasreunion.Objects.Components.State.*;
+import yjj.nanasreunion.Components.Camera;
+import yjj.nanasreunion.Components.State.*;
 import yjj.nanasreunion.MyStack;
+import yjj.nanasreunion.Vector2f;
 
 public class Pawn extends Actor
 {
@@ -18,7 +19,6 @@ public class Pawn extends Actor
         states = new MyStack<>();
         PushState(new NullState());
     }
-
 
     public void PushState(State state)
     {
@@ -35,6 +35,7 @@ public class Pawn extends Actor
     @Override
     public void Draw(Canvas canvas, Camera camera, float interp) {
         super.Draw(canvas, camera, interp);
+        physics.ApplyForce(new Vector2f(5.f, 0.f));
     }
 
     public void ChangeState(State state)
@@ -48,10 +49,13 @@ public class Pawn extends Actor
     {
         super.Update(DeltaTime);
         states.top().Update(this, DeltaTime);
+        physics.ApplyForce(new Vector2f(2.f, 0.f));
     }
 
     public boolean OnTouchEvent(MotionEvent event)
     {
+        if(event.getAction() == MotionEvent.ACTION_DOWN && position. y < 0.01f)
+            physics.ApplyForce(new Vector2f(0.f, 250.f));
         return states.top().OnTouchEvent(this, event);
     }
 

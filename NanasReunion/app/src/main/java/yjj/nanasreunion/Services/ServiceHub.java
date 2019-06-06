@@ -7,6 +7,7 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 
 import yjj.nanasreunion.Scenes.GameplayScene;
+import yjj.nanasreunion.Vector2i;
 
 public class ServiceHub
 {
@@ -21,20 +22,29 @@ public class ServiceHub
     private         Resources           m_Resources;
     private         GameThread          m_Thread;
     private ServiceHub() {}
+    private DisplayMetrics              m_DisplayMetrics;
 
-
-    public void InitServices(Context context)
+    public void InitServices(Context context, GameView gameview)
     {
-        m_GameView      = new GameView(context);
-        m_GameView.getHolder().addCallback(m_GameView);
+        m_GameView = gameview;
         m_Thread        = new GameThread(m_GameView.getHolder(), m_GameView);
         m_Resources     = m_GameView.getResources();
         m_SoundManager  = SoundManager.Get(m_Assert);
-
+        m_DisplayMetrics = m_GameView.getResources().getDisplayMetrics();
         m_GameView.PushScene(new GameplayScene());
     }
 
     public static ServiceHub Inst()          { return m_Instance; }
+
+    public Vector2i GetScreenSize()
+    {
+        return new Vector2i(m_DisplayMetrics.widthPixels, m_DisplayMetrics.heightPixels);
+    }
+
+    public float GetDPI()
+    {
+        return m_DisplayMetrics.densityDpi / 420.f;
+    }
 
     public SoundManager GetSoundManager()   { return m_SoundManager;}
     public GameThread   GetGameThread()     { return m_Thread;      }

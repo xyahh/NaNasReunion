@@ -3,13 +3,16 @@ package yjj.nanasreunion.Services;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.View;
 
 import yjj.nanasreunion.MyStack;
+import yjj.nanasreunion.R;
 import yjj.nanasreunion.Scenes.*;
 
 
@@ -20,8 +23,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     public GameView(Context context)
     {
         super(context);
-        setFocusable(true);
+        Init(context);
+        getHolder().addCallback(this);
+
+    }
+
+    public GameView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        Init(context);
+        getHolder().addCallback(this);
+    }
+
+    public void Init(Context context)
+    {
         m_Scenes = new MyStack<>();
+        ServiceHub.Inst().InitServices(context, this);
     }
 
     public void ChangeScene(Scene scene)
@@ -48,6 +64,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
+        //Init(m_Context);
         GameThread _GameThread = ServiceHub.Inst().GetGameThread();
         _GameThread.SetRunning(true);
         _GameThread.start();
@@ -81,6 +98,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     @Override
     protected void onDraw(Canvas canvas)
     {
+       // R.drawable.ic_launcher_foreground;
         Draw(canvas);
     }
 
@@ -100,13 +118,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
     public void Draw(Canvas canvas)
     {
-        if(canvas==null) return;
-        canvas.drawColor(Color.BLACK);
+        if(canvas == null) return;
         m_Scenes.top().Render(canvas, Timer.Interpolation());
     }
 
     public void Update()
     {
-        m_Scenes.top().Update(Timer.DELTA_TIME);
+        m_Scenes.top().Update(Timer.DeltaTime());
     }
 }

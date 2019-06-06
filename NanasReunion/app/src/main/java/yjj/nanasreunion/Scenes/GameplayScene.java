@@ -1,26 +1,31 @@
 package yjj.nanasreunion.Scenes;
 
-import yjj.nanasreunion.Objects.Components.Camera;
+import yjj.nanasreunion.Command.TogglePauseCommand;
+import yjj.nanasreunion.Components.Camera;
 
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.util.DisplayMetrics;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import java.util.ArrayDeque;
 
+import yjj.nanasreunion.Components.Graphics.RectGraphics;
+import yjj.nanasreunion.Components.Physics.Physics;
 import yjj.nanasreunion.Objects.*;
-import yjj.nanasreunion.Objects.Components.Graphics.Graphics;
-import yjj.nanasreunion.Objects.Components.Graphics.SpriteGraphics;
-import yjj.nanasreunion.Objects.Components.Graphics.StaticGraphics;
+import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
+import yjj.nanasreunion.OtherClasses.Scrolling.ScrollingBackground;
 import yjj.nanasreunion.R;
 import yjj.nanasreunion.Services.ServiceHub;
-import yjj.nanasreunion.Vector2d;
+import yjj.nanasreunion.Vector2f;
+import yjj.nanasreunion.Vector2i;
 
 public class GameplayScene implements Scene
 {
     private Camera      m_Camera;
+
+    private ScrollingBackground m_Background;
 
     private ArrayDeque<Actor>  m_Actors;
     private ArrayDeque<Widget> m_Widgets;
@@ -29,31 +34,46 @@ public class GameplayScene implements Scene
 
     private void InitActors()
     {
-        Actor a;
-        a = new Actor();
-        a.graphics = new StaticGraphics(ServiceHub.Inst().GetBitmap(R.drawable.sun));
-        a.position = new Vector2d(100.f, 100.f);
-        m_Actors.addFirst(a);
-
-        a = new Actor();
-        a.position = new Vector2d(100.f, 10.f);
-        a.graphics = new StaticGraphics(ServiceHub.Inst().GetBitmap(R.drawable.normal_banana));
-        m_Actors.addLast(a);
-
         m_PlayerPawn    = new Pawn();
-        m_PlayerPawn.position = new Vector2d(0.f, 0.f);
-        m_PlayerPawn.graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.normal_banana),
+        m_PlayerPawn.position = new Vector2f(0.f, 0.f);
+        m_PlayerPawn.graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.moving_banana),
                 10, 6, 6);
-        m_PlayerPawn.graphics.SetScale(1.f);
+        m_PlayerPawn.physics = new Physics();
+        m_PlayerPawn.physics.SetMass(1.f);
         m_Actors.addLast(m_PlayerPawn);
     }
 
     private void InitCamera()
     {
-        DisplayMetrics displayMetrics = ServiceHub.Inst().GetResources().getDisplayMetrics();
         m_Camera = new Camera();
-        m_Camera.UpdateViewport(displayMetrics.widthPixels, displayMetrics.heightPixels);
-        m_Camera.SetCameraOffset(new Vector2d(-100.f, -100.f));
+        m_Camera.SetCameraOffset(new Vector2f(-0.3f, -0.6f));
+    }
+
+    private void InitBackground()
+    {
+        m_Background = new ScrollingBackground();
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.ground), -0.4f, 1.f, ServiceHub.Inst().GetScreenSize());
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.sun), 2.f, 0.f, new Vector2i(100, 100));
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.clouds), 1.25f, 0.1f, ServiceHub.Inst().GetScreenSize());
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.grass), 0.15f, 0.07f, ServiceHub.Inst().GetScreenSize());
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.clouds3), 1.75f, 0.15f, ServiceHub.Inst().GetScreenSize());
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.tree), 0.6f, 1.f, ServiceHub.Inst().GetScreenSize());
+    }
+
+    private void InitWidgets()
+    {
+        Widget w;
+        Vector2i v = new Vector2i(50, 50);
+        w = new Widget(new Vector2i(0, 0), v);
+
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        paint.setStrokeWidth(3);
+        w.graphics = new RectGraphics(v, paint);
+
+        w.owner = m_PlayerPawn;
+        w.AddCommand(new TogglePauseCommand(),  true);
+        m_Widgets.add(w);
     }
 
     @Override
@@ -64,6 +84,8 @@ public class GameplayScene implements Scene
 
         InitActors();
         InitCamera();
+        InitBackground();
+        InitWidgets();
     }
 
     @Override
@@ -77,25 +99,10 @@ public class GameplayScene implements Scene
     {
     }
 
-    float time =0.f;
-    boolean scaled = false;
     @Override
     public void Update(float deltaTime)
     {
-        time += deltaTime;
-        if(time > 3.f)
-        {
-            time = 0.f;
-            if(scaled)
-            {
-                m_PlayerPawn.graphics.SetScale(2.f);
-            } else
-            {
-                m_PlayerPawn.graphics.SetScale(0.5f);
-            }
-
-            scaled = !scaled;
-        }
+        m_Background.Update(m_PlayerPawn, m_Camera, deltaTime);
 
         for(Actor a : m_Actors)
             a.Update(deltaTime);
@@ -112,12 +119,18 @@ public class GameplayScene implements Scene
     @Override
     public void Render(Canvas canvas, float interp)
     {
-        m_Camera.UpdateCameraView(m_PlayerPawn.position); // pre compute view once per frame
+        canvas.drawColor(Color.argb(255, 135, 206, 235));
+        m_Camera.UpdateCameraView(m_PlayerPawn); // pre compute view once per frame
+
+        m_Background.DrawBackground(canvas, null, m_Camera);
+
        for(Actor a : m_Actors)
            a.Draw(canvas, m_Camera, interp);
 
        for(Widget w: m_Widgets)
-           w.Draw(canvas, m_Camera, interp);
+           w.Draw(canvas, interp);
+
+       m_Background.DrawForeground(canvas, null, m_Camera);
     }
 
     @Override

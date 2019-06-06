@@ -3,42 +3,76 @@ package yjj.nanasreunion.Objects;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
+import java.util.ArrayList;
+
 import yjj.nanasreunion.Command.Command;
-import yjj.nanasreunion.Objects.Components.Camera;
-import yjj.nanasreunion.Objects.Components.Collision.Collision;
-import yjj.nanasreunion.Objects.Components.Graphics.Graphics;
-import yjj.nanasreunion.Vector2d;
+import yjj.nanasreunion.Components.Camera;
+import yjj.nanasreunion.Components.Collision.Collision;
+import yjj.nanasreunion.Components.Graphics.Graphics;
+import yjj.nanasreunion.Vector2f;
+import yjj.nanasreunion.Vector2i;
 
 public class Widget
 {
     public Graphics     graphics;
+    public Actor       owner;
 
-    private Vector2d    m_ScreenPosition;
+    private Vector2i m_ScreenPosition;
     private Collision   m_Collision;
-    private Actor       m_Owner;
-    private Command     m_WidgetCommand;
 
-    public Widget(Vector2d position, Vector2d extents, Command command)
+    private ArrayList<Command> m_PressedCommands;
+    private ArrayList<Command> m_ReleasedCommands;
+    private boolean             m_Pressed;
+
+    public Widget(Vector2i widget_position, Vector2i collision_extents)
     {
-        m_WidgetCommand = command;
-        m_Owner = new Actor(); //empty actor
-
-        m_ScreenPosition = position;
-        m_Collision = new Collision(m_ScreenPosition, extents);
+        owner = null;
+        m_PressedCommands = new ArrayList<>();
+        m_ReleasedCommands = new ArrayList<>();
+        m_Pressed = false;
+        m_ScreenPosition = widget_position;
+        m_Collision = new Collision(m_ScreenPosition.toFloat(), collision_extents.toFloat());
     }
 
-    public void Draw(Canvas canvas, Camera camera, float interp)
+    public void AddCommand(Command command, boolean PressedCommand)
     {
-        graphics.Draw(canvas, camera, m_ScreenPosition, interp);
+        if(PressedCommand)
+        {
+            m_PressedCommands.add(command);
+        } else
+        {
+            m_ReleasedCommands.add(command);
+        }
+    }
+
+    public void Draw(Canvas canvas, float interp)
+    {
+        graphics.Draw(canvas, null, m_ScreenPosition.toFloat(), interp);
     }
 
     public boolean OnTouchEvent(MotionEvent event)
     {
-        if(Collision.Check(m_Collision, new Vector2d(event.getX(), event.getY())))
+        switch(event.getAction())
         {
-            m_WidgetCommand.Execute(m_Owner);
-            return true;
+            case MotionEvent.ACTION_DOWN:
+                if(Collision.Check(m_Collision, new Vector2f(event.getX(), event.getY())) && !m_Pressed)
+                {
+                    for(Command c : m_PressedCommands)
+                        c.Execute(owner);
+                    m_Pressed = true;
+                    return true;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                if(Collision.Check(m_Collision, new Vector2f(event.getX(), event.getY())) && m_Pressed)
+                {
+                    for(Command c : m_ReleasedCommands)
+                        c.Execute(owner);
+                    m_Pressed = false;
+                    return false;
+                }
         }
+
         return false;
     }
 
