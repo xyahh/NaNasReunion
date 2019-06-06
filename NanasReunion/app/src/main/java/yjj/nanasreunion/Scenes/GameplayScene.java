@@ -13,6 +13,7 @@ import java.util.ArrayDeque;
 import yjj.nanasreunion.Objects.*;
 import yjj.nanasreunion.Objects.Components.Graphics.Graphics;
 import yjj.nanasreunion.Objects.Components.Graphics.SpriteGraphics;
+import yjj.nanasreunion.Objects.Components.Graphics.StaticGraphics;
 import yjj.nanasreunion.R;
 import yjj.nanasreunion.Services.ServiceHub;
 import yjj.nanasreunion.Vector2d;
@@ -30,28 +31,29 @@ public class GameplayScene implements Scene
     {
         Actor a;
         a = new Actor();
-        a.graphics = new Graphics(ServiceHub.Inst().GetBitmap(R.drawable.sun), 0.25f);
+        a.graphics = new StaticGraphics(ServiceHub.Inst().GetBitmap(R.drawable.sun));
         a.position = new Vector2d(100.f, 100.f);
         m_Actors.addFirst(a);
 
         a = new Actor();
         a.position = new Vector2d(100.f, 10.f);
-        a.graphics = new Graphics(ServiceHub.Inst().GetBitmap(R.drawable.normal_banana), 0.5f);
+        a.graphics = new StaticGraphics(ServiceHub.Inst().GetBitmap(R.drawable.normal_banana));
         m_Actors.addLast(a);
 
         m_PlayerPawn    = new Pawn();
         m_PlayerPawn.position = new Vector2d(0.f, 0.f);
         m_PlayerPawn.graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.normal_banana),
-                10, 6, 6, 0.25f);
+                10, 6, 6);
+        m_PlayerPawn.graphics.SetScale(1.f);
         m_Actors.addLast(m_PlayerPawn);
     }
 
     private void InitCamera()
     {
         DisplayMetrics displayMetrics = ServiceHub.Inst().GetResources().getDisplayMetrics();
-        m_Camera        = new Camera();
+        m_Camera = new Camera();
         m_Camera.UpdateViewport(displayMetrics.widthPixels, displayMetrics.heightPixels);
-        m_Camera.SetCameraOffset(new Vector2d(-100.f, -50.f));
+        m_Camera.SetCameraOffset(new Vector2d(-100.f, -100.f));
     }
 
     @Override
@@ -81,10 +83,18 @@ public class GameplayScene implements Scene
     public void Update(float deltaTime)
     {
         time += deltaTime;
-        if(time > 5.f && !scaled)
+        if(time > 3.f)
         {
-            m_PlayerPawn.graphics.Scale(5.f);
-            scaled = true;
+            time = 0.f;
+            if(scaled)
+            {
+                m_PlayerPawn.graphics.SetScale(2.f);
+            } else
+            {
+                m_PlayerPawn.graphics.SetScale(0.5f);
+            }
+
+            scaled = !scaled;
         }
 
         for(Actor a : m_Actors)

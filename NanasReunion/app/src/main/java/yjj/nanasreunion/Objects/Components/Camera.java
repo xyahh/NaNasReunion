@@ -30,7 +30,7 @@ public class Camera
    public Vector2d ScreenSpace(Vector2d world_position)
    {
        Vector2d v = Vector2d.Subtract(world_position, m_ViewVector);
-       v.y = m_ScreenHeight - v.y;
+        v.y = m_ScreenHeight - v.y;
        return v;
    }
 
