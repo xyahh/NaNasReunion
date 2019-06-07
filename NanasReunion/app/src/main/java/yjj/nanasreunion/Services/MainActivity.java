@@ -2,6 +2,7 @@ package yjj.nanasreunion.Services;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     public void List(View v)
     {
         setContentView(R.layout.test_layout2);
+        Timer.SetTimeDilation(0.f);
     }
 
     public void Pause(View v)
@@ -28,4 +30,11 @@ public class MainActivity extends AppCompatActivity {
         else
             pause.setText("PAUSE");
     }
+
+    public void BackToGame(View v)
+    {
+        setContentView(R.layout.activity_main);
+        Timer.SetTimeDilation(1.f);
+    }
+
 }

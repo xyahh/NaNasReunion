@@ -12,12 +12,17 @@ import yjj.nanasreunion.Vector2f;
 public class Pawn extends Actor
 {
     private    MyStack<State> states;
-
+    private     Camera         m_Camera;
     public Pawn()
     {
         super();
         states = new MyStack<>();
         PushState(new NullState());
+    }
+
+    public void SetCamera(Camera camera)
+    {
+        m_Camera = camera;
     }
 
     public void PushState(State state)
@@ -51,11 +56,23 @@ public class Pawn extends Actor
         states.top().Update(this, DeltaTime);
         physics.ApplyForce(new Vector2f(2.f, 0.f));
     }
-
+boolean  f = false;
     public boolean OnTouchEvent(MotionEvent event)
     {
         if(event.getAction() == MotionEvent.ACTION_DOWN && position. y < 0.01f)
             physics.ApplyForce(new Vector2f(0.f, 250.f));
+        else if(m_Camera != null)
+        {
+            if(f)
+                m_Camera.SetMovingFactor(1.f, 1.f);
+            else
+                m_Camera.SetMovingFactor(0.f, 0.f);
+
+            f = !f;
+
+        }
+
+
         return states.top().OnTouchEvent(this, event);
     }
 

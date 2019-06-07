@@ -40,6 +40,7 @@ public class GameplayScene implements Scene
                 10, 6, 6);
         m_PlayerPawn.physics = new Physics();
         m_PlayerPawn.physics.SetMass(1.f);
+        m_PlayerPawn.SetCamera(m_Camera);
         m_Actors.addLast(m_PlayerPawn);
     }
 
@@ -47,17 +48,19 @@ public class GameplayScene implements Scene
     {
         m_Camera = new Camera();
         m_Camera.SetCameraOffset(new Vector2f(-0.3f, -0.6f));
+        m_Camera.SetMovingFactor(1.f, 0.f);
     }
 
     private void InitBackground()
     {
         m_Background = new ScrollingBackground();
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.ground), -0.4f, 1.f, ServiceHub.Inst().GetScreenSize());
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.sun), 2.f, 0.f, new Vector2i(100, 100));
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.clouds), 1.25f, 0.1f, ServiceHub.Inst().GetScreenSize());
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.grass), 0.15f, 0.07f, ServiceHub.Inst().GetScreenSize());
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.clouds3), 1.75f, 0.15f, ServiceHub.Inst().GetScreenSize());
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.tree), 0.6f, 1.f, ServiceHub.Inst().GetScreenSize());
+        Vector2i ScreenSize = ServiceHub.Inst().GetScreenSize();
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.ground), -0.4f, 1.f, ScreenSize);
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.sun), 2.f, 0.f, new Vector2i(ScreenSize.x / 2, ScreenSize.x / 2));
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.clouds), 1.25f, 0.1f, ScreenSize);
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.grass), 0.15f, 0.07f, ScreenSize);
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.clouds3), 1.75f, 0.15f, ScreenSize);
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.tree), 0.6f, 1.f, ScreenSize);
     }
 
     private void InitWidgets()
@@ -82,8 +85,8 @@ public class GameplayScene implements Scene
         m_Actors = new ArrayDeque<>();
         m_Widgets = new ArrayDeque<>();
 
-        InitActors();
         InitCamera();
+        InitActors();
         InitBackground();
         InitWidgets();
     }
@@ -102,7 +105,7 @@ public class GameplayScene implements Scene
     @Override
     public void Update(float deltaTime)
     {
-        m_Background.Update(m_PlayerPawn, m_Camera, deltaTime);
+        m_Background.Update(m_Camera, deltaTime);
 
         for(Actor a : m_Actors)
             a.Update(deltaTime);
@@ -122,15 +125,13 @@ public class GameplayScene implements Scene
         canvas.drawColor(Color.argb(255, 135, 206, 235));
         m_Camera.UpdateCameraView(m_PlayerPawn); // pre compute view once per frame
 
-        m_Background.DrawBackground(canvas, null, m_Camera);
+        m_Background.DrawObjects(canvas, null, m_Camera);
 
        for(Actor a : m_Actors)
            a.Draw(canvas, m_Camera, interp);
 
        for(Widget w: m_Widgets)
            w.Draw(canvas, interp);
-
-       m_Background.DrawForeground(canvas, null, m_Camera);
     }
 
     @Override

@@ -25,7 +25,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
         super(context);
         Init(context);
         getHolder().addCallback(this);
-
     }
 
     public GameView(Context context, AttributeSet attrs) {
@@ -36,6 +35,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
     public void Init(Context context)
     {
+        Log.d("View init", "View init");
         m_Scenes = new MyStack<>();
         ServiceHub.Inst().InitServices(context, this);
     }

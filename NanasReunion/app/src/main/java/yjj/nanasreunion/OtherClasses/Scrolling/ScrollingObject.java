@@ -56,10 +56,9 @@ public class ScrollingObject
         m_ReversedBitmap = Bitmap.createBitmap(m_Bitmap, 0, 0, m_Width, m_Height, m, true);
     }
 
-    public void UpdateBackground(Actor target_actor, Camera camera, float deltaTime)
+    public void UpdateBackground(Camera camera, float deltaTime)
     {
-        if(target_actor==null) return;
-        m_DeltaX -= camera.toPixelsF(target_actor.physics.GetVelocity().x * deltaTime * m_RelativeSpeed);
+        m_DeltaX -= camera.toPixelsF(camera.GetCameraDeltaVelocity().x * m_RelativeSpeed);
         if(m_DeltaX >= m_Width)
         {
             m_DeltaX = 0;

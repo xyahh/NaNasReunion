@@ -9,40 +9,28 @@ import java.util.ArrayList;
 
 import yjj.nanasreunion.Components.Camera;
 import yjj.nanasreunion.Objects.Actor;
-import yjj.nanasreunion.Services.ServiceHub;
 import yjj.nanasreunion.Vector2f;
 import yjj.nanasreunion.Vector2i;
 
 public class ScrollingBackground
 {
-    private ArrayList<ScrollingObject> m_BackgroundScrollingObjects;
-    private ArrayList<ScrollingObject> m_ForegroundScrollingObjects;
+    private ArrayList<ScrollingObject> m_ScrollingObjects;
 
 
     public ScrollingBackground()
     {
-        m_BackgroundScrollingObjects = new ArrayList<>();
-        m_ForegroundScrollingObjects = new ArrayList<>();
+        m_ScrollingObjects = new ArrayList<>();
     }
 
     public void AddScrollingObject(Bitmap bitmap, float StartY, float TargetRelativeSpeed, Vector2i DesiredScreenSize)
     {
-        if(TargetRelativeSpeed >= 1.f) // if faster, then means that it's closer to the camera
-        {
-            m_ForegroundScrollingObjects.add(new ScrollingObject(bitmap, StartY, TargetRelativeSpeed, DesiredScreenSize));
-        }
-        else
-        {
-            m_BackgroundScrollingObjects.add(new ScrollingObject(bitmap, StartY, TargetRelativeSpeed, DesiredScreenSize));
-        }
+        m_ScrollingObjects.add(new ScrollingObject(bitmap, StartY, TargetRelativeSpeed, DesiredScreenSize));
     }
 
-    public void Update(Actor target_actor, Camera camera, float deltaTime)
+    public void Update(Camera camera, float deltaTime)
     {
-        for(ScrollingObject o : m_BackgroundScrollingObjects)
-            o.UpdateBackground(target_actor, camera, deltaTime);
-        for(ScrollingObject o : m_ForegroundScrollingObjects)
-            o.UpdateBackground(target_actor, camera, deltaTime);
+        for(ScrollingObject o : m_ScrollingObjects)
+            o.UpdateBackground(camera, deltaTime);
     }
 
     private void DrawScrollingObject(Canvas canvas, Paint paint, Camera camera, ScrollingObject bg)
@@ -72,15 +60,9 @@ public class ScrollingBackground
         }
     }
 
-    public void DrawBackground(Canvas canvas, Paint paint, Camera camera)
+    public void DrawObjects(Canvas canvas, Paint paint, Camera camera)
     {
-        for(ScrollingObject o : m_BackgroundScrollingObjects)
-            DrawScrollingObject(canvas, paint, camera, o);
-    }
-
-    public void DrawForeground(Canvas canvas, Paint paint, Camera camera)
-    {
-        for(ScrollingObject o : m_ForegroundScrollingObjects)
+        for(ScrollingObject o : m_ScrollingObjects)
             DrawScrollingObject(canvas, paint, camera, o);
     }
 
