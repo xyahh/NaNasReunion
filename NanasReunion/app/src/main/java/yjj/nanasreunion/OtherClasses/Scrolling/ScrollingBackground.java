@@ -22,9 +22,9 @@ public class ScrollingBackground
         m_ScrollingObjects = new ArrayList<>();
     }
 
-    public void AddScrollingObject(Bitmap bitmap, float StartY, float TargetRelativeSpeed, Vector2i DesiredScreenSize)
+    public void AddScrollingObject(Bitmap bitmap, float StartY, Vector2f AbsoluteSpeed, float TargetRelativeSpeed, Vector2i DesiredScreenSize)
     {
-        m_ScrollingObjects.add(new ScrollingObject(bitmap, StartY, TargetRelativeSpeed, DesiredScreenSize));
+        m_ScrollingObjects.add(new ScrollingObject(bitmap, StartY, AbsoluteSpeed, TargetRelativeSpeed, DesiredScreenSize));
     }
 
     public void Update(Camera camera, float deltaTime)

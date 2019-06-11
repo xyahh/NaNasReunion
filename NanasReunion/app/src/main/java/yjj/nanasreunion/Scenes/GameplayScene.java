@@ -55,12 +55,15 @@ public class GameplayScene implements Scene
     {
         m_Background = new ScrollingBackground();
         Vector2i ScreenSize = ServiceHub.Inst().GetScreenSize();
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.ground), -0.4f, 1.f, ScreenSize);
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.sun), 2.f, 0.f, new Vector2i(ScreenSize.x / 2, ScreenSize.x / 2));
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.clouds), 1.25f, 0.1f, ScreenSize);
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.grass), 0.15f, 0.07f, ScreenSize);
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.clouds3), 1.75f, 0.15f, ScreenSize);
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.tree), 0.6f, 1.f, ScreenSize);
+        Vector2f AbsoluteSpeedZero = new Vector2f();
+        Vector2f CloudsAbsoluteSpeed = new Vector2f(-10.f, 0.f);
+
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.ground), -0.4f, AbsoluteSpeedZero,1.f, ScreenSize);
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.sun), 2.f, AbsoluteSpeedZero,0.f, new Vector2i(ScreenSize.x / 2, ScreenSize.x / 2));
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.clouds), 1.25f, CloudsAbsoluteSpeed,0.025f, ScreenSize);
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.grass), 0.15f, AbsoluteSpeedZero,0.07f, ScreenSize);
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.clouds3), 1.75f, CloudsAbsoluteSpeed, 0.05f, ScreenSize);
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.tree), 0.6f, AbsoluteSpeedZero, 1.f, ScreenSize);
     }
 
     private void InitWidgets()

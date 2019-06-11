@@ -64,12 +64,11 @@ boolean  f = false;
         else if(m_Camera != null)
         {
             if(f)
-                m_Camera.SetMovingFactor(1.f, 1.f);
+                m_Camera.SetMovingFactor(1.f, 0.f);
             else
                 m_Camera.SetMovingFactor(0.f, 0.f);
 
             f = !f;
-
         }
 
 

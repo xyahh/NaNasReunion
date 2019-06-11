@@ -16,6 +16,9 @@ public class Camera
     private float    m_MovingFactorX;
     private float    m_MovingFactorY;
 
+    private float    m_TargetMovingFactorX;
+    private float    m_TargetMovingFactorY;
+
     private Vector2f m_CameraPos;
     private Vector2f m_CameraPrevPos;
 
@@ -29,6 +32,8 @@ public class Camera
        m_PixelsToMeters= 400.f * ServiceHub.Inst().GetDPI();
        m_MovingFactorX = 1.f;
        m_MovingFactorY = 1.f;
+       m_TargetMovingFactorX = 1.f;
+       m_TargetMovingFactorY =1.f;
    }
 
    public void SetCameraOffset(Vector2f CameraOffset)
@@ -39,20 +44,39 @@ public class Camera
 
    public void SetMovingFactor(float x, float y)
    {
-       m_MovingFactorX = x;
+       m_TargetMovingFactorX = x;
        m_MovingFactorY = y;
    }
 
+   private float UpdateError = 0.01f;
    public void UpdateCameraView(Actor target_actor)
    {
        if(target_actor==null) return;
+       float DeltaMovingFactor = Math.abs(m_TargetMovingFactorX - m_MovingFactorX);
+       boolean MovingCamera =  !( Math.abs(m_TargetMovingFactorX - m_MovingFactorX)< UpdateError);
+       if(MovingCamera)
+       {
+           m_MovingFactorX += (m_TargetMovingFactorX - m_MovingFactorX) * UpdateError;
+           if(Math.abs(m_TargetMovingFactorX - m_MovingFactorX) < UpdateError)
+               m_MovingFactorX = m_TargetMovingFactorX;
+       }
+
        m_CameraPrevPos = m_CameraPos;
        Vector2f v = Vector2f.Scale(target_actor.position, m_MovingFactorX, m_MovingFactorY);
        v = Vector2f.Add(v, m_CameraOffsetScreen);
-       if(m_MovingFactorX == 0.f)
-           v.x = m_CameraPrevPos.x;
-       //do interpolation here
-       m_CameraPos = v;
+
+       float det1 = 1.f;
+       float det2 = 0.f;
+
+       if(MovingCamera)
+           det2 = DeltaMovingFactor;
+       if(m_TargetMovingFactorX == 0.f)
+       {
+            det1 = 0.f;
+            det2 = 1.f;
+       }
+        v.x = v.x * det1 + m_CameraPrevPos.x * det2;
+        m_CameraPos = v;
    }
 
     public Vector2f GetCameraDeltaVelocity()
