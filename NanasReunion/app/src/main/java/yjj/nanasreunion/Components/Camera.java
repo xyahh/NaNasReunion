@@ -56,9 +56,14 @@ public class Camera
        boolean MovingCamera =  !( Math.abs(m_TargetMovingFactorX - m_MovingFactorX)< UpdateError);
        if(MovingCamera)
        {
+           DeltaMovingFactor = Math.abs(m_TargetMovingFactorX - m_MovingFactorX);
            m_MovingFactorX += (m_TargetMovingFactorX - m_MovingFactorX) * UpdateError;
            if(Math.abs(m_TargetMovingFactorX - m_MovingFactorX) < UpdateError)
+           {
                m_MovingFactorX = m_TargetMovingFactorX;
+               MovingCamera = false;
+           }
+
        }
 
        m_CameraPrevPos = m_CameraPos;
@@ -70,7 +75,7 @@ public class Camera
 
        if(MovingCamera)
            det2 = DeltaMovingFactor;
-       if(m_TargetMovingFactorX == 0.f)
+       if(Math.abs(m_TargetMovingFactorX ) < UpdateError)
        {
             det1 = 0.f;
             det2 = 1.f;
