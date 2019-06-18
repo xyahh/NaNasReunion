@@ -40,7 +40,6 @@ public class Pawn extends Actor
     @Override
     public void Draw(Canvas canvas, Camera camera, float interp) {
         super.Draw(canvas, camera, interp);
-        physics.ApplyForce(new Vector2f(5.f, 0.f));
     }
 
     public void ChangeState(State state)
@@ -54,7 +53,7 @@ public class Pawn extends Actor
     {
         super.Update(DeltaTime);
         states.top().Update(this, DeltaTime);
-        physics.ApplyForce(new Vector2f(2.f, 0.f));
+        physics.ApplyForce(new Vector2f(5.f, 0.f));
     }
 boolean  f = false;
     public boolean OnTouchEvent(MotionEvent event)

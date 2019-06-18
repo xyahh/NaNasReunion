@@ -4,8 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 
 import yjj.nanasreunion.Components.Camera;
-import yjj.nanasreunion.Objects.Actor;
-import yjj.nanasreunion.Services.ServiceHub;
 import yjj.nanasreunion.Vector2f;
 import yjj.nanasreunion.Vector2i;
 
@@ -37,9 +35,6 @@ public class ScrollingObject
         m_Width = bitmap.getWidth();
         m_Height = bitmap.getHeight();
 
-
-        float dpi =  ServiceHub.Inst().GetDPI();
-
         float ScaleRatio = (float)(ScreenSize.x) / (float)(m_Width);
         int Height =  Math.round(m_Height * ScaleRatio);
         int Width = ScreenSize.x;
@@ -62,7 +57,7 @@ public class ScrollingObject
 
     public void UpdateBackground(Camera camera, float deltaTime)
     {
-        m_DeltaX -= camera.toPixelsF(camera.GetCameraDeltaVelocity().x * m_RelativeSpeed);
+        m_DeltaX -= camera.DeltaXToPixels(camera.GetCamDeltaDistance().x * m_RelativeSpeed);
         m_DeltaX += m_AbsoluteSpeed.x * deltaTime;
         if(m_DeltaX >= m_Width)
         {

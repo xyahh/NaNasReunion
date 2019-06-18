@@ -38,6 +38,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
         Log.d("View init", "View init");
         m_Scenes = new MyStack<>();
         ServiceHub.Inst().InitServices(context, this);
+
+        GameThread _GameThread = ServiceHub.Inst().GetGameThread();
+        _GameThread.SetRunning(true);
+        _GameThread.start();
+
+        PushScene(new GameplayScene());
     }
 
     public void ChangeScene(Scene scene)
@@ -64,10 +70,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
-        //Init(m_Context);
-        GameThread _GameThread = ServiceHub.Inst().GetGameThread();
-        _GameThread.SetRunning(true);
-        _GameThread.start();
     }
 
     @Override
@@ -79,20 +81,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceDestroyed(SurfaceHolder holder)
     {
-        GameThread _GameThread = ServiceHub.Inst().GetGameThread();
-        boolean retry = true;
-        _GameThread.SetRunning(false);
-        while(retry)
-        {
-            try
-            {
-                _GameThread.join();
-                retry = false;
-
-            } catch (InterruptedException e)
-            {
-            }
-        }
     }
 
     @Override

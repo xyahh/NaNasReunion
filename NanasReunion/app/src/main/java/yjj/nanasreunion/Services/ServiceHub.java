@@ -27,11 +27,32 @@ public class ServiceHub
     public void InitServices(Context context, GameView gameview)
     {
         m_GameView = gameview;
-        m_Thread        = new GameThread(m_GameView.getHolder(), m_GameView);
+        SetGameThread(new GameThread(m_GameView.getHolder(), m_GameView));
         m_Resources     = m_GameView.getResources();
         m_SoundManager  = SoundManager.Get(m_Assert);
         m_DisplayMetrics = m_GameView.getResources().getDisplayMetrics();
-        m_GameView.PushScene(new GameplayScene());
+    }
+
+    public void SetGameThread(GameThread thread)
+    {
+        if(m_Thread != null)
+        {
+            boolean retry = true;
+            m_Thread.SetRunning(false);
+            while(retry)
+            {
+                try
+                {
+                    m_Thread.join();
+                    retry = false;
+
+                } catch (InterruptedException e)
+                {
+                }
+            }
+        }
+
+        m_Thread = thread;
     }
 
     public static ServiceHub Inst()          { return m_Instance; }

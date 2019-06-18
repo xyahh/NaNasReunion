@@ -4,8 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 
-import java.util.Vector;
-
 import yjj.nanasreunion.Components.Camera;
 import yjj.nanasreunion.Services.ServiceHub;
 import yjj.nanasreunion.Vector2f;
@@ -63,7 +61,7 @@ public class Graphics
     {
         Vector2i ScreenPosition;
         if(camera == null) ScreenPosition = Vector2f.Scale(WorldPosition, m_DPI).toInt();
-        else ScreenPosition = camera.ScreenSpace(WorldPosition);
+        else ScreenPosition = camera.GetScreenSpace(WorldPosition);
 
         m_DrawMatrix.reset();
         m_DrawMatrix.setTranslate(-m_DrawHalfSize.x, -m_DrawHalfSize.y);

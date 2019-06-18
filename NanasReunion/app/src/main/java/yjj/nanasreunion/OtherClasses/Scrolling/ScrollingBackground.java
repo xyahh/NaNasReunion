@@ -8,7 +8,6 @@ import android.graphics.Rect;
 import java.util.ArrayList;
 
 import yjj.nanasreunion.Components.Camera;
-import yjj.nanasreunion.Objects.Actor;
 import yjj.nanasreunion.Vector2f;
 import yjj.nanasreunion.Vector2i;
 
@@ -37,7 +36,7 @@ public class ScrollingBackground
     {
         // define what portion of images to capture and
         // what coordinates of screen to draw them at
-        Vector2i v = camera.ScreenSpace(new Vector2f(0.f, bg.m_StartY));
+        Vector2i v = camera.GetScreenSpace(new Vector2f(0.f, bg.m_StartY));
         int deltaX = (int)(bg.m_DeltaX);
         int posY =  v.y;
         int endY = posY + bg.m_Height;
