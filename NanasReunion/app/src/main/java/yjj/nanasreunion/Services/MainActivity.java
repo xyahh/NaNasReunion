@@ -1,12 +1,16 @@
 package yjj.nanasreunion.Services;
 
 import android.content.pm.ActivityInfo;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import yjj.nanasreunion.R;
 
@@ -14,12 +18,16 @@ public class MainActivity extends AppCompatActivity {
 
     View item_layout;
     View gameplay_layout;
-
+    TextView score_textview;
+    boolean IsGameplay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.main_menu);
+        IsGameplay = false;
+
+
     }
 
     public View AddToView(int res)
@@ -59,8 +67,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void StartGame(View v)
     {
+        IsGameplay = true;
         setContentView(R.layout.activity_main);
         gameplay_layout = AddToView(R.layout.gameplay_layout);
+
+        score_textview = (TextView)findViewById(R.id.ScoreTextView);
+        ScoreAsyncUpdater runner = new ScoreAsyncUpdater();
+        runner.execute(0);
     }
 
     public void BackToGame(View v)
@@ -70,4 +83,26 @@ public class MainActivity extends AppCompatActivity {
         Timer.SetTimeDilation(1.f);
     }
 
+    private class ScoreAsyncUpdater extends AsyncTask<Integer, String, Integer>
+    {
+        int Score = 0;
+        @Override
+        protected Integer doInBackground(Integer... integers)
+        {
+            while(IsGameplay)
+            {
+                Score = ServiceHub.Inst().GetScore();
+                publishProgress("Score: "+ Integer.toString(Score));
+            }
+            return Score;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values)
+        {
+            super.onProgressUpdate(values);
+            score_textview.setText(values[0]);
+
+        }
+    }
 }

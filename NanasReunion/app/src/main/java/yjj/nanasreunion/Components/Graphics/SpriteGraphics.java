@@ -14,12 +14,12 @@ public class SpriteGraphics extends Graphics
 
     private float   m_FrameFrequency; // 1.f / FPS
     private int     m_FrameCount;
-
+    private float   m_FPS;
     private int     m_CurrentFrame;
     private float   m_FrameTimer;
 
 
-    public SpriteGraphics(Bitmap bitmap, int FPS, int TotalFrames, int SpritesPerRow)
+    public SpriteGraphics(Bitmap bitmap,int FPS, int TotalFrames, int SpritesPerRow)
     {
         super();
         m_Sprites = new ArrayList<>();
@@ -42,10 +42,15 @@ public class SpriteGraphics extends Graphics
         SetFPS(FPS);
     }
 
-
-    public void SetFPS(int FPS)
+    public float GetFPS()
     {
-        m_FrameFrequency = 1.f / (float)(FPS);
+        return m_FPS;
+    }
+
+    public void SetFPS(float FPS)
+    {
+        m_FPS = FPS;
+        m_FrameFrequency = 1.f / (m_FPS);
     }
 
     @Override
@@ -60,9 +65,9 @@ public class SpriteGraphics extends Graphics
     }
 
     @Override
-    public void Draw(Canvas canvas, Camera camera, Vector2f WorldPosition, float interp)
+    public void Draw(Canvas canvas, Camera camera, Vector2f WorldPosition, Vector2f pivot, float interp)
     {
-        super.Draw(canvas, camera, WorldPosition, interp);
-        Draw(canvas, m_Sprites.get(m_CurrentFrame), camera, WorldPosition);
+        super.Draw(canvas, camera, WorldPosition, pivot, interp);
+        Draw(canvas, m_Sprites.get(m_CurrentFrame), camera, WorldPosition, pivot);
     }
 }

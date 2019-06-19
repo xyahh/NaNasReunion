@@ -22,6 +22,7 @@ public class GameThread extends Thread {
     {
         Canvas c;
         Timer.Reset();
+        SetRunning(true);
         while(m_Run)
         {
             Timer.Tick();

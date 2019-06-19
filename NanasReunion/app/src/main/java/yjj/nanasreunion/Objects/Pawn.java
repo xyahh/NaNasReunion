@@ -4,20 +4,29 @@ import android.graphics.Canvas;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
+import java.util.ArrayDeque;
+
 import yjj.nanasreunion.Components.Camera;
+import yjj.nanasreunion.Components.Item.Item;
+import yjj.nanasreunion.Components.Physics.NullPhysics;
+import yjj.nanasreunion.Components.Physics.Physics;
 import yjj.nanasreunion.Components.State.*;
 import yjj.nanasreunion.MyStack;
-import yjj.nanasreunion.Vector2f;
 
 public class Pawn extends Actor
 {
-    private    MyStack<State> states;
+    private     MyStack<State> states;
     private     Camera         m_Camera;
+    public      Physics physics;
+    private     ArrayDeque<Item> m_Items;
+
     public Pawn()
     {
         super();
+        physics     = new NullPhysics();
         states = new MyStack<>();
         PushState(new NullState());
+        m_Items = new ArrayDeque<>();
     }
 
     public void SetCamera(Camera camera)
@@ -40,6 +49,8 @@ public class Pawn extends Actor
     @Override
     public void Draw(Canvas canvas, Camera camera, float interp) {
         super.Draw(canvas, camera, interp);
+        if (m_Items.size() > 0)
+            m_Items.getFirst().Draw(canvas, camera, this);
     }
 
     public void ChangeState(State state)
@@ -49,33 +60,39 @@ public class Pawn extends Actor
     }
 
     @Override
-    public void Update(float DeltaTime)
-    {
+    public void Update(float DeltaTime) {
         super.Update(DeltaTime);
+        physics.Update(this, DeltaTime);
         states.top().Update(this, DeltaTime);
-        physics.ApplyForce(new Vector2f(5.f, 0.f));
-    }
-boolean  f = false;
-    public boolean OnTouchEvent(MotionEvent event)
-    {
-        if(event.getAction() == MotionEvent.ACTION_DOWN && position. y < 0.01f)
-            physics.ApplyForce(new Vector2f(0.f, 250.f));
-        else if(m_Camera != null)
-        {
-            if(f)
-                m_Camera.SetMovingFactor(1.f, 0.f);
-            else
-                m_Camera.SetMovingFactor(0.f, 0.f);
 
-            f = !f;
+        if (m_Items.size() > 0)
+        {
+            Item first = m_Items.getFirst();
+            if (first.UpdateAndValidate(DeltaTime))
+            {
+                first.Stop(this, m_Camera);
+                m_Items.removeFirst();
+                if(m_Items.size() > 0)
+                    m_Items.getFirst().Use(this, m_Camera);
+            }
         }
 
+    }
 
+    public boolean OnTouchEvent(MotionEvent event)
+    {
         return states.top().OnTouchEvent(this, event);
     }
 
     public boolean OnKeyDown(int keyCode, KeyEvent event)
     {
-        return states.top().OnKeyDown(this, keyCode, event);
+        return states.top().OnKeyDown(this,keyCode, event);
+    }
+
+    public void AddItem(Item item)
+    {
+        m_Items.addLast(item);
+        if(m_Items.size() == 1)
+            m_Items.getFirst().Use(this, m_Camera);
     }
 }

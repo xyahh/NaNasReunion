@@ -23,9 +23,11 @@ public enum COLLISION_TYPES
     DESTRUCTIVE,
 
     /*
-        Edible
+        ITEM
 
 
     */
-    EDIBLE
+    ITEM,
+
+    PLAYER
 }

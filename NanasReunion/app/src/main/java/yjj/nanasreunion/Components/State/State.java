@@ -11,7 +11,7 @@ public interface State
 
     void Exit(Pawn pawn);
 
-    void Update(Pawn actor, float DeltaTime);
+    void Update(Pawn pawn, float DeltaTime);
 
     boolean OnTouchEvent(Pawn pawn, MotionEvent event);
 

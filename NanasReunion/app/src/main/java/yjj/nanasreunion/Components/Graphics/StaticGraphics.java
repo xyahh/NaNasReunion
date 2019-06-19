@@ -18,9 +18,9 @@ public class StaticGraphics extends Graphics
     }
 
     @Override
-    public void Draw(Canvas canvas, Camera camera, Vector2f worldPos, float interp)
+    public void Draw(Canvas canvas, Camera camera, Vector2f worldPos, Vector2f pivot, float interp)
     {
-        super.Draw(canvas, camera, worldPos, interp);
-        Draw(canvas, m_Bitmap, camera, worldPos);
+        super.Draw(canvas, camera, worldPos, pivot, interp);
+        Draw(canvas, m_Bitmap, camera, worldPos, pivot);
     }
 }

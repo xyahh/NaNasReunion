@@ -9,10 +9,11 @@ public class NullGraphics extends Graphics
 {
     public NullGraphics()
     {
+        super();
     }
 
     @Override
-    public void Draw(Canvas canvas, Camera camera, Vector2f WorldPosition, float interp) {
-        super.Draw(canvas, camera, WorldPosition, interp);
+    public void Draw(Canvas canvas, Camera camera, Vector2f WorldPosition, Vector2f pivot, float interp)
+    {
     }
 }

@@ -1,32 +1,29 @@
 package yjj.nanasreunion.Objects;
 
 /* Core Classes */
+import yjj.nanasreunion.Command.Command;
 import yjj.nanasreunion.Components.Collision.ActorCollision;
+import yjj.nanasreunion.Components.Collision.COLLISION_TYPES;
 import yjj.nanasreunion.Vector2f;
 
 
 /* Component Classes */
 import yjj.nanasreunion.Components.*;
-import yjj.nanasreunion.Components.Physics.*;
 
 import android.graphics.Canvas;
 
+import java.util.ArrayList;
+
 public class Actor extends Object
 {
-
-    public Physics          physics;
     public ActorCollision   collision;
-
-    private boolean         m_Destroy;
+    private boolean        m_Destroy;
 
     public Actor()
     {
         super();
-        physics     = new NullPhysics();
-
-        collision   = new ActorCollision(position, new Vector2f());
-        collision.SetCollisionEnabled(false);
-
+        collision   = new ActorCollision(COLLISION_TYPES.DEFAULT);
+        collision.SetCollisionEnabled(true);
         m_Destroy = false;
     }
 
@@ -38,7 +35,11 @@ public class Actor extends Object
     public void ProcessCollision(Actor other)
     {
         if(other != this)
-            ActorCollision.ProcessCollision(this.collision, other.collision).Execute(this);
+        {
+            ArrayList<Command> cmds = ActorCollision.ProcessCollision(this.collision, other.collision);
+            for(Command c : cmds)
+                c.Execute(this, other);
+        }
     }
 
     public boolean IsDestroyed()
@@ -48,14 +49,14 @@ public class Actor extends Object
 
     public void Update(float DeltaTime)
     {
-        physics.Update(this, DeltaTime);
         graphics.Update(DeltaTime);
-        collision.UpdatePosition(position);
+        collision.UpdateCollisionRect(position);
     }
 
     public void Draw(Canvas canvas, Camera camera, float interp)
     {
-        graphics.Draw(canvas, camera, position, interp);
+        graphics.Draw(canvas, camera, position, pivot, interp);
+        collision.Draw(canvas, camera, pivot);
     }
 
 }

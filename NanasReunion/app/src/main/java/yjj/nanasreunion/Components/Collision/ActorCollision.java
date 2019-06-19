@@ -1,5 +1,8 @@
 package yjj.nanasreunion.Components.Collision;
 
+import android.util.Log;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import yjj.nanasreunion.Command.Command;
@@ -9,16 +12,14 @@ import yjj.nanasreunion.Vector2f;
 public class ActorCollision extends Collision
 {
 
-    private HashMap<COLLISION_TYPES, Command>   m_CollisionCommands;
-    private COLLISION_TYPES                     m_CollisionType;
+    private HashMap<COLLISION_TYPES, ArrayList<Command>>    m_CollisionCommands;
+    private COLLISION_TYPES                                 m_CollisionType;
 
-    static private final NullCommand          m_NullCommand = new NullCommand();
-
-    public ActorCollision(Vector2f Position, Vector2f Extents)
+    public ActorCollision(COLLISION_TYPES type)
     {
-        super(Position, Extents);
+        super();
         m_CollisionCommands = new HashMap<>();
-        SetCollisionType(COLLISION_TYPES.DEFAULT);
+        SetCollisionType(type);
     }
 
     public COLLISION_TYPES GetCollisionType()
@@ -31,17 +32,19 @@ public class ActorCollision extends Collision
         m_CollisionType = collisionType;
     }
 
-    public void AddCollisionCommand(COLLISION_TYPES CollisionType, Command e)
+    public void AddCollisionCommand(COLLISION_TYPES CollisionType, ArrayList<Command> e)
     {
         m_CollisionCommands.put(CollisionType, e);
     }
 
-    public static Command ProcessCollision(ActorCollision a, ActorCollision b)
+    public static ArrayList<Command> ProcessCollision(ActorCollision a, ActorCollision b)
     {
         if(Collision.Check(a, b))
         {
-            return  a.m_CollisionCommands.get(b.GetCollisionType());
+            ArrayList<Command> commands =  a.m_CollisionCommands.get(b.GetCollisionType());
+            if(commands == null) return new ArrayList<Command>();
+            return commands;
         }
-        return m_NullCommand;
+        return new ArrayList<Command>();
     }
 }

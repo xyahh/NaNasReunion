@@ -2,17 +2,14 @@ package yjj.nanasreunion.Services;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
-import android.view.View;
 
 import yjj.nanasreunion.MyStack;
-import yjj.nanasreunion.R;
 import yjj.nanasreunion.Scenes.*;
 
 
@@ -35,14 +32,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
     public void Init(Context context)
     {
-        Log.d("View init", "View init");
         m_Scenes = new MyStack<>();
         ServiceHub.Inst().InitServices(context, this);
-
-        GameThread _GameThread = ServiceHub.Inst().GetGameThread();
-        _GameThread.SetRunning(true);
-        _GameThread.start();
-
         PushScene(new GameplayScene());
     }
 
@@ -70,6 +61,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
+        ServiceHub.Inst().HandleThreadCreation(holder, this);
     }
 
     @Override
@@ -81,6 +73,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceDestroyed(SurfaceHolder holder)
     {
+        ServiceHub.Inst().HandleThreadDestroy();
     }
 
     @Override

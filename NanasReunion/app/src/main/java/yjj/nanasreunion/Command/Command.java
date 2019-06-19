@@ -4,5 +4,5 @@ import yjj.nanasreunion.Objects.Actor;
 
 public interface Command
 {
-    public void Execute(Actor actor);
+    public void Execute(Actor instigator, Actor target);
 }

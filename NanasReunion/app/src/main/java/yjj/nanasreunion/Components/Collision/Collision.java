@@ -1,34 +1,57 @@
 package yjj.nanasreunion.Components.Collision;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
+
+import yjj.nanasreunion.Components.Camera;
+import yjj.nanasreunion.Components.Graphics.RectGraphics;
 import yjj.nanasreunion.Vector2f;
 
 public class Collision
 {
-    private Vector2f m_Position;
-    private Vector2f m_Extents;
+    private RectF  m_CollisionRect;
+    private RectGraphics m_DebugRect;
+
+    private float m_Width;
+    private float m_Height;
     private boolean m_CollisionEnabled;
 
-    public Collision(Vector2f Position, Vector2f Extents)
+    private static Paint m_Paint = new Paint() {
+        {
+            setStyle(Style.STROKE);
+            setColor(Color.RED);
+        }
+    };
+
+    public Collision()
     {
-        m_Position = Position;
-        m_Extents  = Extents;
+        m_CollisionRect = new RectF();
         m_CollisionEnabled = true;
+        m_DebugRect = new RectGraphics(m_Paint);
     }
 
-    public Vector2f GetMin()
+    public void SetDimensions(float width, float height)
     {
-        return new Vector2f( m_Position.x - m_Extents.x,
-                                m_Position.y - m_Extents.y);
+        m_Width = width;
+        m_Height = height;
+        m_DebugRect.SetDimensions(m_Width, m_Height);
     }
 
-    public Vector2f GetMax()
+    public void Draw(Canvas canvas, Camera camera, Vector2f pivot)
     {
-        return new Vector2f( m_Position.x + m_Extents.x,
-                m_Position.y + m_Extents.y);
+        m_DebugRect.Draw(canvas, camera,
+                new Vector2f(m_CollisionRect.left, m_CollisionRect.top),
+                m_Width, m_Height, pivot, m_Paint);
     }
 
-    public void UpdatePosition(Vector2f position)
+    public void UpdateCollisionRect(Vector2f world_position)
     {
-        m_Position = position;
+        m_CollisionRect.left = world_position.x;
+        m_CollisionRect.right = world_position.x + m_Width;
+
+        m_CollisionRect.top = world_position.y ;
+        m_CollisionRect.bottom = world_position.y +  m_Height;
     }
 
     public void SetCollisionEnabled(boolean flag)
@@ -38,43 +61,21 @@ public class Collision
 
     public static boolean Check(Collision collisionA, Collision collisionB)
     {
-        Vector2f A_min = collisionA.GetMin();
-        Vector2f A_max = collisionA.GetMax();
-
-        Vector2f B_min = collisionB.GetMin();
-        Vector2f B_max = collisionB.GetMax();
-
-        return collisionA.m_CollisionEnabled &&
-                collisionB.m_CollisionEnabled &&
-                !(A_min.x > B_max.x
-                || B_min.x > A_max.x
-                || A_min.y > B_max.y
-                || B_min.y > A_max.y);
+        return collisionA.m_CollisionRect.intersect(collisionB.m_CollisionRect)
+                && collisionA.m_CollisionEnabled && collisionB.m_CollisionEnabled;
     }
 
     public static boolean Check(Collision collision, Vector2f point)
     {
-        Vector2f Max = collision.GetMax();
-        Vector2f Min = collision.GetMin();
-
-        return collision.m_CollisionEnabled &&
-                !( point.x > Max.x
-                || point.x < Min.x
-                || point.y > Max.y
-                || point.y < Min.y);
+        return collision.m_CollisionRect.contains(point.x, point.y)
+                && collision.m_CollisionEnabled;
     }
 
     public static boolean Check(Collision collision,
                                 float left, float top, float right, float bottom)
     {
-        Vector2f Max = collision.GetMax();
-        Vector2f Min = collision.GetMin();
-
-        return collision.m_CollisionEnabled &&
-                !( left > Max.x
-                        || right < Min.x
-                        || top > Max.y
-                        || bottom < Min.y);
+       return collision.m_CollisionRect.intersect(left, top, right, bottom)
+               && collision.m_CollisionEnabled;
     }
 
 }
