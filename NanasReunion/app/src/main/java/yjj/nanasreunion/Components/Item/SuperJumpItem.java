@@ -23,15 +23,15 @@ public class SuperJumpItem extends Item {
     @Override
     public void Use(Pawn pawn, Camera camera)
     {
-        OriginalJumpForce =  pawn.JumpForce;
-        pawn.JumpForce = pawn.JumpForce + 100.f;
+        OriginalJumpForce =  pawn.JumpImpulse;
+        pawn.JumpImpulse = pawn.JumpImpulse + 1.f;
     }
 
 
     @Override
     public void Stop(Pawn pawn, Camera camera)
     {
-        pawn.JumpForce = OriginalJumpForce;
+        pawn.JumpImpulse = OriginalJumpForce;
     }
 
     @Override

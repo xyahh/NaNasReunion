@@ -98,7 +98,11 @@ public class Camera
         Vector2f v = Vector2f.Subtract(world_position, m_CameraPos);
         Vector2f p = new Vector2f((v.x - ViewportLeft) / (ViewportRight - ViewportLeft),
                 (v.y - ViewportTop) / (ViewportBottom - ViewportTop));
+
         p.y = 1.f - p.y;
+        if(!ServiceHub.RightwardGameplay)
+            p.x = 1.f - p.x;
+
         p = Vector2f.Scale(p, m_ScreenSize.x, m_ScreenSize.y);
         return p.toInt();
     }

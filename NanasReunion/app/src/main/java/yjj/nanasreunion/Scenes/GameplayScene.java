@@ -85,7 +85,7 @@ public class GameplayScene implements Scene
     private void InitCamera()
     {
         m_Camera = new Camera();
-        m_Camera.SetCameraOffset(new Vector2f(-0.15f, -0.5f));
+        m_Camera.SetCameraOffset(new Vector2f(-0.15f, -0.25f));
         m_Camera.SetMovingFactor(true, false);
     }
 
@@ -100,8 +100,8 @@ public class GameplayScene implements Scene
         m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.clouds), 0.75f, CloudsAbsoluteSpeed,0.025f, ScreenSize);
         m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.grass), 0.f, AbsoluteSpeedZero,0.07f, ScreenSize);
         m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.clouds3), 1.f, CloudsAbsoluteSpeed, 0.05f, ScreenSize);
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.tree), 0.75f, AbsoluteSpeedZero, 1.f, ScreenSize);
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.ground), -0.3f, AbsoluteSpeedZero,1.f, ScreenSize);
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.tree), 0.95f, AbsoluteSpeedZero, 1.f, ScreenSize);
+        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.ground), 0.f, AbsoluteSpeedZero,1.f, ScreenSize);
     }
 
     @Override
@@ -155,7 +155,6 @@ public class GameplayScene implements Scene
                 pos = 0.6f;
             ItemBox item_box = new ItemBox();
             item_box.position = new Vector2f(m_PlayerPawn.position.x + 3.f, pos);
-            item_box.pivot = new Vector2f(0.5f, 0.5f);
             m_Actors.add(item_box);
         }
 

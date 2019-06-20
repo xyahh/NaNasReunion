@@ -4,9 +4,7 @@ import android.graphics.Canvas;
 
 
 import yjj.nanasreunion.Components.Camera;
-import yjj.nanasreunion.Components.Graphics.Graphics;
 import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
-import yjj.nanasreunion.Components.State.InAirState;
 import yjj.nanasreunion.Components.State.STATE_ID;
 import yjj.nanasreunion.Components.State.State;
 import yjj.nanasreunion.Objects.Pawn;
@@ -16,7 +14,7 @@ import yjj.nanasreunion.Vector2f;
 
 
 public class JumpShoes extends Item {
-    float   OriginalJumpForce;
+    float OriginalJumpImpulse;
     private SpriteGraphics graphics;
     private Vector2f position;
     private Vector2f pivot;
@@ -34,8 +32,8 @@ public class JumpShoes extends Item {
     @Override
     public void Use(Pawn pawn, Camera camera)
     {
-        OriginalJumpForce =  pawn.JumpForce;
-        pawn.JumpForce = 0.f;
+        OriginalJumpImpulse =  pawn.JumpImpulse;
+        pawn.JumpImpulse = 0.f;
         graphics     = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.jumpshoes),
                 10,1,1);
         graphics.SetScale(0.12f, 0.12f);
@@ -49,14 +47,14 @@ public class JumpShoes extends Item {
 
         if(state != null && state.GetID() == STATE_ID.RUNNING)
         {
-            pawn.physics.ApplyForce(new Vector2f(0.f, OriginalJumpForce));
+            pawn.physics.ApplyImpulse(new Vector2f(0.f, OriginalJumpImpulse));
         }
         return super.UpdateAndValidate(pawn, camera, deltaTime);
     }
 
     @Override
     public void Stop(Pawn pawn, Camera camera) {
-            pawn.JumpForce = OriginalJumpForce;
+            pawn.JumpImpulse = OriginalJumpImpulse;
     }
 
     @Override

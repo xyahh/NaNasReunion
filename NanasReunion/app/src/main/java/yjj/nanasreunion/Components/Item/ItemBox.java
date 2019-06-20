@@ -1,6 +1,5 @@
 package yjj.nanasreunion.Components.Item;
-import android.graphics.Color;
-import android.graphics.Paint;
+import android.graphics.Rect;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -10,7 +9,6 @@ import yjj.nanasreunion.Command.GrabItemCommand;
 import yjj.nanasreunion.Command.SelfDestructCommand;
 import yjj.nanasreunion.Components.Collision.ActorCollision;
 import yjj.nanasreunion.Components.Collision.COLLISION_TYPES;
-import yjj.nanasreunion.Components.Graphics.RectGraphics;
 import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
 import yjj.nanasreunion.Objects.Actor;
 import yjj.nanasreunion.R;
@@ -26,7 +24,7 @@ public class ItemBox extends Actor
             //new JumpShoes()
             //new BigBanana(),
             //new BabyBanana(),
-            new FlyingBanana()
+            new BrokenClock()
     };
 
     static SpriteGraphics item_box_graphics = null;
@@ -39,7 +37,7 @@ public class ItemBox extends Actor
         if(item_box_graphics == null)
         {
             item_box_graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.item_box),
-                    10, 6, 6);
+                    10, 6, 6, new Rect(0, 0, 0, 93));
             item_box_graphics.SetScale(0.15f, 0.15f);
         }
     }
@@ -55,7 +53,7 @@ public class ItemBox extends Actor
 
         collision   = new ActorCollision(COLLISION_TYPES.ITEM);
         collision.SetDimensions(box_size_x, box_size_y);
-        collision.AddCollisionCommand(COLLISION_TYPES.PLAYER, new ArrayList<Command>(){
+        collision.SetCollisionCommands(COLLISION_TYPES.PLAYER, new ArrayList<Command>(){
             {
                 add(new GrabItemCommand(item));
                 add(new SelfDestructCommand());

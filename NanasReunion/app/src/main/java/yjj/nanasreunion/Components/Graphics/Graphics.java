@@ -62,13 +62,23 @@ public class Graphics
     protected Matrix GetTransformMatrix(Camera camera, Vector2f WorldPosition, Vector2f pivot)
     {
         Vector2i ScreenPosition = camera.GetScreenSpace(WorldPosition);
+
+        float FactorX = 1.f;
+
+        if(!ServiceHub.RightwardGameplay)
+        {
+            FactorX = -1.f;
+        }
+
         Vector2f PivotOffset = Vector2f.Scale(m_DrawSize, pivot.x, pivot.y);
 
         Matrix transform = new Matrix(); //init with Identity
-        transform.setTranslate(-PivotOffset.x, -PivotOffset.y);
+
+
+        transform.setTranslate(-PivotOffset.x * FactorX, -PivotOffset.y);
 
         //SRT Transformation (Scale -> Rotate -> Translate)
-        transform.preScale(m_ScaleX, m_ScaleY);
+        transform.preScale(m_ScaleX * FactorX, m_ScaleY );
         transform.postRotate(m_Angle);
         transform.postTranslate(ScreenPosition.x, ScreenPosition.y);
 

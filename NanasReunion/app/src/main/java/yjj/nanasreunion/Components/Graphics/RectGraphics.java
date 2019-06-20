@@ -51,6 +51,7 @@ public class RectGraphics extends Graphics
         float Top = ScreenSpace.y - (pivot.y) * sy;
         float Bottom = ScreenSpace.y + (1.f - pivot.y) * sy;
 
+
         canvas.drawRect(Left, Top, Right, Bottom, paint);
     }
 }

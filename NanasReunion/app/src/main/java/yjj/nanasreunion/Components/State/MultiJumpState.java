@@ -19,7 +19,7 @@ public class MultiJumpState extends State
     {
         super(STATE_ID.MULTI_JUMP);
         m_TotalJumps = TotalJumpCount;
-        m_CurrentJumpCount = 0;
+
     }
 
     public State  CreateState() { return new MultiJumpState(m_TotalJumps); }
@@ -28,7 +28,7 @@ public class MultiJumpState extends State
     @Override
     public void Enter(Pawn pawn)
     {
-
+        m_CurrentJumpCount = 0;
     }
 
     @Override
@@ -48,15 +48,13 @@ public class MultiJumpState extends State
     public boolean OnTouchEvent(Pawn pawn, MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_DOWN)
         {
-
-            ++m_CurrentJumpCount;
-            Vector2f v = pawn.physics.GetVelocity();
-            v.y = 0.f;
-            pawn.physics.SetVelocity(v);
-            pawn.physics.ApplyForce(new Vector2f(0.f, pawn.JumpForce));
-            if(m_CurrentJumpCount >= m_TotalJumps && m_TotalJumps != 0)
-                pawn.PopState();
-
+            if(m_CurrentJumpCount++ < m_TotalJumps && m_TotalJumps > 0)
+            {
+                Vector2f v = pawn.physics.GetVelocity();
+                v.y = 0.f;
+                pawn.physics.SetVelocity(v);
+                pawn.physics.ApplyImpulse(new Vector2f(0.f, pawn.JumpImpulse));
+            }
             return true;
         }
         return false;

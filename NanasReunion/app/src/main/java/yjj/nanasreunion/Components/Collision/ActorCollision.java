@@ -32,9 +32,31 @@ public class ActorCollision extends Collision
         m_CollisionType = collisionType;
     }
 
-    public void AddCollisionCommand(COLLISION_TYPES CollisionType, ArrayList<Command> e)
+    public ArrayList<Command> GetCollisionCommands(COLLISION_TYPES collisionType)
+    {
+        return m_CollisionCommands.get(collisionType);
+    }
+
+    public void ClearCollisionCommands(COLLISION_TYPES collisionTypes)
+    {
+        ArrayList<Command> c = m_CollisionCommands.get(collisionTypes);
+        if(c!=null)
+            c.clear();
+    }
+
+    public void SetCollisionCommands(COLLISION_TYPES CollisionType, ArrayList<Command> e)
     {
         m_CollisionCommands.put(CollisionType, e);
+    }
+
+    public void AddCollisionCommands(COLLISION_TYPES CollisionType, ArrayList<Command> e)
+    {
+        ArrayList<Command> c = m_CollisionCommands.get(CollisionType);
+        if(c==null)
+            c = e;
+        else
+            c.addAll(e);
+        SetCollisionCommands(CollisionType, c);
     }
 
     public static ArrayList<Command> ProcessCollision(ActorCollision a, ActorCollision b)

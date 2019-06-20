@@ -10,6 +10,7 @@ import yjj.nanasreunion.Components.Physics.Physics;
 import yjj.nanasreunion.Objects.Pawn;
 import yjj.nanasreunion.R;
 import yjj.nanasreunion.Services.ServiceHub;
+import yjj.nanasreunion.Services.Timer;
 import yjj.nanasreunion.Vector2f;
 
 public class MagicClock extends Item {
@@ -43,11 +44,7 @@ public class MagicClock extends Item {
         graphics.SetScale(0.3f, 0.3f);
         pivot = new Vector2f(0.5f, 0.5f);
 
-        OriginalMass = pawn.physics.GetMass();
-        pawn.physics.SetMass(OriginalMass * 0.75f);
-
-        OriginalMaxVelocity = pawn.physics.GetMaxVelocity();
-        pawn.physics.SetMaxVelocity(new Vector2f(OriginalMaxVelocity.x * 2.5f, OriginalMaxVelocity.y));
+        Timer.SetTimeDilation(2.f);
 
     }
 
@@ -61,6 +58,7 @@ public class MagicClock extends Item {
         pawn.graphics=original_graphics;
         pawn.physics.SetMass(OriginalMass);
         pawn.physics.SetMaxVelocity(OriginalMaxVelocity);
+        Timer.SetTimeDilation(1.f);
     }
 
     @Override

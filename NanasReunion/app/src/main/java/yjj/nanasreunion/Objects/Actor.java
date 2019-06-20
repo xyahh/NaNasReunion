@@ -6,6 +6,7 @@ import yjj.nanasreunion.Components.Collision.ActorCollision;
 import yjj.nanasreunion.Components.Collision.COLLISION_TYPES;
 import yjj.nanasreunion.Components.Physics.NullPhysics;
 import yjj.nanasreunion.Components.Physics.Physics;
+import yjj.nanasreunion.Services.ServiceHub;
 import yjj.nanasreunion.Vector2f;
 
 

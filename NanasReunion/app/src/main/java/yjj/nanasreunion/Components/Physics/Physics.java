@@ -1,5 +1,6 @@
 package yjj.nanasreunion.Components.Physics;
 
+import yjj.nanasreunion.Services.Timer;
 import yjj.nanasreunion.Vector2f;
 import yjj.nanasreunion.Objects.Actor;
 
@@ -40,6 +41,11 @@ public class Physics
     public void SetForce(Vector2f Force)
     {
         m_Acceleration = Vector2f.Scale(Force, 1.f/ m_Mass);
+    }
+
+    public void ApplyImpulse(Vector2f Impulse)
+    {
+        ApplyForce(Vector2f.Scale(Impulse, 1.f / Timer.DeltaTime()));
     }
 
     public void ApplyForce(Vector2f Force)

@@ -4,6 +4,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import yjj.nanasreunion.Objects.Pawn;
+import yjj.nanasreunion.Services.Timer;
 import yjj.nanasreunion.Vector2f;
 
 public class RunningState extends State
@@ -43,7 +44,7 @@ public class RunningState extends State
     {
         if(event.getAction() == MotionEvent.ACTION_DOWN)
         {
-            pawn.physics.ApplyForce(new Vector2f(0.f, pawn.JumpForce));
+            pawn.physics.ApplyImpulse(new Vector2f(0.f, pawn.JumpImpulse));
             return true;
         }
         return false;

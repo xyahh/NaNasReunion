@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 import yjj.nanasreunion.Components.Camera;
+import yjj.nanasreunion.Services.ServiceHub;
 import yjj.nanasreunion.Vector2f;
 import yjj.nanasreunion.Vector2i;
 
@@ -60,7 +61,11 @@ public class ScrollingObject
 
     public void UpdateBackground(Camera camera, float deltaTime)
     {
-        m_DeltaX += (m_AbsoluteSpeed.x * deltaTime) - (camera.GetCamDeltaDistance().x * m_RelativeSpeed) ;
+
+        float delta = (m_AbsoluteSpeed.x * deltaTime) - (camera.GetCamDeltaDistance().x * m_RelativeSpeed);
+        if(!ServiceHub.RightwardGameplay)
+            delta*=-1.f;
+        m_DeltaX += delta;
 
         if(m_DeltaX > camera.ViewportRight)
         {

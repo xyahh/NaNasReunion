@@ -17,6 +17,8 @@ public class ServiceHub
 
     private static final Assert         m_Assert = new Assert();
 
+    public static  boolean              RightwardGameplay = true;
+
     private static  ServiceHub          m_Instance = new ServiceHub();
     private         SoundManager        m_SoundManager;
     private         GameView            m_GameView;

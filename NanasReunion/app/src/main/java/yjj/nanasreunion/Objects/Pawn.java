@@ -4,13 +4,8 @@ import android.graphics.Canvas;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import java.lang.reflect.Method;
-import java.util.ArrayDeque;
-
 import yjj.nanasreunion.Components.Camera;
 import yjj.nanasreunion.Components.Item.Item;
-import yjj.nanasreunion.Components.Physics.NullPhysics;
-import yjj.nanasreunion.Components.Physics.Physics;
 import yjj.nanasreunion.Components.State.*;
 import yjj.nanasreunion.MyStack;
 
@@ -20,7 +15,7 @@ public class Pawn extends Actor
     private     Camera          m_Camera;
     private     Item            m_Item;
 
-    public      float           JumpForce;
+    public      float           JumpImpulse;
     public      float           RunningForce;
 
     public      State           JumpingState;
@@ -30,7 +25,7 @@ public class Pawn extends Actor
     {
         super();
         JumpingState = new InAirState();
-        JumpForce = 300.f;
+        JumpImpulse = 3.25f;
         RunningForce = 15.f;
         states = new MyStack<>();
         PushState(new NullState());
