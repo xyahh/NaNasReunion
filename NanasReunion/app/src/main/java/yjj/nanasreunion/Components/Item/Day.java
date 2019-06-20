@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import yjj.nanasreunion.Command.Command;
 import yjj.nanasreunion.Command.SpeedCommandDown;
+import yjj.nanasreunion.Command.SpeedCommandUp;
 import yjj.nanasreunion.Components.Camera;
 import yjj.nanasreunion.Components.Collision.COLLISION_TYPES;
 import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
@@ -14,20 +15,20 @@ import yjj.nanasreunion.R;
 import yjj.nanasreunion.Services.ServiceHub;
 import yjj.nanasreunion.Vector2f;
 
-public class Night extends Item {
+public class Day extends Item {
 
 
     Vector2f OriginalMaxVelocity;
     private ArrayList<Command> OriginalCommandList;
 
-    protected Night()
+    protected Day()
     {
-        super("Night", 10.f);
+        super("Day", 10.f);
     }
 
     @Override
     public Item Create() {
-        return new Night();
+        return new Day();
     }
 
     @Override
@@ -44,7 +45,7 @@ public class Night extends Item {
         pawn.collision.SetCollisionCommands(COLLISION_TYPES.ITEM, new ArrayList<Command>()
         {
             {
-                add(new SpeedCommandDown());
+                add(new SpeedCommandUp());
             }
         });
     }
