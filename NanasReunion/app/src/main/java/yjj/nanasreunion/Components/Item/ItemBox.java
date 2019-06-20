@@ -19,12 +19,27 @@ public class ItemBox extends Actor
 {
     public static final Item ItemList[] =
     {
-            //new FrozenCamera(),
-            //new SuperJumpItem(),
-            //new JumpShoes()
-            //new BigBanana(),
-            //new BabyBanana(),
-            new Night()
+            new Ad(),
+            new BabyBanana(),
+            new BananaFamily(),
+            new BananaTree(),
+            new BigBanana(),
+            new BoosterBanana(),
+            new BrokenClock(),
+            new ChocoBanana(),
+            new Day(),
+            new FlyingBanana(),
+            new FrozenCamera(),
+            new Ice(),
+            new JumpShoes(),
+            new MagicClock(),
+            new MirrorWorld(),
+            new Night(),
+            new Ninja(),
+            new Nuclear(),
+            new Rockstar(),
+            new SlowBanana(),
+            new SuperJumpItem()
     };
 
     static SpriteGraphics item_box_graphics = null;
