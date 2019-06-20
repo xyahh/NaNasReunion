@@ -8,6 +8,7 @@ import yjj.nanasreunion.Components.Graphics.Graphics;
 import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
 import yjj.nanasreunion.Components.State.InAirState;
 import yjj.nanasreunion.Components.State.STATE_ID;
+import yjj.nanasreunion.Components.State.State;
 import yjj.nanasreunion.Objects.Pawn;
 import yjj.nanasreunion.R;
 import yjj.nanasreunion.Services.ServiceHub;
@@ -44,7 +45,9 @@ public class JumpShoes extends Item {
     @Override
     public boolean UpdateAndValidate(Pawn pawn, Camera camera, float deltaTime)
     {
-        if(pawn.states.top().GetID() == STATE_ID.RUNNING)
+        State state = pawn.GetTopState();
+
+        if(state != null && state.GetID() == STATE_ID.RUNNING)
         {
             pawn.physics.ApplyForce(new Vector2f(0.f, OriginalJumpForce));
         }
