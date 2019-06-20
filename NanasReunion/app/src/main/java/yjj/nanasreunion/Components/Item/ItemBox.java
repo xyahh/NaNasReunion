@@ -23,7 +23,8 @@ public class ItemBox extends Actor
 {
     public static final Item ItemList[] =
     {
-        new FrozenCamera(),
+            //new FrozenCamera(),
+            new SuperJumpItem()
     };
 
     public ItemBox()

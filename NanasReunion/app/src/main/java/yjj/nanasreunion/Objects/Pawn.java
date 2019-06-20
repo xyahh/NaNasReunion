@@ -20,9 +20,12 @@ public class Pawn extends Actor
     public      Physics physics;
     private     ArrayDeque<Item> m_Items;
 
+    public      float           JumpForce;
+
     public Pawn()
     {
         super();
+        JumpForce = 300.f;
         physics     = new NullPhysics();
         states = new MyStack<>();
         PushState(new NullState());

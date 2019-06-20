@@ -4,6 +4,7 @@ package yjj.nanasreunion.Objects;
 import yjj.nanasreunion.Command.Command;
 import yjj.nanasreunion.Components.Collision.ActorCollision;
 import yjj.nanasreunion.Components.Collision.COLLISION_TYPES;
+import yjj.nanasreunion.Components.Physics.Physics;
 import yjj.nanasreunion.Vector2f;
 
 
@@ -14,8 +15,9 @@ import android.graphics.Canvas;
 
 import java.util.ArrayList;
 
-public class Actor extends Object
+public class  Actor extends Object
 {
+    public Physics          physics;
     public ActorCollision   collision;
     private boolean        m_Destroy;
 
