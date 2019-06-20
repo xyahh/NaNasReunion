@@ -8,6 +8,7 @@ import yjj.nanasreunion.Components.Camera;
 import yjj.nanasreunion.Components.Item.Item;
 import yjj.nanasreunion.Components.State.*;
 import yjj.nanasreunion.MyStack;
+import yjj.nanasreunion.Services.ServiceHub;
 
 public class Pawn extends Actor
 {
@@ -36,6 +37,9 @@ public class Pawn extends Actor
     {
         m_Camera = camera;
     }
+
+    public Camera GetCamera() { return m_Camera;}
+
 
     public void PushState(State state)
     {
@@ -81,6 +85,7 @@ public class Pawn extends Actor
             {
                 m_Item.Stop(this, m_Camera);
                 m_Item = null;
+                ServiceHub.ItemName = "";
             }
         }
 
@@ -105,5 +110,6 @@ public class Pawn extends Actor
         }
         m_Item = item;
         m_Item.Use(this, m_Camera);
+        ServiceHub.ItemName = m_Item.GetName();
     }
 }

@@ -5,7 +5,6 @@ import android.graphics.Rect;
 
 import yjj.nanasreunion.Components.Camera;
 import yjj.nanasreunion.Components.Graphics.Graphics;
-import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
 import yjj.nanasreunion.Components.Graphics.StaticGraphics;
 import yjj.nanasreunion.Components.Physics.Physics;
 import yjj.nanasreunion.Objects.Pawn;
@@ -36,10 +35,12 @@ public class BananaFamily extends Item {
         position = new Vector2f(pawn.position.x + 2.5f, 0.f);
     }
 
+
+
     @Override
     public void Stop(Pawn pawn, Camera camera)
     {
-
+        ServiceHub.LosingCondition = true;
     }
 
     @Override

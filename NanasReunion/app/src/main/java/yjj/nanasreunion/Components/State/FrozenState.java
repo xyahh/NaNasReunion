@@ -16,12 +16,6 @@ public class FrozenState extends State
     @Override
     public void Enter(Pawn pawn)
     {
-        if(pawn.graphics instanceof SpriteGraphics)
-        {
-            SpriteGraphics g = (SpriteGraphics) pawn.graphics;
-            m_FPS = g.GetFPS();
-            g.SetFPS(0);
-        }
     }
 
     public State  CreateState() { return new FrozenState(); }
@@ -29,11 +23,6 @@ public class FrozenState extends State
     @Override
     public void Exit(Pawn pawn)
     {
-        if(pawn.graphics instanceof SpriteGraphics)
-        {
-            SpriteGraphics g = (SpriteGraphics) pawn.graphics;
-            g.SetFPS(m_FPS);
-        }
     }
 
     @Override

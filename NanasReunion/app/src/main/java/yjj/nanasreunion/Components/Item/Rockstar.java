@@ -32,12 +32,15 @@ public class Rockstar extends Item
         Rect padding = new Rect(0, 0, 0, 33);
         SpriteGraphics rockstar_graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.rockstar), 10,
                 4, 4, padding);
-        rockstar_graphics.SetScale(0.75f, 0.75f);
+        //rockstar_graphics.SetScale(0.75f, 0.75f);
         pawn.graphics     = rockstar_graphics;
+        pawn.collision.SetCollisionEnabled(false);
     }
     @Override
-    public void Stop(Pawn pawn, Camera camera) {
+    public void Stop(Pawn pawn, Camera camera)
+    {
         pawn.graphics = original_graphics;
+        pawn.collision.SetCollisionEnabled(true);
     }
 
 }

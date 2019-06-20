@@ -14,6 +14,11 @@ public abstract class Item {
         duration = item_duration;
     }
 
+    public String GetName()
+    {
+        return name;
+    }
+
     public abstract Item Create();
 
     public abstract void Use(Pawn pawn, Camera camera);

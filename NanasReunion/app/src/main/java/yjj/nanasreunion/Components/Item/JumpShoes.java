@@ -18,6 +18,7 @@ public class JumpShoes extends Item {
     private SpriteGraphics graphics;
     private Vector2f position;
     private Vector2f pivot;
+    boolean InAir = false;
 
     protected JumpShoes()
     {
@@ -38,6 +39,8 @@ public class JumpShoes extends Item {
                 10,1,1);
         graphics.SetScale(0.12f, 0.12f);
         pivot = new Vector2f(0.5f, 0.5f);
+
+        InAir = pawn.position.y > 0.05f;
     }
 
     @Override
@@ -45,9 +48,17 @@ public class JumpShoes extends Item {
     {
         State state = pawn.GetTopState();
 
-        if(state != null && state.GetID() == STATE_ID.RUNNING)
+        if(state == null)
+            return super.UpdateAndValidate(pawn, camera, deltaTime);
+
+        if(!InAir && state.GetID() == STATE_ID.RUNNING)
         {
             pawn.physics.ApplyImpulse(new Vector2f(0.f, OriginalJumpImpulse));
+            InAir = true;
+
+        } else if(state.GetID() != STATE_ID.RUNNING)
+        {
+            InAir = false;
         }
         return super.UpdateAndValidate(pawn, camera, deltaTime);
     }

@@ -1,5 +1,11 @@
 package yjj.nanasreunion.Objects;
 
+import java.util.ArrayList;
+
+import yjj.nanasreunion.Command.Command;
+import yjj.nanasreunion.Command.GameOverCommand;
+import yjj.nanasreunion.Components.Collision.ActorCollision;
+import yjj.nanasreunion.Components.Collision.COLLISION_TYPES;
 import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
 import yjj.nanasreunion.Components.Physics.Physics;
 import yjj.nanasreunion.R;
@@ -25,12 +31,22 @@ public class Bird extends Enemy
     public Bird(Pawn pawn)
     {
         super();
-        position     = new Vector2f(pawn.position.x + 3.f, 1.f);
+        position     = new Vector2f(pawn.position.x + 3.f, 0.8f);
         graphics     =  BirdGraphics;
         physics      = new Physics();
         physics.SetMaxVelocity(new Vector2f(0.35f, 0.f));
         physics.SetMass(1.f);
         physics.SetGravity(0.f);
+
+        pivot = new Vector2f(0.5f, 1.f);
+
+        collision = new ActorCollision(COLLISION_TYPES.ENEMY);
+        collision.SetDimensions(0.2f, 0.2f);
+        collision.SetCollisionCommands(COLLISION_TYPES.PLAYER, new ArrayList<Command>(){
+            {
+                add(new GameOverCommand());
+            }
+        });
     }
 
     @Override

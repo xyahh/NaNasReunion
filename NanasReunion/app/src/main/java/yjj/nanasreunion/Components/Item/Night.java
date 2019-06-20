@@ -1,16 +1,9 @@
 package yjj.nanasreunion.Components.Item;
 
-import android.app.Service;
 import android.graphics.Canvas;
 import android.graphics.Color;
 
-import java.util.ArrayList;
-
-import yjj.nanasreunion.Command.Command;
-import yjj.nanasreunion.Command.MaxSpeedCommand;
 import yjj.nanasreunion.Components.Camera;
-import yjj.nanasreunion.Components.Collision.COLLISION_TYPES;
-import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
 import yjj.nanasreunion.Objects.Pawn;
 import yjj.nanasreunion.OtherClasses.Scrolling.ScrollingObject;
 import yjj.nanasreunion.R;
@@ -25,7 +18,7 @@ public class Night extends Item {
 
     Vector2f OriginalMaxVelocity_Player;
 
-    ScrollingObject OriginalGround;
+    ScrollingObject OriginalCelestialBeing;
 
     float PrevMultiplier;
     int PrevColor;
@@ -62,7 +55,7 @@ public class Night extends Item {
                 0.f, new Vector2i(ScreenSize.x / 5 , ScreenSize.x / 5));
 
         GameplayScene gpScene = (GameplayScene) CurrScene;
-        OriginalGround = gpScene.m_Background.GetScrollingObject("A_Sun");
+        OriginalCelestialBeing = gpScene.m_Background.GetScrollingObject("A_Sun");
         Moon.SetWorldY(1.15f);
         gpScene.m_Background.SetScrollingObject("A_Sun", Moon);
 
@@ -85,7 +78,7 @@ public class Night extends Item {
             return;
 
         GameplayScene gpScene = (GameplayScene) CurrScene;
-        gpScene.m_Background.SetScrollingObject("A_Sun", OriginalGround);
+        gpScene.m_Background.SetScrollingObject("A_Sun", OriginalCelestialBeing);
     }
 
     @Override

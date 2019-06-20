@@ -2,6 +2,7 @@ package yjj.nanasreunion.Services;
 
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,22 +11,40 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import java.util.Random;
 
 import yjj.nanasreunion.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    View item_layout;
     View gameplay_layout;
+    View gameover_layout;
     TextView score_textview;
+    TextView item_textview;
     boolean IsGameplay;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.main_menu);
         IsGameplay = false;
+
+        Random rand = new Random();
+        Handler handler = new Handler();
+
+        Runnable r=new Runnable() {
+            public void run() {
+                if(ServiceHub.LosingCondition && !ServiceHub.AlreadyLost)
+                {
+                    GameOver();
+                    ServiceHub.AlreadyLost = true;
+                }
+                handler.postDelayed(this, 500);
+            }
+        };
+
+        handler.postDelayed(r, 500);
     }
 
     public View AddToView(int res)
@@ -42,6 +61,14 @@ public class MainActivity extends AppCompatActivity {
         return v;
     }
 
+    public void GameOver()
+    {
+        Timer.SetTimeDilation(0.f);
+        gameover_layout = AddToView(R.layout.game_over);
+        Button pause = (Button)findViewById(R.id.pause_button);
+        pause.setText("RETRY");
+    }
+
     public void RemoveFromView(View v)
     {
         ((ViewGroup)v.getParent()).removeView(v);
@@ -51,6 +78,19 @@ public class MainActivity extends AppCompatActivity {
     public void Pause(View v)
     {
         Button pause = (Button)findViewById(v.getId());
+        if(ServiceHub.AlreadyLost)
+        {
+            Timer.SetTimeDilation(0.f);
+            ServiceHub.Inst().GetCurrentScene().Init();
+
+            RemoveFromView(gameover_layout);
+
+            ServiceHub.AlreadyLost = false;
+            ServiceHub.LosingCondition = false;
+
+            pause.setText("PAUSE");
+            return;
+        }
         if(Timer.TogglePause())
             pause.setText("RESUME");
         else
@@ -63,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         gameplay_layout = AddToView(R.layout.gameplay_layout);
 
+        item_textview = (TextView)findViewById(R.id.item_id);
         score_textview = (TextView)findViewById(R.id.ScoreTextView);
         ScoreAsyncUpdater runner = new ScoreAsyncUpdater();
         runner.execute(0);
@@ -71,14 +112,16 @@ public class MainActivity extends AppCompatActivity {
 
     private class ScoreAsyncUpdater extends AsyncTask<Integer, String, Integer>
     {
-        int Score = 0;
         @Override
         protected Integer doInBackground(Integer... integers)
         {
+            int Score = 0;
             while(IsGameplay)
             {
                 Score = ServiceHub.Inst().GetScore();
-                publishProgress("Score: "+ Integer.toString(Score));
+                publishProgress("Score: "+ Integer.toString(Score),
+                        ServiceHub.ItemName);
+
             }
             return Score;
         }
@@ -88,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         {
             super.onProgressUpdate(values);
             score_textview.setText(values[0]);
+            item_textview.setText(values[1]);
 
         }
     }

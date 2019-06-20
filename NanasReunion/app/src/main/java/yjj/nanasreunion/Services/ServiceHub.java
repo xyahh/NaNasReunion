@@ -22,6 +22,9 @@ public class ServiceHub
     public static  boolean              RightwardGameplay = true;
     public static  float                EnemySpeedMultiplier = 1.f;
     public static  int                  ClearColor = Color.argb(255, 135, 206, 235);
+    public static String                ItemName;
+    public static boolean LosingCondition = false;
+    public static boolean AlreadyLost = false;
     private static  ServiceHub          m_Instance = new ServiceHub();
     private         SoundManager        m_SoundManager;
     private         GameView            m_GameView;

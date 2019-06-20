@@ -93,6 +93,26 @@ public class Camera
         return  (m_ScreenSize.y * meters) / (ViewportBottom - ViewportTop) ;
     }
 
+    public Vector2f GetWorldSpace(Vector2f screen_space)
+    {
+        Vector2f world_out = screen_space;
+        world_out = Vector2f.Scale(world_out, 1.f / m_ScreenSize.x, 1.f / m_ScreenSize.y);
+
+        world_out.y = 1.f - world_out.y;
+        if(!ServiceHub.RightwardGameplay)
+            world_out.x = 1.f - world_out.x;
+
+        world_out.x *= (ViewportRight - ViewportLeft);
+        world_out.x += ViewportLeft;
+
+        world_out.y *= (ViewportBottom - ViewportTop);
+        world_out.y += ViewportTop;
+
+        world_out = Vector2f.Add(world_out, m_CameraPos);
+
+        return world_out;
+    }
+
     public Vector2i GetScreenSpace(Vector2f world_position)
     {
         Vector2f v = Vector2f.Subtract(world_position, m_CameraPos);

@@ -48,7 +48,7 @@ public class MultiJumpState extends State
     public boolean OnTouchEvent(Pawn pawn, MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_DOWN)
         {
-            if(m_CurrentJumpCount++ < m_TotalJumps && m_TotalJumps > 0)
+            if(m_CurrentJumpCount++ < m_TotalJumps || m_TotalJumps == 0)
             {
                 Vector2f v = pawn.physics.GetVelocity();
                 v.y = 0.f;

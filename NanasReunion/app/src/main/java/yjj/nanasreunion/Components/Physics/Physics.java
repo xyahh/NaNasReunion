@@ -45,6 +45,8 @@ public class Physics
 
     public void ApplyImpulse(Vector2f Impulse)
     {
+        float DeltaTime = Timer.DeltaTime();
+        if(DeltaTime == 0.f) return;
         ApplyForce(Vector2f.Scale(Impulse, 1.f / Timer.DeltaTime()));
     }
 

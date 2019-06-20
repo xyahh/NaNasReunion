@@ -1,7 +1,12 @@
 package yjj.nanasreunion.Objects;
 
+import java.util.ArrayList;
+
+import yjj.nanasreunion.Command.Command;
+import yjj.nanasreunion.Command.GameOverCommand;
 import yjj.nanasreunion.Components.Collision.ActorCollision;
 import yjj.nanasreunion.Components.Collision.COLLISION_TYPES;
+import yjj.nanasreunion.Components.Collision.Collision;
 import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
 import yjj.nanasreunion.Components.Graphics.StaticGraphics;
 import yjj.nanasreunion.Components.Physics.Physics;
@@ -39,10 +44,17 @@ public class Monkey extends Enemy
 
         collision = new ActorCollision(COLLISION_TYPES.ENEMY);
         collision.SetDimensions(0.1f, 0.35f);
+
+        collision.SetCollisionCommands(COLLISION_TYPES.PLAYER, new ArrayList<Command>(){
+            {
+                add(new GameOverCommand());
+            }
+        });
     }
 
     @Override
-    public void Update(float DeltaTime) {
+    public void Update(float DeltaTime)
+    {
         super.Update(DeltaTime);
         physics.SetMaxVelocity(new Vector2f(0.25f * ServiceHub.EnemySpeedMultiplier, 0.f));
         physics.ApplyForce(new Vector2f(-5.f, 0.f));

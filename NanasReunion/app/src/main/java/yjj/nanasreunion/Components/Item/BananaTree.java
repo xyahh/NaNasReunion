@@ -5,6 +5,7 @@ import android.graphics.Rect;
 
 import yjj.nanasreunion.Components.Camera;
 import yjj.nanasreunion.Components.Graphics.Graphics;
+import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
 import yjj.nanasreunion.Components.Graphics.StaticGraphics;
 import yjj.nanasreunion.Components.State.FrozenState;
 import yjj.nanasreunion.Objects.Pawn;
@@ -34,6 +35,10 @@ public class BananaTree extends Item
         //tree_graphics.SetScale(0.75f, 0.75f);
         pawn.graphics     = tree_graphics;
         pawn.PushState(new FrozenState());
+
+      // (SpriteGraphics)pawn.graphics;
+        // m_FPS = g.GetFPS();
+        // g.SetFPS(0);
     }
 
     @Override
@@ -42,7 +47,8 @@ public class BananaTree extends Item
     }
 
     @Override
-    public void Stop(Pawn pawn, Camera camera) {
+    public void Stop(Pawn pawn, Camera camera)
+    {
         pawn.graphics = original_graphics;
         pawn.PopState();
     }

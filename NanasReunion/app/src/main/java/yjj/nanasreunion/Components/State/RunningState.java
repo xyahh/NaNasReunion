@@ -42,7 +42,7 @@ public class RunningState extends State
     @Override
     public boolean OnTouchEvent(Pawn pawn, MotionEvent event)
     {
-        if(event.getAction() == MotionEvent.ACTION_DOWN)
+        if(event.getAction() == MotionEvent.ACTION_DOWN && pawn.position.y <= 0.1f)
         {
             pawn.physics.ApplyImpulse(new Vector2f(0.f, pawn.JumpImpulse));
             return true;

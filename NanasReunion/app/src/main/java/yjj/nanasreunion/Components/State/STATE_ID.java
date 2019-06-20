@@ -7,4 +7,5 @@ public enum STATE_ID
     IN_AIR,
     RUNNING,
     MULTI_JUMP,
+    EDITOR
 }

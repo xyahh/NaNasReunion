@@ -25,8 +25,6 @@ public class ChocoBanana extends Item {
     private Graphics original_graphics;
     private ArrayList<Command> OriginalCommandList;
 
-    private float collisionX = 0.15f;
-    private float collisionY = 0.4f;
 
     protected ChocoBanana()
     {
@@ -72,6 +70,7 @@ public class ChocoBanana extends Item {
 
     @Override
     public void Stop(Pawn pawn, Camera camera) {
+        pawn.graphics = original_graphics;
         pawn.graphics.SetScale(OriginalScale.x, OriginalScale.y);
         pawn.collision.SetDimensions(OriginalDimension.x, OriginalDimension.y);
         pawn.collision.SetCollisionCommands(COLLISION_TYPES.ENEMY, OriginalCommandList);

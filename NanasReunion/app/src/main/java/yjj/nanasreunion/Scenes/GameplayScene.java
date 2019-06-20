@@ -21,6 +21,7 @@ import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
 import yjj.nanasreunion.OtherClasses.Scrolling.ScrollingBackground;
 import yjj.nanasreunion.R;
 import yjj.nanasreunion.Services.ServiceHub;
+import yjj.nanasreunion.Services.Timer;
 import yjj.nanasreunion.Vector2f;
 import yjj.nanasreunion.Vector2i;
 
@@ -119,6 +120,8 @@ public class GameplayScene implements Scene
         ServiceHub.Inst().SetScore((int)m_TotalTime);
         m_EnemySpawnTimer = 0.f;
         m_CountdownTimer = 5.f;
+
+        Timer.Reset();
     }
 
     @Override

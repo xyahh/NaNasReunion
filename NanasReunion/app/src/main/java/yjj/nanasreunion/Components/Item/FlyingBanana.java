@@ -18,7 +18,6 @@ import yjj.nanasreunion.Vector2f;
 public class FlyingBanana extends Item
 {
     private Graphics original_graphics;
-    private float OriginalGravity;
     private State OriginalJumpingState;
 
     protected FlyingBanana()
@@ -38,9 +37,8 @@ public class FlyingBanana extends Item
         SpriteGraphics fly_graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.fly_banana),
                 10, 6, 6);
         fly_graphics.SetScale(0.75f, 0.75f);
+
         pawn.graphics     = fly_graphics;
-
-
         OriginalJumpingState = pawn.JumpingState;
         pawn.JumpingState = new MultiJumpState(0);
 
@@ -60,7 +58,6 @@ public class FlyingBanana extends Item
     public void Stop(Pawn pawn, Camera camera) {
         pawn.JumpingState = OriginalJumpingState;
         pawn.graphics = original_graphics;
-        pawn.PopState();
 
     }
 
