@@ -5,17 +5,28 @@ import android.view.MotionEvent;
 
 import yjj.nanasreunion.Objects.Pawn;
 
-public interface State
+public abstract class State
 {
-    void Enter(Pawn pawn);
+    private STATE_ID m_ID = STATE_ID.NULL;
 
-    void Exit(Pawn pawn);
+    protected State(STATE_ID id)
+    {
+        m_ID = id;
+    }
 
-    void Update(Pawn pawn, float DeltaTime);
+    public STATE_ID GetID() {
+        return m_ID;
+    }
 
-    boolean OnTouchEvent(Pawn pawn, MotionEvent event);
+    abstract public void Enter(Pawn pawn);
 
-    boolean OnKeyDown(Pawn pawn, int keyCode, KeyEvent event);
+    abstract public void Exit(Pawn pawn);
+
+    abstract public void Update(Pawn pawn, float DeltaTime);
+
+    abstract public boolean OnTouchEvent(Pawn pawn, MotionEvent event);
+
+    abstract public boolean OnKeyDown(Pawn pawn, int keyCode, KeyEvent event);
 
 }
 

@@ -15,7 +15,7 @@ import yjj.nanasreunion.MyStack;
 
 public class Pawn extends Actor
 {
-    private     MyStack<State> states;
+    public     MyStack<State> states;
     private     Camera         m_Camera;
     public      Physics physics;
     private     ArrayDeque<Item> m_Items;
@@ -71,7 +71,7 @@ public class Pawn extends Actor
         if (m_Items.size() > 0)
         {
             Item first = m_Items.getFirst();
-            if (first.UpdateAndValidate(DeltaTime))
+            if (first.UpdateAndValidate(this, m_Camera, DeltaTime))
             {
                 first.Stop(this, m_Camera);
                 m_Items.removeFirst();

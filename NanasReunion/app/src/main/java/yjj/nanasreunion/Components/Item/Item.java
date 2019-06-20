@@ -20,7 +20,7 @@ public abstract class Item
 
     public abstract void Use(Pawn pawn, Camera camera);
 
-    public boolean UpdateAndValidate(float deltaTime)
+    public boolean UpdateAndValidate(Pawn pawn, Camera camera, float deltaTime)
     {
         duration -= deltaTime;
         return duration <= 0.f;

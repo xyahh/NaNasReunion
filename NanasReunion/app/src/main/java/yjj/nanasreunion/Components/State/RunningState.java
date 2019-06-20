@@ -6,8 +6,13 @@ import android.view.MotionEvent;
 import yjj.nanasreunion.Objects.Pawn;
 import yjj.nanasreunion.Vector2f;
 
-public class RunningState implements State
+public class RunningState extends State
 {
+    public RunningState()
+    {
+        super(STATE_ID.RUNNING);
+    }
+
     @Override
     public void Enter(Pawn pawn)
     {

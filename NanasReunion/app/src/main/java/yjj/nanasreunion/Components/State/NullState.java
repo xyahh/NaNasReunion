@@ -5,8 +5,14 @@ import android.view.MotionEvent;
 
 import yjj.nanasreunion.Objects.Pawn;
 
-public class NullState implements State
+public class NullState extends State
 {
+
+    public NullState()
+    {
+        super(STATE_ID.NULL);
+    }
+
     @Override
     public void Enter(Pawn pawn)
     {

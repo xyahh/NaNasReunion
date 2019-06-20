@@ -7,9 +7,13 @@ import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
 import yjj.nanasreunion.Objects.Pawn;
 import yjj.nanasreunion.Vector2f;
 
-public class InAirState implements State
+public class InAirState extends State
 {
     float m_Gravity;
+
+    public InAirState() {
+        super(STATE_ID.IN_AIR);
+    }
 
     @Override
     public void Enter(Pawn pawn)

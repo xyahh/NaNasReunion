@@ -6,8 +6,12 @@ import android.view.MotionEvent;
 import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
 import yjj.nanasreunion.Objects.Pawn;
 
-public class FrozenState implements State
+public class FrozenState extends State
 {
+    public FrozenState() {
+        super(STATE_ID.FROZEN);
+    }
+
     float m_FPS;
     @Override
     public void Enter(Pawn pawn)
