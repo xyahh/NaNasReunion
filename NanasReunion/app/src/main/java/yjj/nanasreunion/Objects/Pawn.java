@@ -22,6 +22,7 @@ public class Pawn extends Actor
 
     public      float           JumpForce;
 
+
     public Pawn()
     {
         super();
