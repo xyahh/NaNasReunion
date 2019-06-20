@@ -24,7 +24,7 @@ public class ItemBox extends Actor
             //new JumpShoes()
             //new BigBanana(),
             //new BabyBanana(),
-            new Ice()
+            new Night()
     };
 
     static SpriteGraphics item_box_graphics = null;

@@ -5,21 +5,25 @@ import android.graphics.Canvas;
 import java.util.ArrayList;
 
 import yjj.nanasreunion.Command.Command;
-import yjj.nanasreunion.Command.SpeedCommandDown;
+import yjj.nanasreunion.Command.MaxSpeedCommand;
 import yjj.nanasreunion.Command.SpeedCommandUp;
 import yjj.nanasreunion.Components.Camera;
 import yjj.nanasreunion.Components.Collision.COLLISION_TYPES;
 import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
+import yjj.nanasreunion.Objects.Actor;
+import yjj.nanasreunion.Objects.Enemy;
 import yjj.nanasreunion.Objects.Pawn;
 import yjj.nanasreunion.R;
+import yjj.nanasreunion.Scenes.GameplayScene;
+import yjj.nanasreunion.Scenes.Scene;
 import yjj.nanasreunion.Services.ServiceHub;
 import yjj.nanasreunion.Vector2f;
 
 public class Day extends Item {
 
 
-    Vector2f OriginalMaxVelocity;
-    private ArrayList<Command> OriginalCommandList;
+    Vector2f OriginalMaxVelocity_Player;
+    float PrevMultiplier;
 
     protected Day()
     {
@@ -32,22 +36,13 @@ public class Day extends Item {
     }
 
     @Override
-    public void Use(Pawn pawn, Camera camera) {
+    public void Use(Pawn pawn, Camera camera)
+    {
+        OriginalMaxVelocity_Player = pawn.physics.GetMaxVelocity();
+        pawn.physics.SetMaxVelocity(new Vector2f(OriginalMaxVelocity_Player.x * 0.5f, OriginalMaxVelocity_Player.y));
+        PrevMultiplier = ServiceHub.EnemySpeedMultiplier;
+        ServiceHub.EnemySpeedMultiplier = 2.f;
 
-
-        pawn.graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.moving_banana),
-                20, 6, 6);
-        pawn.graphics.SetScale(0.75f, 0.75f);
-
-        OriginalMaxVelocity = pawn.physics.GetMaxVelocity();
-        pawn.physics.SetMaxVelocity(new Vector2f(OriginalMaxVelocity.x * 2.5f, OriginalMaxVelocity.y));
-
-        pawn.collision.SetCollisionCommands(COLLISION_TYPES.ITEM, new ArrayList<Command>()
-        {
-            {
-                add(new SpeedCommandUp());
-            }
-        });
     }
 
     @Override
@@ -57,7 +52,8 @@ public class Day extends Item {
 
     @Override
     public void Stop(Pawn pawn, Camera camera) {
-        pawn.collision.SetCollisionCommands(COLLISION_TYPES.ENEMY, OriginalCommandList);
+        pawn.physics.SetMaxVelocity(OriginalMaxVelocity_Player);
+        ServiceHub.EnemySpeedMultiplier = PrevMultiplier;
     }
 
     @Override

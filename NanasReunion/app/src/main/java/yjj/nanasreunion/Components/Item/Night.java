@@ -1,24 +1,34 @@
 package yjj.nanasreunion.Components.Item;
 
+import android.app.Service;
 import android.graphics.Canvas;
+import android.graphics.Color;
 
 import java.util.ArrayList;
 
 import yjj.nanasreunion.Command.Command;
-import yjj.nanasreunion.Command.SpeedCommandDown;
+import yjj.nanasreunion.Command.MaxSpeedCommand;
 import yjj.nanasreunion.Components.Camera;
 import yjj.nanasreunion.Components.Collision.COLLISION_TYPES;
 import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
 import yjj.nanasreunion.Objects.Pawn;
+import yjj.nanasreunion.OtherClasses.Scrolling.ScrollingObject;
 import yjj.nanasreunion.R;
+import yjj.nanasreunion.Scenes.GameplayScene;
+import yjj.nanasreunion.Scenes.Scene;
 import yjj.nanasreunion.Services.ServiceHub;
 import yjj.nanasreunion.Vector2f;
+import yjj.nanasreunion.Vector2i;
 
 public class Night extends Item {
 
 
-    Vector2f OriginalMaxVelocity;
-    private ArrayList<Command> OriginalCommandList;
+    Vector2f OriginalMaxVelocity_Player;
+
+    ScrollingObject OriginalGround;
+
+    float PrevMultiplier;
+    int PrevColor;
 
     protected Night()
     {
@@ -31,22 +41,31 @@ public class Night extends Item {
     }
 
     @Override
-    public void Use(Pawn pawn, Camera camera) {
+    public void Use(Pawn pawn, Camera camera)
+    {
 
+        PrevColor = ServiceHub.ClearColor;
+        ServiceHub.ClearColor = Color.argb(255, 12, 49, 102);
 
-        pawn.graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.moving_banana),
-                20, 6, 6);
-        pawn.graphics.SetScale(0.75f, 0.75f);
+        OriginalMaxVelocity_Player = pawn.physics.GetMaxVelocity();
+        pawn.physics.SetMaxVelocity(new Vector2f(OriginalMaxVelocity_Player.x * 2.f, OriginalMaxVelocity_Player.y));
+        PrevMultiplier = ServiceHub.EnemySpeedMultiplier;
+        ServiceHub.EnemySpeedMultiplier = 0.5f;
 
-        OriginalMaxVelocity = pawn.physics.GetMaxVelocity();
-        pawn.physics.SetMaxVelocity(new Vector2f(OriginalMaxVelocity.x * 2.5f, OriginalMaxVelocity.y));
+        Scene CurrScene = ServiceHub.Inst().GetCurrentScene();
 
-        pawn.collision.SetCollisionCommands(COLLISION_TYPES.ITEM, new ArrayList<Command>()
-        {
-            {
-                add(new SpeedCommandDown());
-            }
-        });
+        if(!(CurrScene instanceof GameplayScene))
+            return;
+
+        Vector2i ScreenSize = ServiceHub.Inst().GetScreenSize();
+        ScrollingObject Moon= new ScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.moon), 0.f, new Vector2f(),
+                0.f, new Vector2i(ScreenSize.x / 5 , ScreenSize.x / 5));
+
+        GameplayScene gpScene = (GameplayScene) CurrScene;
+        OriginalGround = gpScene.m_Background.GetScrollingObject("A_Sun");
+        Moon.SetWorldY(1.15f);
+        gpScene.m_Background.SetScrollingObject("A_Sun", Moon);
+
     }
 
     @Override
@@ -56,7 +75,17 @@ public class Night extends Item {
 
     @Override
     public void Stop(Pawn pawn, Camera camera) {
-        pawn.collision.SetCollisionCommands(COLLISION_TYPES.ENEMY, OriginalCommandList);
+        ServiceHub.ClearColor = PrevColor;
+        pawn.physics.SetMaxVelocity(OriginalMaxVelocity_Player);
+        ServiceHub.EnemySpeedMultiplier = PrevMultiplier;
+
+        Scene CurrScene = ServiceHub.Inst().GetCurrentScene();
+
+        if(!(CurrScene instanceof GameplayScene))
+            return;
+
+        GameplayScene gpScene = (GameplayScene) CurrScene;
+        gpScene.m_Background.SetScrollingObject("A_Sun", OriginalGround);
     }
 
     @Override

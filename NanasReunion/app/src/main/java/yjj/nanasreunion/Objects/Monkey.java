@@ -3,6 +3,7 @@ package yjj.nanasreunion.Objects;
 import yjj.nanasreunion.Components.Collision.ActorCollision;
 import yjj.nanasreunion.Components.Collision.COLLISION_TYPES;
 import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
+import yjj.nanasreunion.Components.Graphics.StaticGraphics;
 import yjj.nanasreunion.Components.Physics.Physics;
 import yjj.nanasreunion.R;
 import yjj.nanasreunion.Services.ServiceHub;
@@ -10,10 +11,19 @@ import yjj.nanasreunion.Vector2f;
 
 public class Monkey extends Enemy
 {
+    private static SpriteGraphics MonkeyGraphics;
+
     public Monkey()
     {
 
     }
+
+    public static void LoadAssets()
+    {
+        MonkeyGraphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.monkey_moving), 10, 11, 11);
+        MonkeyGraphics.SetScale(0.3f, 0.3f);
+    }
+
 
     public Monkey(Pawn pawn)
     {
@@ -22,11 +32,9 @@ public class Monkey extends Enemy
 
         pivot = new Vector2f(0.5f, 1.f);
 
-        graphics   = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.monkey_moving), 10, 11, 11);
-        graphics.SetScale(0.3f, 0.3f);
+        graphics   = MonkeyGraphics;
 
         physics    = new Physics();
-        physics.SetMaxVelocity(new Vector2f(0.25f, 0.f));
         physics.SetMass(1.f);
 
         collision = new ActorCollision(COLLISION_TYPES.ENEMY);
@@ -36,6 +44,7 @@ public class Monkey extends Enemy
     @Override
     public void Update(float DeltaTime) {
         super.Update(DeltaTime);
+        physics.SetMaxVelocity(new Vector2f(0.25f * ServiceHub.EnemySpeedMultiplier, 0.f));
         physics.ApplyForce(new Vector2f(-5.f, 0.f));
     }
 

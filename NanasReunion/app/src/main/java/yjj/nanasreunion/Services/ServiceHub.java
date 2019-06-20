@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 
@@ -19,7 +20,8 @@ public class ServiceHub
     private static final Assert         m_Assert = new Assert();
 
     public static  boolean              RightwardGameplay = true;
-
+    public static  float                EnemySpeedMultiplier = 1.f;
+    public static  int                  ClearColor = Color.argb(255, 135, 206, 235);
     private static  ServiceHub          m_Instance = new ServiceHub();
     private         SoundManager        m_SoundManager;
     private         GameView            m_GameView;

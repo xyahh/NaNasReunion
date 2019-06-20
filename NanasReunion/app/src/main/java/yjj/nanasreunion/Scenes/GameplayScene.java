@@ -96,7 +96,7 @@ public class GameplayScene implements Scene
 
         m_Background.SetScrollingObject("A_Sun", ServiceHub.Inst().GetBitmap(R.drawable.sun), 1.15f, AbsoluteSpeedZero,0.f, new Vector2i(ScreenSize.x / 4, ScreenSize.x / 4));
         m_Background.SetScrollingObject("B_Clouds", ServiceHub.Inst().GetBitmap(R.drawable.clouds), 0.75f, CloudsAbsoluteSpeed,0.025f, ScreenSize);
-        m_Background.SetScrollingObject("C_Mountains", ServiceHub.Inst().GetBitmap(R.drawable.mountains), 0.f, AbsoluteSpeedZero,0.07f, ScreenSize);
+        m_Background.SetScrollingObject("C_Mountains", ServiceHub.Inst().GetBitmap(R.drawable.mountains), 0.35f, AbsoluteSpeedZero,0.07f, ScreenSize);
         m_Background.SetScrollingObject("D_Clouds2", ServiceHub.Inst().GetBitmap(R.drawable.clouds2), 1.f, CloudsAbsoluteSpeed, 0.05f, ScreenSize);
         m_Background.SetScrollingObject("E_Tree", ServiceHub.Inst().GetBitmap(R.drawable.tree), 0.95f, AbsoluteSpeedZero, 1.f, ScreenSize);
         m_Background.SetScrollingObject("F_Ground", ServiceHub.Inst().GetBitmap(R.drawable.ground), 0.f, AbsoluteSpeedZero,1.f, ScreenSize);
@@ -107,6 +107,8 @@ public class GameplayScene implements Scene
     {
         m_Actors = new LinkedList<>();
         ItemBox.LoadAllItemAssets();
+        Monkey.LoadAssets();
+        Bird.LoadAssets();
 
         InitCamera();
         InitActors();
@@ -180,7 +182,7 @@ public class GameplayScene implements Scene
     @Override
     public void Render(Canvas canvas, float interp)
     {
-        canvas.drawColor(Color.argb(255, 135, 206, 235));
+        canvas.drawColor(ServiceHub.ClearColor);
 
 
         m_Background.DrawObjects(canvas, null, m_Camera);
