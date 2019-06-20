@@ -32,7 +32,7 @@ public class RunningState implements State
         if(event.getAction() == MotionEvent.ACTION_DOWN)
         {
             pawn.PushState(new InAirState());
-            pawn.physics.ApplyForce(new Vector2f(0.f, 300.f));
+            pawn.physics.ApplyForce(new Vector2f(0.f, pawn.JumpForce));
             return true;
         }
         return false;

@@ -13,7 +13,7 @@ public enum COLLISION_TYPES
 
 
     */
-    OBSTACLE,
+    ENEMY,
 
     /*
         Destructive

@@ -31,10 +31,17 @@ public class GameplayScene implements Scene
     private ScrollingBackground m_Background;
 
     private ArrayDeque<Actor>  m_Actors;
-
+    private Random              m_Randomizer = new Random();
     private Pawn                m_PlayerPawn;
 
     private float               m_CountdownTimer;
+    private float               m_EnemySpawnTimer;
+
+    private Enemy               m_EnemySpawner[] =
+            {
+                    new Monkey(),
+                    new Bird()
+            };
 
     private void InitActors()
     {
@@ -58,10 +65,16 @@ public class GameplayScene implements Scene
         m_Actors.addLast(m_PlayerPawn);
     }
 
+    private void SpawnEnemy()
+    {
+            int Index = m_Randomizer.nextInt(m_EnemySpawner.length);
+            m_Actors.add(m_EnemySpawner[Index].Spawn(m_PlayerPawn));
+    }
+
     private void InitCamera()
     {
         m_Camera = new Camera();
-        m_Camera.SetCameraOffset(new Vector2f(-0.15f, -0.15f));
+        m_Camera.SetCameraOffset(new Vector2f(-0.15f, -0.5f));
         m_Camera.SetMovingFactor(true, false);
     }
 
@@ -88,10 +101,11 @@ public class GameplayScene implements Scene
         InitCamera();
         InitActors();
         InitBackground();
+        SpawnEnemy();
 
         m_TotalTime = 0.f;
         ServiceHub.Inst().SetScore((int)m_TotalTime);
-
+        m_EnemySpawnTimer = 0.f;
         m_CountdownTimer = 5.f;
     }
 
@@ -111,6 +125,13 @@ public class GameplayScene implements Scene
     {
         m_TotalTime += deltaTime;
         ServiceHub.Inst().SetScore((int)m_TotalTime);
+
+        m_EnemySpawnTimer+=deltaTime;
+        if(m_EnemySpawnTimer >= 4.f)
+        {
+            m_EnemySpawnTimer-=4.f;
+            SpawnEnemy();
+        }
 
         m_CountdownTimer-= deltaTime;
         if(m_CountdownTimer <= 0.f)
@@ -134,6 +155,7 @@ public class GameplayScene implements Scene
         for(Actor a : m_Actors)
             for(Actor b: m_Actors)
                 a.ProcessCollision(b);
+
 
         for(Actor a : m_Actors)
             if(a.IsDestroyed())
