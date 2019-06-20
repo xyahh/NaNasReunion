@@ -30,7 +30,7 @@ public class InAirState extends State
     @Override
     public void Update(Pawn pawn, float DeltaTime)
     {
-        pawn.physics.ApplyForce(new Vector2f(15.f, 0.f));
+        pawn.physics.ApplyForce(new Vector2f(pawn.RunningForce, 0.f));
         if(pawn.position.y < 0.01f)
             pawn.PopState();
     }

@@ -38,6 +38,11 @@ public class Collision
         m_DebugRect.SetDimensions(m_Width, m_Height);
     }
 
+    public Vector2f GetDimensions()
+    {
+        return new Vector2f(m_Width, m_Height);
+    }
+
     public void Draw(Canvas canvas, Camera camera, Vector2f pivot)
     {
         m_DebugRect.Draw(canvas, camera,

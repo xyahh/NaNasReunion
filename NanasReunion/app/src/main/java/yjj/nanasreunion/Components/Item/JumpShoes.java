@@ -33,7 +33,6 @@ public class JumpShoes extends Item {
     {
         if(pawn.states.top().GetID() == STATE_ID.RUNNING)
         {
-            pawn.PushState(new InAirState());
             pawn.physics.ApplyForce(new Vector2f(0.f, OriginalJumpForce));
         }
         return super.UpdateAndValidate(pawn, camera, deltaTime);

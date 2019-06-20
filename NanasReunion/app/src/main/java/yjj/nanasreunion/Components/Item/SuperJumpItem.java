@@ -24,7 +24,7 @@ public class SuperJumpItem extends Item {
     public void Use(Pawn pawn, Camera camera)
     {
         OriginalJumpForce =  pawn.JumpForce;
-        pawn.JumpForce = pawn.JumpForce +100;
+        pawn.JumpForce = pawn.JumpForce + 100.f;
     }
 
 

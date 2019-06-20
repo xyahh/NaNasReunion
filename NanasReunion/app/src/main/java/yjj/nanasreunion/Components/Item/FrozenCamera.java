@@ -17,12 +17,6 @@ public class FrozenCamera extends Item
     }
 
     @Override
-    public void Draw(Canvas canvas, Camera camera, Pawn pawn)
-    {
-
-    }
-
-    @Override
     public Item Create()
     {
         return new FrozenCamera();

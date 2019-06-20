@@ -18,18 +18,20 @@ public class Pawn extends Actor
     public     MyStack<State> states;
     private     Camera         m_Camera;
     public      Physics physics;
-    private     ArrayDeque<Item> m_Items;
+    private     Item m_Item;
 
     public      float           JumpForce;
+    public      float           RunningForce;
 
     public Pawn()
     {
         super();
         JumpForce = 300.f;
+        RunningForce = 15.f;
         physics     = new NullPhysics();
         states = new MyStack<>();
         PushState(new NullState());
-        m_Items = new ArrayDeque<>();
+        m_Item = null;
     }
 
     public void SetCamera(Camera camera)
@@ -52,8 +54,8 @@ public class Pawn extends Actor
     @Override
     public void Draw(Canvas canvas, Camera camera, float interp) {
         super.Draw(canvas, camera, interp);
-        if (m_Items.size() > 0)
-            m_Items.getFirst().Draw(canvas, camera, this);
+        if (m_Item != null)
+            m_Item.Draw(canvas, camera, this);
     }
 
     public void ChangeState(State state)
@@ -68,15 +70,12 @@ public class Pawn extends Actor
         physics.Update(this, DeltaTime);
         states.top().Update(this, DeltaTime);
 
-        if (m_Items.size() > 0)
+        if (m_Item != null)
         {
-            Item first = m_Items.getFirst();
-            if (first.UpdateAndValidate(this, m_Camera, DeltaTime))
+            if (m_Item.UpdateAndValidate(this, m_Camera, DeltaTime))
             {
-                first.Stop(this, m_Camera);
-                m_Items.removeFirst();
-                if(m_Items.size() > 0)
-                    m_Items.getFirst().Use(this, m_Camera);
+                m_Item.Stop(this, m_Camera);
+                m_Item = null;
             }
         }
 
@@ -94,8 +93,12 @@ public class Pawn extends Actor
 
     public void AddItem(Item item)
     {
-        m_Items.addLast(item);
-        if(m_Items.size() == 1)
-            m_Items.getFirst().Use(this, m_Camera);
+        if(m_Item != null)
+        {
+            m_Item.Stop(this, m_Camera);
+            m_Item = null;
+        }
+        m_Item = item;
+        m_Item.Use(this, m_Camera);
     }
 }
