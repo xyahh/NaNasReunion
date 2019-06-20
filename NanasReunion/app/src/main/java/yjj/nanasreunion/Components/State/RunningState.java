@@ -28,7 +28,9 @@ public class RunningState extends State
     @Override
     public void Update(Pawn pawn, float DeltaTime)
     {
-        pawn.physics.ApplyForce(new Vector2f(15.f, 0.f));
+        pawn.physics.ApplyForce(new Vector2f(pawn.RunningForce, 0.f));
+        if(pawn.position.y > 0.1f)
+            pawn.PushState(new InAirState());
     }
 
     @Override
@@ -36,7 +38,6 @@ public class RunningState extends State
     {
         if(event.getAction() == MotionEvent.ACTION_DOWN)
         {
-            pawn.PushState(new InAirState());
             pawn.physics.ApplyForce(new Vector2f(0.f, pawn.JumpForce));
             return true;
         }

@@ -80,16 +80,16 @@ public class ScrollingObject
         // what coordinates of screen to draw them at
         Vector2i v = camera.GetScreenSpace(new Vector2f(0.f, m_StartY));
         int deltaX = (int) camera.DeltaXToPixels(m_DeltaX);
-        int posY =  v.y;
-        int endY = posY + m_Height;
+        int startY =  v.y;
+        int endY = startY + m_Height;
 
         // For the regular bitmap
         Rect fromRect1 = new Rect(0, 0, m_Width - deltaX, m_Height);
-        Rect toRect1 = new Rect(deltaX, posY, m_Width, endY);
+        Rect toRect1 = new Rect(deltaX, startY, m_Width, endY);
 
         // For the reversed background
         Rect fromRect2 = new Rect(m_Width - deltaX, 0, m_Width, m_Height);
-        Rect toRect2 = new Rect(0, posY, deltaX, endY);
+        Rect toRect2 = new Rect(0, startY, deltaX, endY);
 
         //draw the two background bitmaps
         if (!m_ReversedFirst) {

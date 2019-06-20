@@ -4,6 +4,7 @@ import yjj.nanasreunion.Components.Camera;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
@@ -52,8 +53,14 @@ public class GameplayScene implements Scene
         m_PlayerPawn.position = new Vector2f(0.f, 0.f);
         m_PlayerPawn.pivot = new Vector2f(0.5f, 1.f);
 
+        Rect Padding = new Rect();
+        Padding.left = 0;
+        Padding.right = 0;
+        Padding.bottom = 15;
+        Padding.top = 0;
+
         m_PlayerPawn.graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.moving_banana),
-                10, 6, 6);
+                10, 6, 6, Padding);
         m_PlayerPawn.graphics.SetScale(0.75f, 0.75f);
         m_PlayerPawn.physics = new Physics();
         m_PlayerPawn.physics.SetMass(1.f);

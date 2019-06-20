@@ -45,6 +45,11 @@ public class Graphics
         m_DrawSize = Vector2f.Scale(m_OriginalDrawSize, scaleX, scaleY);
     }
 
+    public Vector2f GetScale()
+    {
+        return new Vector2f(m_ScaleX, m_ScaleY);
+    }
+
     /*
     width and height must be original and NOT scaled values.
      */

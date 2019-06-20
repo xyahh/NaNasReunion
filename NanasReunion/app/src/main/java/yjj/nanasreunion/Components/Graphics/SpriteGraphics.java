@@ -2,6 +2,7 @@ package yjj.nanasreunion.Components.Graphics;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 
 import java.util.ArrayList;
 
@@ -18,8 +19,13 @@ public class SpriteGraphics extends Graphics
     private int     m_CurrentFrame;
     private float   m_FrameTimer;
 
+    public SpriteGraphics(Bitmap bitmap, int FPS, int TotalFrames, int SpritesPerRow)
+    {
+        this(bitmap, FPS, TotalFrames, SpritesPerRow, new Rect(0, 0, 0, 0));
+    }
 
-    public SpriteGraphics(Bitmap bitmap,int FPS, int TotalFrames, int SpritesPerRow)
+    public SpriteGraphics(Bitmap bitmap, int FPS, int TotalFrames, int SpritesPerRow,
+                          Rect Padding)
     {
         super();
         m_Sprites = new ArrayList<>();
@@ -28,16 +34,21 @@ public class SpriteGraphics extends Graphics
         int ExtraRow = 0;
         if(m_FrameCount % SpritesPerRow != 0) ExtraRow = 1;
 
-        int SpriteWidth = bitmap.getWidth() / SpritesPerRow;
+        int SpriteWidth = (bitmap.getWidth() / SpritesPerRow);
         int SpriteHeight = bitmap.getHeight() / ((m_FrameCount / SpritesPerRow) + ExtraRow);
 
-        SetDrawSize(SpriteWidth, SpriteHeight);
+        SetDrawSize(SpriteWidth - (Padding.left + Padding.right),
+                SpriteHeight - (Padding.top + Padding.bottom));
 
         for(int i = 0; i < m_FrameCount; ++i)
         {
             int x = (i % SpritesPerRow) * SpriteWidth;
             int y = (i / SpritesPerRow) * SpriteHeight;
-            m_Sprites.add(Bitmap.createBitmap(bitmap, x, y, SpriteWidth, SpriteHeight));
+            m_Sprites.add(Bitmap.createBitmap(bitmap,
+                    x + Padding.left,
+                    y + Padding.top,
+                    SpriteWidth - Padding.right,
+                    SpriteHeight - Padding.bottom));
         }
         SetFPS(FPS);
     }

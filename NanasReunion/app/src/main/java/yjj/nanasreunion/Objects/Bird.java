@@ -8,6 +8,9 @@ import yjj.nanasreunion.Vector2f;
 
 public class Bird extends Enemy
 {
+    static SpriteGraphics BirdGraphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.bird_moving),
+            10,9,9);
+
     public Bird()
     {
 
@@ -17,8 +20,7 @@ public class Bird extends Enemy
     {
         super();
         position     = new Vector2f(pawn.position.x + 3.f, 1.f);
-        graphics     = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.bird_moving),
-           10,9,9);
+        graphics     =  BirdGraphics;
         graphics.SetScale(0.2f, 0.2f);
         physics      = new Physics();
         physics.SetMass(1.f);
