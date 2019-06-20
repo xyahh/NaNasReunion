@@ -3,6 +3,7 @@ package yjj.nanasreunion.Components.Item;
 import android.graphics.Canvas;
 
 import yjj.nanasreunion.Components.Camera;
+import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
 import yjj.nanasreunion.Objects.Pawn;
 import yjj.nanasreunion.Vector2f;
 
@@ -12,6 +13,7 @@ public class BabyBanana extends Item
     Vector2f OriginalScale;
     float   OriginalMass;
     Vector2f   OriginalMaxVelocity;
+    private SpriteGraphics graphics;
 
     protected BabyBanana()
     {
