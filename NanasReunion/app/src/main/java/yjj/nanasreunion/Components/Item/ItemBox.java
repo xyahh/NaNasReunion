@@ -21,8 +21,9 @@ public class ItemBox extends Actor
             //new FrozenCamera(),
             //new SuperJumpItem(),
             //new JumpShoes()
-            new BigBanana(),
-            new BabyBanana()
+            //new BigBanana(),
+            //new BabyBanana(),
+            new Ninja()
     };
 
     public ItemBox()
