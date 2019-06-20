@@ -6,6 +6,8 @@ import android.graphics.Rect;
 import yjj.nanasreunion.Components.Camera;
 import yjj.nanasreunion.Components.Graphics.Graphics;
 import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
+import yjj.nanasreunion.Components.State.MultiJumpState;
+import yjj.nanasreunion.Components.State.State;
 import yjj.nanasreunion.Objects.Pawn;
 import yjj.nanasreunion.R;
 import yjj.nanasreunion.Services.ServiceHub;
@@ -15,6 +17,7 @@ public class Ninja extends Item
 {
 
     private Graphics original_graphics;
+    private State OriginalJumpingState;
 
     protected Ninja()
     {
@@ -27,14 +30,18 @@ public class Ninja extends Item
     }
 
     @Override
-    public void Use(Pawn pawn, Camera camera) {
+    public void Use(Pawn pawn, Camera camera)
+    {
 
         original_graphics = pawn.graphics;
         Rect padding = new Rect(0, 0, 0, 32);
         SpriteGraphics ninja_graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.ninja),
                 10,8,8, padding);
         ninja_graphics.SetScale(0.75f, 0.75f);
+
         pawn.graphics     = ninja_graphics;
+        OriginalJumpingState = pawn.JumpingState;
+        pawn.JumpingState = new MultiJumpState(1);
     }
 
     @Override
@@ -45,5 +52,6 @@ public class Ninja extends Item
     @Override
     public void Stop(Pawn pawn, Camera camera) {
         pawn.graphics     = original_graphics;
+        pawn.JumpingState = OriginalJumpingState;
     }
 }

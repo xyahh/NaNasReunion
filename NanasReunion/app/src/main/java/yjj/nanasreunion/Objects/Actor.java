@@ -4,6 +4,7 @@ package yjj.nanasreunion.Objects;
 import yjj.nanasreunion.Command.Command;
 import yjj.nanasreunion.Components.Collision.ActorCollision;
 import yjj.nanasreunion.Components.Collision.COLLISION_TYPES;
+import yjj.nanasreunion.Components.Physics.NullPhysics;
 import yjj.nanasreunion.Components.Physics.Physics;
 import yjj.nanasreunion.Vector2f;
 
@@ -24,6 +25,7 @@ public class  Actor extends Object
     public Actor()
     {
         super();
+        physics = new NullPhysics();
         collision   = new ActorCollision(COLLISION_TYPES.DEFAULT);
         collision.SetCollisionEnabled(true);
         m_Destroy = false;
@@ -51,6 +53,7 @@ public class  Actor extends Object
 
     public void Update(float DeltaTime)
     {
+        physics.Update(this, DeltaTime);
         graphics.Update(DeltaTime);
         collision.UpdateCollisionRect(position);
     }

@@ -28,5 +28,7 @@ public abstract class State
 
     abstract public boolean OnKeyDown(Pawn pawn, int keyCode, KeyEvent event);
 
+    abstract public State  CreateState();
+
 }
 

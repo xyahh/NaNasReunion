@@ -24,6 +24,8 @@ public class FrozenState extends State
         }
     }
 
+    public State  CreateState() { return new FrozenState(); }
+
     @Override
     public void Exit(Pawn pawn)
     {

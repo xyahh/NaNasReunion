@@ -5,5 +5,6 @@ public enum STATE_ID
     NULL,
     FROZEN,
     IN_AIR,
-    RUNNING
+    RUNNING,
+    MULTI_JUMP,
 }

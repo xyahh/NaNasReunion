@@ -16,6 +16,7 @@ import java.util.Random;
 
 import yjj.nanasreunion.Components.Collision.COLLISION_TYPES;
 import yjj.nanasreunion.Components.Item.ItemBox;
+import yjj.nanasreunion.Components.Physics.NullPhysics;
 import yjj.nanasreunion.Components.Physics.Physics;
 import yjj.nanasreunion.Components.State.RunningState;
 import yjj.nanasreunion.Objects.*;
@@ -107,6 +108,7 @@ public class GameplayScene implements Scene
     public void Init()
     {
         m_Actors = new LinkedList<>();
+        ItemBox.LoadAssets();
 
         InitCamera();
         InitActors();

@@ -3,7 +3,6 @@ package yjj.nanasreunion.Components.State;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
 import yjj.nanasreunion.Objects.Pawn;
 import yjj.nanasreunion.Vector2f;
 
@@ -14,6 +13,8 @@ public class InAirState extends State
     public InAirState() {
         super(STATE_ID.IN_AIR);
     }
+
+    public State  CreateState() { return new InAirState(); }
 
     @Override
     public void Enter(Pawn pawn)

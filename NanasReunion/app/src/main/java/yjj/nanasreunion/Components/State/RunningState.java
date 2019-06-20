@@ -13,6 +13,8 @@ public class RunningState extends State
         super(STATE_ID.RUNNING);
     }
 
+    public State  CreateState() { return new RunningState(); }
+
     @Override
     public void Enter(Pawn pawn)
     {
@@ -30,7 +32,10 @@ public class RunningState extends State
     {
         pawn.physics.ApplyForce(new Vector2f(pawn.RunningForce, 0.f));
         if(pawn.position.y > 0.1f)
-            pawn.PushState(new InAirState());
+        {
+            pawn.PushState(pawn.JumpingState.CreateState());
+        }
+
     }
 
     @Override
