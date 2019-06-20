@@ -11,10 +11,10 @@ public class Camera
 
     private Vector2i m_ScreenSize;
 
-    private float    m_ViewportLeft;
-    private float    m_ViewportTop;
-    private float    m_ViewportRight;
-    private float    m_ViewportBottom;
+    public float ViewportLeft;
+    public float ViewportTop;
+    public float ViewportRight;
+    public float ViewportBottom;
 
     private boolean    m_CameraMoveWithTargetX;
     private boolean     m_CameraMoveWithTargetY;
@@ -32,10 +32,10 @@ public class Camera
         m_CameraMoveWithTargetX = true;
         m_CameraMoveWithTargetY = false;
 
-        m_ViewportLeft = 0;
-        m_ViewportRight = 2.f;
-        m_ViewportTop = 0;
-        m_ViewportBottom = 1.5f;
+        ViewportLeft = 0;
+        ViewportRight = 2.f;
+        ViewportTop = 0;
+        ViewportBottom = 1.5f;
 
         m_CameraOffset = new Vector2f();
         m_ScreenSize = ServiceHub.Inst().GetScreenSize();
@@ -85,19 +85,19 @@ public class Camera
 
        public float DeltaXToPixels(float meters)
     {
-        return  (m_ScreenSize.x * meters) / (m_ViewportRight - m_ViewportLeft) ;
+        return  (m_ScreenSize.x * meters) / (ViewportRight - ViewportLeft) ;
     }
 
     public float DeltaYToPixels(float meters)
     {
-        return  (m_ScreenSize.y * meters) / (m_ViewportBottom - m_ViewportTop) ;
+        return  (m_ScreenSize.y * meters) / (ViewportBottom - ViewportTop) ;
     }
 
     public Vector2i GetScreenSpace(Vector2f world_position)
     {
         Vector2f v = Vector2f.Subtract(world_position, m_CameraPos);
-        Vector2f p = new Vector2f((v.x - m_ViewportLeft) / (m_ViewportRight - m_ViewportLeft),
-                (v.y - m_ViewportTop) / (m_ViewportBottom - m_ViewportTop));
+        Vector2f p = new Vector2f((v.x - ViewportLeft) / (ViewportRight - ViewportLeft),
+                (v.y - ViewportTop) / (ViewportBottom - ViewportTop));
         p.y = 1.f - p.y;
         p = Vector2f.Scale(p, m_ScreenSize.x, m_ScreenSize.y);
         return p.toInt();

@@ -1,7 +1,10 @@
 package yjj.nanasreunion.OtherClasses.Scrolling;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Rect;
 
 import yjj.nanasreunion.Components.Camera;
 import yjj.nanasreunion.Vector2f;
@@ -57,17 +60,44 @@ public class ScrollingObject
 
     public void UpdateBackground(Camera camera, float deltaTime)
     {
-        m_DeltaX -= camera.DeltaXToPixels(camera.GetCamDeltaDistance().x * m_RelativeSpeed);
-        m_DeltaX += m_AbsoluteSpeed.x * deltaTime;
-        if(m_DeltaX >= m_Width)
+        m_DeltaX += (m_AbsoluteSpeed.x * deltaTime) - (camera.GetCamDeltaDistance().x * m_RelativeSpeed) ;
+
+        if(m_DeltaX > camera.ViewportRight)
         {
-            m_DeltaX = 0;
+            m_DeltaX = camera.ViewportLeft;
             m_ReversedFirst = !m_ReversedFirst;
-        } else if(m_DeltaX <= 0)
+        } else if(m_DeltaX < camera.ViewportLeft)
         {
-            m_DeltaX = m_Width;
+            m_DeltaX = camera.ViewportRight;
             m_ReversedFirst = !m_ReversedFirst;
         }
 
+    }
+
+    public void Draw(Canvas canvas, Paint paint, Camera camera)
+    {
+        // define what portion of images to capture and
+        // what coordinates of screen to draw them at
+        Vector2i v = camera.GetScreenSpace(new Vector2f(0.f, m_StartY));
+        int deltaX = (int) camera.DeltaXToPixels(m_DeltaX);
+        int posY =  v.y;
+        int endY = posY + m_Height;
+
+        // For the regular bitmap
+        Rect fromRect1 = new Rect(0, 0, m_Width - deltaX, m_Height);
+        Rect toRect1 = new Rect(deltaX, posY, m_Width, endY);
+
+        // For the reversed background
+        Rect fromRect2 = new Rect(m_Width - deltaX, 0, m_Width, m_Height);
+        Rect toRect2 = new Rect(0, posY, deltaX, endY);
+
+        //draw the two background bitmaps
+        if (!m_ReversedFirst) {
+            canvas.drawBitmap(m_Bitmap, fromRect1, toRect1, paint);
+            canvas.drawBitmap(m_ReversedBitmap, fromRect2, toRect2, paint);
+        } else {
+            canvas.drawBitmap(m_Bitmap, fromRect2, toRect2, paint);
+            canvas.drawBitmap(m_ReversedBitmap, fromRect1, toRect1, paint);
+        }
     }
 }
