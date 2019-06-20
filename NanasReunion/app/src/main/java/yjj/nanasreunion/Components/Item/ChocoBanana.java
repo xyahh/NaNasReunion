@@ -3,7 +3,12 @@ package yjj.nanasreunion.Components.Item;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import java.util.ArrayList;
+
+import yjj.nanasreunion.Command.Command;
+import yjj.nanasreunion.Command.KillCommand;
 import yjj.nanasreunion.Components.Camera;
+import yjj.nanasreunion.Components.Collision.COLLISION_TYPES;
 import yjj.nanasreunion.Components.Graphics.Graphics;
 import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
 import yjj.nanasreunion.Objects.Pawn;
@@ -18,6 +23,7 @@ public class ChocoBanana extends Item {
     private Vector2f OriginalScale;
     private Vector2f OriginalDimension;
     private Graphics original_graphics;
+    private ArrayList<Command> OriginalCommandList;
 
     private float collisionX = 0.15f;
     private float collisionY = 0.4f;
@@ -48,6 +54,13 @@ public class ChocoBanana extends Item {
         float Scale = 2.f;
         pawn.graphics.SetScale(OriginalScale.x * Scale, OriginalScale.y * Scale );
         pawn.collision.SetDimensions(OriginalDimension.x * Scale, OriginalDimension.y * Scale);
+        OriginalCommandList = pawn.collision.GetCollisionCommands(COLLISION_TYPES.ENEMY);
+        pawn.collision.SetCollisionCommands(COLLISION_TYPES.ENEMY, new ArrayList<Command>()
+        {
+            {
+                add(new KillCommand());
+            }
+        });
     }
 
     @Override
@@ -61,6 +74,7 @@ public class ChocoBanana extends Item {
     public void Stop(Pawn pawn, Camera camera) {
         pawn.graphics.SetScale(OriginalScale.x, OriginalScale.y);
         pawn.collision.SetDimensions(OriginalDimension.x, OriginalDimension.y);
+        pawn.collision.SetCollisionCommands(COLLISION_TYPES.ENEMY, OriginalCommandList);
     }
 
     @Override
