@@ -8,6 +8,9 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Random;
 
 import yjj.nanasreunion.Components.Collision.COLLISION_TYPES;
@@ -30,7 +33,7 @@ public class GameplayScene implements Scene
 
     private ScrollingBackground m_Background;
 
-    private ArrayDeque<Actor>  m_Actors;
+    private LinkedList<Actor> m_Actors;
     private Random              m_Randomizer = new Random();
     private Pawn                m_PlayerPawn;
 
@@ -62,7 +65,7 @@ public class GameplayScene implements Scene
         m_PlayerPawn.collision.SetCollisionEnabled(true);
         m_PlayerPawn.collision.SetDimensions(0.15f, 0.4f);
 
-        m_Actors.addLast(m_PlayerPawn);
+        m_Actors.add(m_PlayerPawn);
     }
 
     private void SpawnEnemy()
@@ -96,7 +99,7 @@ public class GameplayScene implements Scene
     @Override
     public void Init()
     {
-        m_Actors = new ArrayDeque<>();
+        m_Actors = new LinkedList<>();
 
         InitCamera();
         InitActors();
@@ -144,7 +147,7 @@ public class GameplayScene implements Scene
             ItemBox item_box = new ItemBox();
             item_box.position = new Vector2f(m_PlayerPawn.position.x + 3.f, pos);
             item_box.pivot = new Vector2f(0.5f, 0.5f);
-            m_Actors.addLast(item_box);
+            m_Actors.add(item_box);
         }
 
         m_Background.Update(m_Camera, deltaTime);
@@ -157,9 +160,13 @@ public class GameplayScene implements Scene
                 a.ProcessCollision(b);
 
 
-        for(Actor a : m_Actors)
-            if(a.IsDestroyed())
-                m_Actors.remove(a);
+        Iterator itr = m_Actors.iterator();
+        while (itr.hasNext())
+        {
+            Actor a = (Actor)itr.next();
+            if (a.IsDestroyed() || a.position.x < (m_PlayerPawn.position.x -1.f))
+                itr.remove();
+        }
 
         m_Camera.UpdateCameraView(m_PlayerPawn); // pre compute view once per update
     }
