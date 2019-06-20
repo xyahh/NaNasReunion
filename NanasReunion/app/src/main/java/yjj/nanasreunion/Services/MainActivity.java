@@ -26,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.main_menu);
         IsGameplay = false;
-
-
     }
 
     public View AddToView(int res)
@@ -49,12 +47,6 @@ public class MainActivity extends AppCompatActivity {
         ((ViewGroup)v.getParent()).removeView(v);
     }
 
-    public void List(View v)
-    {
-        RemoveFromView(gameplay_layout);
-        item_layout = AddToView(R.layout.item_layout);
-        Timer.SetTimeDilation(0.f);
-    }
 
     public void Pause(View v)
     {
@@ -76,12 +68,6 @@ public class MainActivity extends AppCompatActivity {
         runner.execute(0);
     }
 
-    public void BackToGame(View v)
-    {
-        RemoveFromView(item_layout);
-        gameplay_layout = AddToView(R.layout.gameplay_layout);
-        Timer.SetTimeDilation(1.f);
-    }
 
     private class ScoreAsyncUpdater extends AsyncTask<Integer, String, Integer>
     {
