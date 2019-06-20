@@ -1,5 +1,7 @@
 package yjj.nanasreunion.Objects;
 
+import yjj.nanasreunion.Components.Collision.ActorCollision;
+import yjj.nanasreunion.Components.Collision.COLLISION_TYPES;
 import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
 import yjj.nanasreunion.Components.Physics.Physics;
 import yjj.nanasreunion.R;
@@ -18,11 +20,23 @@ public class Monkey extends Enemy
         super();
         position   = new Vector2f(pawn.position.x + 4.f, 0.f);
 
+        pivot = new Vector2f(0.5f, 1.f);
+
         graphics   = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.monkey_moving), 10, 11, 11);
         graphics.SetScale(0.3f, 0.3f);
 
         physics    = new Physics();
+        physics.SetMaxVelocity(new Vector2f(0.25f, 0.f));
         physics.SetMass(1.f);
+
+        collision = new ActorCollision(COLLISION_TYPES.ENEMY);
+        collision.SetDimensions(0.1f, 0.35f);
+    }
+
+    @Override
+    public void Update(float DeltaTime) {
+        super.Update(DeltaTime);
+        physics.ApplyForce(new Vector2f(-5.f, 0.f));
     }
 
     @Override

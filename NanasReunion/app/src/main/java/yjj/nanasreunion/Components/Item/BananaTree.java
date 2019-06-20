@@ -33,7 +33,7 @@ public class BananaTree extends Item
         StaticGraphics tree_graphics = new StaticGraphics(ServiceHub.Inst().GetBitmap(R.drawable.banana_tree), padding);
         //tree_graphics.SetScale(0.75f, 0.75f);
         pawn.graphics     = tree_graphics;
-        pawn.states.push(new FrozenState());
+        pawn.PushState(new FrozenState());
     }
 
     @Override
@@ -44,7 +44,7 @@ public class BananaTree extends Item
     @Override
     public void Stop(Pawn pawn, Camera camera) {
         pawn.graphics = original_graphics;
-        pawn.states.pop();
+        pawn.PopState();
     }
 
     @Override

@@ -54,8 +54,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     {
         if(scene == null) return;
 
+        scene.Init();
         m_Scenes.push(scene);
-        m_Scenes.top().Init();
     }
 
     @Override

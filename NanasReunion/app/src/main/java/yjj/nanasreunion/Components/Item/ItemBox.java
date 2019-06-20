@@ -26,7 +26,7 @@ public class ItemBox extends Actor
             //new JumpShoes()
             //new BigBanana(),
             //new BabyBanana(),
-            new BananaTree()
+            new FlyingBanana()
     };
 
     static SpriteGraphics item_box_graphics = null;
@@ -39,15 +39,16 @@ public class ItemBox extends Actor
         if(item_box_graphics == null)
         {
             item_box_graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.item_box),
-                    4, 6, 6);
-            item_box_graphics.SetScale(0.25f, 0.25f);
+                    10, 6, 6);
+            item_box_graphics.SetScale(0.15f, 0.15f);
         }
     }
-
 
     public ItemBox()
     {
         super();
+
+        pivot = new Vector2f(0.5f, 1.f);
 
         int randIndex = randomizer.nextInt(ItemList.length);
         Item item =  ItemList[randIndex].Create();

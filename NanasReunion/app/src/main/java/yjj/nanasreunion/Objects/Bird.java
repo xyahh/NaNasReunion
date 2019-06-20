@@ -23,7 +23,15 @@ public class Bird extends Enemy
         graphics     =  BirdGraphics;
         graphics.SetScale(0.2f, 0.2f);
         physics      = new Physics();
+        physics.SetMaxVelocity(new Vector2f(0.35f, 0.f));
         physics.SetMass(1.f);
+        physics.SetGravity(0.f);
+    }
+
+    @Override
+    public void Update(float DeltaTime) {
+        super.Update(DeltaTime);
+        physics.ApplyForce(new Vector2f(-20.f, 0.f));
     }
 
     @Override

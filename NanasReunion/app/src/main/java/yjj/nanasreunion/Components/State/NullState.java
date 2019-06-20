@@ -13,6 +13,8 @@ public class NullState extends State
         super(STATE_ID.NULL);
     }
 
+    public State  CreateState() { return new NullState(); }
+
     @Override
     public void Enter(Pawn pawn)
     {

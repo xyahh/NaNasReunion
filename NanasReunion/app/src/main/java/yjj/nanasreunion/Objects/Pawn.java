@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
+import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 
 import yjj.nanasreunion.Components.Camera;
@@ -15,21 +16,22 @@ import yjj.nanasreunion.MyStack;
 
 public class Pawn extends Actor
 {
-    public     MyStack<State> states;
-    private     Camera         m_Camera;
-    public      Physics physics;
-    private     Item m_Item;
+    private     MyStack<State>   states;
+    private     Camera          m_Camera;
+    private     Item            m_Item;
 
     public      float           JumpForce;
     public      float           RunningForce;
+
+    public      State           JumpingState;
 
 
     public Pawn()
     {
         super();
+        JumpingState = new InAirState();
         JumpForce = 300.f;
         RunningForce = 15.f;
-        physics     = new NullPhysics();
         states = new MyStack<>();
         PushState(new NullState());
         m_Item = null;
@@ -59,6 +61,14 @@ public class Pawn extends Actor
             m_Item.Draw(canvas, camera, this);
     }
 
+    public State GetTopState()
+    {
+        if(states.size() > 0)
+            return states.top();
+        else
+            return null;
+    }
+
     public void ChangeState(State state)
     {
         PopState();
@@ -68,7 +78,6 @@ public class Pawn extends Actor
     @Override
     public void Update(float DeltaTime) {
         super.Update(DeltaTime);
-        physics.Update(this, DeltaTime);
         states.top().Update(this, DeltaTime);
 
         if (m_Item != null)
