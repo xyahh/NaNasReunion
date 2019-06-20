@@ -28,24 +28,34 @@ public class ScrollingObject
     float m_StartY;
     float m_EndY;
 
-    ScrollingObject(Bitmap bitmap, float WorldY, Vector2f AbsoluteSpeed, float TargetRelativeSpeed, Vector2i ScreenSize)
+    public ScrollingObject(Bitmap bitmap, float WorldY, Vector2f AbsoluteSpeed, float TargetRelativeSpeed, Vector2i ScreenSize)
     {
         m_AbsoluteSpeed = AbsoluteSpeed;
         m_RelativeSpeed = TargetRelativeSpeed;
         m_ReversedFirst = false;
         m_DeltaX = 0.f;
 
+
+
         // Save the m_Width and m_Height for later use
+        SetBitmap(bitmap, ScreenSize);
+        SetWorldY(WorldY);
+    }
+
+    public void SetWorldY(float y)
+    {
+        m_StartY = y;
+        m_EndY = m_StartY + m_Bitmap.getHeight();
+    }
+
+    public void SetBitmap(Bitmap bitmap, Vector2i ScreenSize)
+    {
         m_Width = bitmap.getWidth();
         m_Height = bitmap.getHeight();
 
         float ScaleRatio = (float)(ScreenSize.x) / (float)(m_Width);
         int Height =  Math.round(m_Height * ScaleRatio);
         int Width = ScreenSize.x;
-
-        //Position the background vertically
-        m_StartY = WorldY;
-        m_EndY = m_StartY + Height;
 
         // Create the bitmap
         m_Bitmap = Bitmap.createScaledBitmap(bitmap, Width, Height, true);

@@ -97,6 +97,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
         return m_Scenes.top().OnTouchEvent(event);
     }
 
+    public Scene GetCurrentScene()
+    {
+        return m_Scenes.top();
+    }
+
     public void Draw(Canvas canvas)
     {
         if(canvas == null) return;

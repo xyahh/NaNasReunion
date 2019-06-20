@@ -1,23 +1,35 @@
 package yjj.nanasreunion.Components.Item;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import yjj.nanasreunion.Components.Camera;
 import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
 import yjj.nanasreunion.Objects.Pawn;
+import yjj.nanasreunion.OtherClasses.Scrolling.ScrollingObject;
 import yjj.nanasreunion.R;
+import yjj.nanasreunion.Scenes.GameplayScene;
+import yjj.nanasreunion.Scenes.Scene;
 import yjj.nanasreunion.Services.ServiceHub;
 import yjj.nanasreunion.Vector2f;
 
-public class Ice extends Item {
+public class Ice extends Item
+{
 
-    float   OriginalMass;
-    Vector2f   OriginalMaxVelocity;
-    private SpriteGraphics graphics;
-    private Vector2f pivot;
+    private ScrollingObject OriginalGround;
+    private static ScrollingObject IceGround;
+
+    static void LoadAssets()
+    {
+        IceGround = new ScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.frosted_ground),
+            0.f, new Vector2f(), 1.f, ServiceHub.Inst().GetScreenSize());
+    }
+
+    private  Vector2f   OriginalMaxVelocity;
+
     protected Ice()
     {
-        super("Ice", 5.f);
+        super("Ice", 10.f);
     }
 
     @Override
@@ -28,15 +40,17 @@ public class Ice extends Item {
     @Override
     public void Use(Pawn pawn, Camera camera) {
 
-        graphics     = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.frosted_ground),
-                10,1,1);
-        graphics.SetScale(0.7f, 0.7f);
+        Scene CurrScene = ServiceHub.Inst().GetCurrentScene();
 
-        OriginalMass = pawn.physics.GetMass();
-        pawn.physics.SetMass(OriginalMass * 0.75f);
+        if(!(CurrScene instanceof GameplayScene))
+            return;
+
+        GameplayScene gpScene = (GameplayScene) CurrScene;
+        OriginalGround = gpScene.m_Background.GetScrollingObject("F_Ground");
+        gpScene.m_Background.SetScrollingObject("F_Ground", IceGround);
 
         OriginalMaxVelocity = pawn.physics.GetMaxVelocity();
-        pawn.physics.SetMaxVelocity(new Vector2f(OriginalMaxVelocity.x * 2.f, OriginalMaxVelocity.y));
+        pawn.physics.SetMaxVelocity(new Vector2f(OriginalMaxVelocity.x * 5.f, OriginalMaxVelocity.y));
     }
 
     @Override
@@ -45,15 +59,22 @@ public class Ice extends Item {
     }
 
     @Override
-    public void Stop(Pawn pawn, Camera camera) {
-        pawn.physics.SetMass(OriginalMass);
+    public void Stop(Pawn pawn, Camera camera)
+    {
         pawn.physics.SetMaxVelocity(OriginalMaxVelocity);
+
+        Scene CurrScene = ServiceHub.Inst().GetCurrentScene();
+
+        if(!(CurrScene instanceof GameplayScene))
+            return;
+
+        GameplayScene gpScene = (GameplayScene) CurrScene;
+        gpScene.m_Background.SetScrollingObject("F_Ground", OriginalGround);
+
     }
 
     @Override
-    public void Draw(Canvas canvas, Camera camera, Pawn pawn) {
-        Vector2f position     = new Vector2f(pawn.position.x+1.0f, pawn.position.y+0.25f);
-
-        graphics.Draw(canvas, camera, position, pivot, 0.f);
+    public void Draw(Canvas canvas, Camera camera, Pawn pawn)
+    {
     }
 }

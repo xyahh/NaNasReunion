@@ -8,15 +8,12 @@ import android.graphics.Rect;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
 import yjj.nanasreunion.Components.Collision.COLLISION_TYPES;
 import yjj.nanasreunion.Components.Item.ItemBox;
-import yjj.nanasreunion.Components.Physics.NullPhysics;
 import yjj.nanasreunion.Components.Physics.Physics;
 import yjj.nanasreunion.Components.State.RunningState;
 import yjj.nanasreunion.Objects.*;
@@ -29,20 +26,21 @@ import yjj.nanasreunion.Vector2i;
 
 public class GameplayScene implements Scene
 {
-    private float       m_TotalTime;
+    public float       m_TotalTime;
 
-    private Camera      m_Camera;
+    public Camera      m_Camera;
 
-    private ScrollingBackground m_Background;
+    public ScrollingBackground m_Background;
 
-    private LinkedList<Actor> m_Actors;
-    private Random              m_Randomizer = new Random();
-    private Pawn                m_PlayerPawn;
+    public LinkedList<Actor>   m_Actors;
 
-    private float               m_CountdownTimer;
-    private float               m_EnemySpawnTimer;
+    public Random              m_Randomizer = new Random();
+    public Pawn                m_PlayerPawn;
 
-    private Enemy               m_EnemySpawner[] =
+    public float               m_CountdownTimer;
+    public float               m_EnemySpawnTimer;
+
+    public Enemy               m_EnemySpawner[] =
             {
                     new Monkey(),
                     new Bird()
@@ -79,7 +77,7 @@ public class GameplayScene implements Scene
     private void SpawnEnemy()
     {
             int Index = m_Randomizer.nextInt(m_EnemySpawner.length);
-            m_Actors.add(m_EnemySpawner[Index].Spawn(m_PlayerPawn));
+            m_Actors.addFirst(m_EnemySpawner[Index].Spawn(m_PlayerPawn));
     }
 
     private void InitCamera()
@@ -96,19 +94,19 @@ public class GameplayScene implements Scene
         Vector2f AbsoluteSpeedZero = new Vector2f();
         Vector2f CloudsAbsoluteSpeed = new Vector2f(-0.1f, 0.f);
 
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.sun), 1.15f, AbsoluteSpeedZero,0.f, new Vector2i(ScreenSize.x / 4, ScreenSize.x / 4));
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.clouds), 0.75f, CloudsAbsoluteSpeed,0.025f, ScreenSize);
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.grass), 0.f, AbsoluteSpeedZero,0.07f, ScreenSize);
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.clouds3), 1.f, CloudsAbsoluteSpeed, 0.05f, ScreenSize);
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.tree), 0.95f, AbsoluteSpeedZero, 1.f, ScreenSize);
-        m_Background.AddScrollingObject(ServiceHub.Inst().GetBitmap(R.drawable.ground), 0.f, AbsoluteSpeedZero,1.f, ScreenSize);
+        m_Background.SetScrollingObject("A_Sun", ServiceHub.Inst().GetBitmap(R.drawable.sun), 1.15f, AbsoluteSpeedZero,0.f, new Vector2i(ScreenSize.x / 4, ScreenSize.x / 4));
+        m_Background.SetScrollingObject("B_Clouds", ServiceHub.Inst().GetBitmap(R.drawable.clouds), 0.75f, CloudsAbsoluteSpeed,0.025f, ScreenSize);
+        m_Background.SetScrollingObject("C_Mountains", ServiceHub.Inst().GetBitmap(R.drawable.mountains), 0.f, AbsoluteSpeedZero,0.07f, ScreenSize);
+        m_Background.SetScrollingObject("D_Clouds2", ServiceHub.Inst().GetBitmap(R.drawable.clouds2), 1.f, CloudsAbsoluteSpeed, 0.05f, ScreenSize);
+        m_Background.SetScrollingObject("E_Tree", ServiceHub.Inst().GetBitmap(R.drawable.tree), 0.95f, AbsoluteSpeedZero, 1.f, ScreenSize);
+        m_Background.SetScrollingObject("F_Ground", ServiceHub.Inst().GetBitmap(R.drawable.ground), 0.f, AbsoluteSpeedZero,1.f, ScreenSize);
     }
 
     @Override
     public void Init()
     {
         m_Actors = new LinkedList<>();
-        ItemBox.LoadAssets();
+        ItemBox.LoadAllItemAssets();
 
         InitCamera();
         InitActors();
@@ -155,7 +153,7 @@ public class GameplayScene implements Scene
                 pos = 0.6f;
             ItemBox item_box = new ItemBox();
             item_box.position = new Vector2f(m_PlayerPawn.position.x + 3.f, pos);
-            m_Actors.add(item_box);
+            m_Actors.addFirst(item_box);
         }
 
         m_Background.Update(m_Camera, deltaTime);

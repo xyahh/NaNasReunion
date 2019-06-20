@@ -17,10 +17,7 @@ public class MagicClock extends Item {
 
     private Graphics original_graphics;
     private Graphics graphics;
-    Vector2f OriginalMaxVelocity;
-    float   OriginalMass;
     private Vector2f pivot;
-    private Vector2f position;
 
     protected MagicClock()
     {
@@ -35,13 +32,9 @@ public class MagicClock extends Item {
     @Override
     public void Use(Pawn pawn, Camera camera) {
         original_graphics = pawn.graphics;
-
-        pawn.graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.moving_banana),
-                20, 6, 6);
-        pawn.graphics.SetScale(0.75f, 0.75f);
         graphics     = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.magicclock),
                 10,4,4);
-        graphics.SetScale(0.3f, 0.3f);
+        graphics.SetScale(0.1f, 0.1f);
         pivot = new Vector2f(0.5f, 0.5f);
 
         Timer.SetTimeDilation(2.f);
@@ -55,9 +48,7 @@ public class MagicClock extends Item {
 
     @Override
     public void Stop(Pawn pawn, Camera camera) {
-        pawn.graphics=original_graphics;
-        pawn.physics.SetMass(OriginalMass);
-        pawn.physics.SetMaxVelocity(OriginalMaxVelocity);
+        pawn.graphics = original_graphics;
         Timer.SetTimeDilation(1.f);
     }
 

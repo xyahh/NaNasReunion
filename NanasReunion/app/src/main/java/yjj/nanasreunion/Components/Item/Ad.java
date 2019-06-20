@@ -5,24 +5,24 @@ import android.graphics.Canvas;
 import yjj.nanasreunion.Components.Camera;
 import yjj.nanasreunion.Components.Graphics.Graphics;
 import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
-import yjj.nanasreunion.Components.Physics.Physics;
 import yjj.nanasreunion.Objects.Pawn;
 import yjj.nanasreunion.R;
 import yjj.nanasreunion.Services.ServiceHub;
 import yjj.nanasreunion.Vector2f;
 
-public class magazine extends Item {
+public class Ad extends Item
+{
     private Graphics graphics;
-    private Physics physics;
     private Vector2f pivot;
-    private Vector2f position;
-    protected magazine() {
-        super("magazine", 5.f);
+
+    protected Ad()
+    {
+        super("Ad", 3.f);
     }
 
     @Override
     public Item Create() {
-        return new magazine();
+        return new Ad();
     }
 
     @Override
@@ -33,22 +33,15 @@ public class magazine extends Item {
         pivot = new Vector2f(0.5f, 0.5f);
     }
 
-    public void Update(float DeltaTime) {
-        super.Update(DeltaTime);
-        physics.ApplyForce(new Vector2f(0.f, 0.f));
-    }
-
-
-
     @Override
     public void Stop(Pawn pawn, Camera camera) {
 
     }
 
     @Override
-    public void Draw(Canvas canvas, Camera camera, Pawn pawn) {
-        Vector2f position     = new Vector2f(pawn.position.x+1.1f, pawn.position.y+0.25f);
-
+    public void Draw(Canvas canvas, Camera camera, Pawn pawn)
+    {
+        Vector2f position     = new Vector2f(pawn.position.x+1.0f, 0.4f);
         graphics.Draw(canvas, camera, position, pivot, 0.f);
     }
 }

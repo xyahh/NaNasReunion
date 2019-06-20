@@ -24,7 +24,7 @@ public class ItemBox extends Actor
             //new JumpShoes()
             //new BigBanana(),
             //new BabyBanana(),
-            new BrokenClock()
+            new Ice()
     };
 
     static SpriteGraphics item_box_graphics = null;
@@ -32,14 +32,13 @@ public class ItemBox extends Actor
     static float           box_size_x = 0.2f;
     static float           box_size_y = 0.2f;
 
-    public static void LoadAssets()
+    public static void LoadAllItemAssets()
     {
-        if(item_box_graphics == null)
-        {
-            item_box_graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.item_box),
-                    10, 6, 6, new Rect(0, 0, 0, 93));
-            item_box_graphics.SetScale(0.15f, 0.15f);
-        }
+        item_box_graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.item_box),
+                10, 6, 6, new Rect(0, 0, 0, 93));
+        item_box_graphics.SetScale(0.15f, 0.15f);
+
+        Ice.LoadAssets();
     }
 
     public ItemBox()

@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 
 import yjj.nanasreunion.Scenes.GameplayScene;
+import yjj.nanasreunion.Scenes.Scene;
 import yjj.nanasreunion.Vector2i;
 
 public class ServiceHub
@@ -27,6 +28,11 @@ public class ServiceHub
     private ServiceHub() {}
     private DisplayMetrics              m_DisplayMetrics;
     private         int                 m_Score;
+
+    public Scene GetCurrentScene()
+    {
+        return m_GameView.GetCurrentScene();
+    }
 
     public void InitServices(Context context, GameView gameview)
     {

@@ -17,8 +17,6 @@ public class BrokenClock extends Item {
 
     private Graphics original_graphics;
     private Graphics graphics;
-    Vector2f OriginalMaxVelocity;
-    float   OriginalMass;
     private Vector2f pivot;
 
     protected BrokenClock()
