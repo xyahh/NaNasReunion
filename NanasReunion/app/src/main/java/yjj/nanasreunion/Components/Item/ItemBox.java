@@ -48,7 +48,7 @@ public class ItemBox extends Actor
     public ItemBox()
     {
         super();
-        
+
         int randIndex = randomizer.nextInt(ItemList.length);
         Item item =  ItemList[randIndex].Create();
 
