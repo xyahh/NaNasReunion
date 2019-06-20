@@ -1,8 +1,6 @@
 package yjj.nanasreunion.Components.Item;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -10,11 +8,8 @@ import java.util.Random;
 import yjj.nanasreunion.Command.Command;
 import yjj.nanasreunion.Command.GrabItemCommand;
 import yjj.nanasreunion.Command.SelfDestructCommand;
-import yjj.nanasreunion.Components.Camera;
 import yjj.nanasreunion.Components.Collision.ActorCollision;
 import yjj.nanasreunion.Components.Collision.COLLISION_TYPES;
-import yjj.nanasreunion.Components.Collision.Collision;
-import yjj.nanasreunion.Components.Graphics.Graphics;
 import yjj.nanasreunion.Components.Graphics.RectGraphics;
 import yjj.nanasreunion.Objects.Actor;
 import yjj.nanasreunion.Vector2f;
@@ -26,7 +21,8 @@ public class ItemBox extends Actor
             //new FrozenCamera(),
             //new SuperJumpItem(),
             //new JumpShoes()
-            new Bigbanana()
+            new BigBanana(),
+            new BabyBanana()
     };
 
     public ItemBox()

@@ -7,31 +7,35 @@ import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
 import yjj.nanasreunion.Objects.Pawn;
 import yjj.nanasreunion.Vector2f;
 
-public class Bigbanana extends Item {
+public class BigBanana extends Item {
     private SpriteGraphics graphics;
     private Vector2f position;
     private Vector2f pivot;
-    private float scaleX = 0.75f;
-    private float scaleY = 0.75f;
+    private Vector2f OriginalScale;
+    private Vector2f OriginalDimension;
+
     private float collisionX = 0.15f;
     private float collisionY = 0.4f;
 
-    protected Bigbanana()
+    protected BigBanana()
     {
-        super("BigBanana", 5.f);
+        super("Big Banana", 5.f);
     }
 
     @Override
     public Item Create() {
-        return new Bigbanana();
+        return new BigBanana();
     }
 
     @Override
     public void Use(Pawn pawn, Camera camera) {
 
         // 캐릭터 크기 키우기
-        pawn.graphics.SetScale(scaleX + 1, scaleY + 1 );
-        pawn.collision.SetDimensions(collisionX+0.3f, collisionY+1);
+        OriginalScale = pawn.graphics.GetScale();
+        OriginalDimension = pawn.collision.GetDimensions();
+        float Scale = 2.f;
+        pawn.graphics.SetScale(OriginalScale.x * Scale, OriginalScale.y * Scale );
+        pawn.collision.SetDimensions(OriginalDimension.x * Scale, OriginalDimension.y * Scale);
     }
 
     @Override
@@ -43,7 +47,8 @@ public class Bigbanana extends Item {
 
     @Override
     public void Stop(Pawn pawn, Camera camera) {
-
+        pawn.graphics.SetScale(OriginalScale.x, OriginalScale.y);
+        pawn.collision.SetDimensions(OriginalDimension.x, OriginalDimension.y);
     }
 
     @Override
