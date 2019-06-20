@@ -10,7 +10,8 @@ public class KillCommand implements Command
     }
 
     @Override
-    public void Execute(Actor instigator, Actor target) {
+    public void Execute(Actor instigator, Actor target)
+    {
             target.DestroyActor();
     }
 }
