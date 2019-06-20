@@ -42,71 +42,191 @@
             android:visibility="visible"
             tools:visibility="visible">
 
-            <ImageView
-                android:id="@+id/imageView18"
+            <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/ic_launcher_round" />
+                android:layout_height="match_parent" >
+
+                <ImageView
+                    android:id="@+id/jumpshoes"
+                    android:layout_width="89dp"
+                    android:layout_height="90dp"
+                    app:srcCompat="@drawable/jumpshoes" />
+            </TableRow>
 
             <ImageView
-                android:id="@+id/imageView19"
+                android:id="@+id/supershoes"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/ic_launcher_round" />
+                android:layout_height="89dp"
+                app:srcCompat="@drawable/supershoes" />
 
             <ImageView
-                android:id="@+id/imageView20"
+                android:id="@+id/Ad"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/ic_launcher_round" />
+                android:layout_height="89dp"
+                app:srcCompat="@drawable/ad" />
 
             <ImageView
-                android:id="@+id/imageView21"
+                android:id="@+id/family"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/ic_launcher_round" />
+                android:layout_height="90dp"
+                app:srcCompat="@drawable/banana_family" />
 
             <ImageView
-                android:id="@+id/imageView22"
+                android:id="@+id/tree"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/ic_launcher_round" />
+                android:layout_height="88dp"
+                app:srcCompat="@drawable/banana_tree" />
 
             <ImageView
-                android:id="@+id/imageView23"
+                android:id="@+id/icefloor"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/ic_launcher_round" />
-
-            <ImageView
-                android:id="@+id/imageView24"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/ic_launcher_round" />
+                android:layout_height="89dp"
+                app:srcCompat="@drawable/frosted_ground" />
 
             <ImageView
                 android:id="@+id/imageView25"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/ic_launcher_round" />
+                android:layout_height="90dp"
+                app:srcCompat="@drawable/i_baby" />
 
             <ImageView
-                android:id="@+id/imageView26"
+                android:id="@+id/flying"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/ic_launcher_round" />
+                android:layout_height="89dp"
+                app:srcCompat="@drawable/i_fly" />
 
             <ImageView
-                android:id="@+id/imageView27"
+                android:id="@+id/guitar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/ic_launcher_round" />
+                android:layout_height="89dp"
+                app:srcCompat="@drawable/i_guitar" />
 
             <ImageView
-                android:id="@+id/imageView17"
+                android:id="@+id/heart"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/ic_launcher_round" />
+                android:layout_height="87dp"
+                app:srcCompat="@drawable/i_heart" />
+
+            <ImageView
+                android:id="@+id/hero"
+                android:layout_width="match_parent"
+                android:layout_height="92dp"
+                app:srcCompat="@drawable/i_hero" />
+
+            <ImageView
+                android:id="@+id/ice"
+                android:layout_width="match_parent"
+                android:layout_height="92dp"
+                app:srcCompat="@drawable/i_ice" />
+
+            <ImageView
+                android:id="@+id/magnet"
+                android:layout_width="match_parent"
+                android:layout_height="92dp"
+                app:srcCompat="@drawable/i_magnet" />
+
+            <ImageView
+                android:id="@+id/night"
+                android:layout_width="match_parent"
+                android:layout_height="88dp"
+                app:srcCompat="@drawable/i_night" />
+
+            <ImageView
+                android:id="@+id/ninja"
+                android:layout_width="match_parent"
+                android:layout_height="93dp"
+                app:srcCompat="@drawable/i_ninja" />
+
+            <ImageView
+                android:id="@+id/onion"
+                android:layout_width="match_parent"
+                android:layout_height="87dp"
+                app:srcCompat="@drawable/i_onion" />
+
+            <ImageView
+                android:id="@+id/sick"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                app:srcCompat="@drawable/i_sick" />
+
+            <ImageView
+                android:id="@+id/muscle"
+                android:layout_width="match_parent"
+                android:layout_height="91dp"
+                app:srcCompat="@drawable/i_strong" />
+
+            <ImageView
+                android:id="@+id/day"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                app:srcCompat="@drawable/i_sun" />
+
+            <ImageView
+                android:id="@+id/choco"
+                android:layout_width="match_parent"
+                android:layout_height="88dp"
+                app:srcCompat="@drawable/l_choco" />
+
+            <ImageView
+                android:id="@+id/clock"
+                android:layout_width="match_parent"
+                android:layout_height="87dp"
+                app:srcCompat="@drawable/l_clock" />
+
+            <ImageView
+                android:id="@+id/brokenclock"
+                android:layout_width="match_parent"
+                android:layout_height="93dp"
+                app:srcCompat="@drawable/l_clock2" />
+
+            <ImageView
+                android:id="@+id/big_banana"
+                android:layout_width="match_parent"
+                android:layout_height="89dp"
+                app:srcCompat="@drawable/i_banana" />
+
+            <ImageView
+                android:id="@+id/brokenclock2"
+                android:layout_width="match_parent"
+                android:layout_height="93dp"
+                app:srcCompat="@drawable/l_clock2" />
+
+            <ImageView
+                android:id="@+id/brokenclock3"
+                android:layout_width="match_parent"
+                android:layout_height="93dp"
+                app:srcCompat="@drawable/l_clock2" />
+
+            <ImageView
+                android:id="@+id/brokenclock4"
+                android:layout_width="match_parent"
+                android:layout_height="93dp"
+                app:srcCompat="@drawable/l_clock2" />
+
+            <ImageView
+                android:id="@+id/brokenclock5"
+                android:layout_width="match_parent"
+                android:layout_height="93dp"
+                app:srcCompat="@drawable/l_clock2" />
+
+            <ImageView
+                android:id="@+id/brokenclock6"
+                android:layout_width="match_parent"
+                android:layout_height="93dp"
+                app:srcCompat="@drawable/l_clock2" />
+
+            <ImageView
+                android:id="@+id/brokenclock7"
+                android:layout_width="match_parent"
+                android:layout_height="93dp"
+                app:srcCompat="@drawable/l_clock2" />
+
+            <ImageView
+                android:id="@+id/brokenclock8"
+                android:layout_width="match_parent"
+                android:layout_height="93dp"
+                app:srcCompat="@drawable/l_clock2" />
         </LinearLayout>
     </ScrollView>
+
 </android.support.constraint.ConstraintLayout>
