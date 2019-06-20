@@ -2,6 +2,7 @@ package yjj.nanasreunion.Components.Graphics;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 
 import yjj.nanasreunion.Components.Camera;
 import yjj.nanasreunion.Vector2f;
@@ -12,10 +13,28 @@ public class StaticGraphics extends Graphics
 
     public StaticGraphics(Bitmap bitmap)
     {
+        this(bitmap, new Rect(0, 0, 0, 0));
+    }
+
+    public StaticGraphics(Bitmap bitmap, Rect Padding)
+    {
         super();
         m_Bitmap = bitmap;
-        SetDrawSize(m_Bitmap.getWidth(), m_Bitmap.getHeight());
+
+        int width = m_Bitmap.getWidth();
+        int height = m_Bitmap.getHeight();
+
+        SetDrawSize( width - (Padding.left + Padding.right),
+                height - (Padding.top + Padding.bottom));
+
+        m_Bitmap = Bitmap.createBitmap(bitmap,
+                Padding.left,
+                Padding.top,
+                width - Padding.right,
+                height - Padding.bottom);
+
     }
+
 
     @Override
     public void Draw(Canvas canvas, Camera camera, Vector2f worldPos, Vector2f pivot, float interp)
