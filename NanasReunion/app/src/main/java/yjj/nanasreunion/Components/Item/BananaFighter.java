@@ -45,11 +45,13 @@ public class BananaFighter extends Item {
                 add(new KillCommand());
             }
         });
+        pawn.collision.SetCollisionType(COLLISION_TYPES.DEFAULT);
     }
 
 
     @Override
     public void Stop(Pawn pawn, Camera camera) {
+        pawn.collision.SetCollisionType(COLLISION_TYPES.PLAYER);
         pawn.collision.SetCollisionCommands(COLLISION_TYPES.ENEMY,OriginalCommandList);
         pawn.graphics = original_graphics;
     }

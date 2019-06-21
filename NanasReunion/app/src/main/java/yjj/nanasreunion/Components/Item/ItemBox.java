@@ -19,28 +19,30 @@ public class ItemBox extends Actor
 {
     public static final Item ItemList[] =
     {
-            //new Ad(),
-            //new BabyBanana(),
-            //new BananaFamily(),
-            //new BananaTree(),
-            //new BigBanana(),
-            //new BoosterBanana(),
-            //new BrokenClock(),
-            //new ChocoBanana(),
-            //new Day(),
-            //new FlyingBanana(),
-            //new FrozenCamera(),
-            //new Ice(),
-            //new JumpShoes(),
-            //new MagicClock(),
-            //new MirrorWorld(),
-            //new Night(),
-            //new Ninja(),
-            //new Nuclear(),
-            //new Rockstar(),
-            //new SlowBanana(),
-            //new SuperJumpItem(),
-            //new GravityUp(),
+            new Ad(),
+            new BabyBanana(),
+            new BananaFamily(),
+            new BananaFighter(),
+            new BananaTree(),
+            new BigBanana(),
+            new BoosterBanana(),
+            new BrokenClock(),
+            new ChocoBanana(),
+            new Day(),
+            new EditorMode(),
+            new FlyingBanana(),
+            new FrozenCamera(),
+            new Ice(),
+            new JumpShoes(),
+            new MagicClock(),
+            new MirrorWorld(),
+            new Night(),
+            new Ninja(),
+            new Nuclear(),
+            new Rockstar(),
+            new SlowBanana(),
+            new SuperJumpItem(),
+            new GravityUp(),
             new GravityDown()
     };
 
@@ -52,7 +54,7 @@ public class ItemBox extends Actor
     public static void LoadAllItemAssets()
     {
         item_box_graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.item_box),
-                10, 6, 6, new Rect(0, 0, 0, 93));
+                10, 6, 6, new Rect(0, 0, 0, 22));
         item_box_graphics.SetScale(0.15f, 0.15f);
 
         Ice.LoadAssets();
@@ -62,7 +64,7 @@ public class ItemBox extends Actor
     {
         super();
 
-        pivot = new Vector2f(0.5f, 1.f);
+        pivot = new Vector2f(0.5f, 0.8f);
 
         int randIndex = randomizer.nextInt(ItemList.length);
         Item item =  ItemList[randIndex].Create();

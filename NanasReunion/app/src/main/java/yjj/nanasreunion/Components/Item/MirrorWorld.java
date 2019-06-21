@@ -7,7 +7,7 @@ import yjj.nanasreunion.Services.ServiceHub;
 public class MirrorWorld extends Item
 {
     public MirrorWorld() {
-        super("Upside Down!", 7.f);
+        super("Mirror World!", 7.f);
     }
 
     @Override

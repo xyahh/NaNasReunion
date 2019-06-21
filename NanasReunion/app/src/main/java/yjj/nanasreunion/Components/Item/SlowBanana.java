@@ -31,10 +31,6 @@ public class SlowBanana extends Item {
     @Override
     public void Use(Pawn pawn, Camera camera) {
         original_graphics = pawn.graphics;
-
-        pawn.graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.moving_banana),
-                5, 6, 6);
-        pawn.graphics.SetScale(0.75f, 0.75f);
         OriginalMass = pawn.physics.GetMass();
         pawn.physics.SetMass(OriginalMass * 1.25f);
 
@@ -50,7 +46,6 @@ public class SlowBanana extends Item {
 
     @Override
     public void Stop(Pawn pawn, Camera camera) {
-        pawn.graphics=original_graphics;
         pawn.physics.SetMaxVelocity(OriginalMaxVelocity);
     }
 

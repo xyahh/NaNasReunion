@@ -43,6 +43,7 @@ public class BigBanana extends Item {
         pawn.graphics.SetScale(OriginalScale.x * Scale, OriginalScale.y * Scale );
         pawn.collision.SetDimensions(OriginalDimension.x * Scale, OriginalDimension.y * Scale);
         OriginalCommandList = pawn.collision.GetCollisionCommands(COLLISION_TYPES.ENEMY);
+        pawn.collision.SetCollisionType(COLLISION_TYPES.DEFAULT);
         pawn.collision.SetCollisionCommands(COLLISION_TYPES.ENEMY, new ArrayList<Command>()
         {
             {
@@ -60,6 +61,7 @@ public class BigBanana extends Item {
 
     @Override
     public void Stop(Pawn pawn, Camera camera) {
+        pawn.collision.SetCollisionType(COLLISION_TYPES.PLAYER);
         pawn.graphics.SetScale(OriginalScale.x, OriginalScale.y);
         pawn.collision.SetDimensions(OriginalDimension.x, OriginalDimension.y);
         pawn.collision.SetCollisionCommands(COLLISION_TYPES.ENEMY, OriginalCommandList);

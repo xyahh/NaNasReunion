@@ -1,6 +1,8 @@
 package yjj.nanasreunion.Services;
 
 import android.content.pm.ActivityInfo;
+import android.graphics.Point;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import java.util.Random;
 
 import yjj.nanasreunion.R;
+import yjj.nanasreunion.Vector2i;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,11 +26,21 @@ public class MainActivity extends AppCompatActivity {
     TextView item_textview;
     boolean IsGameplay;
 
+    public static MediaPlayer GameplayBGM;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.main_menu);
+
+        Point size = new Point();
+        getWindowManager().getDefaultDisplay().getRealSize(size);
+        ServiceHub.Inst().SetScreenSize(new Vector2i(size.x, size.y));
+
+        GameplayBGM = MediaPlayer.create(this, R.raw.bgm);
+        GameplayBGM.setLooping(true);
+
         IsGameplay = false;
 
         Random rand = new Random();
@@ -45,6 +58,24 @@ public class MainActivity extends AppCompatActivity {
         };
 
         handler.postDelayed(r, 500);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_IMMERSIVE
+                            // Set the content to appear under the system bars so that the
+                            // content doesn't resize when the system bars hide and show.
+                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            // Hide the nav bar and status bar
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN);
+        }
     }
 
     public View AddToView(int res)
@@ -65,8 +96,9 @@ public class MainActivity extends AppCompatActivity {
     {
         Timer.SetTimeDilation(0.f);
         gameover_layout = AddToView(R.layout.game_over);
+        GameplayBGM.pause();
         Button pause = (Button)findViewById(R.id.pause_button);
-        pause.setText("RETRY");
+        pause.setText("MAIN MENU");
     }
 
     public void RemoveFromView(View v)
@@ -80,14 +112,9 @@ public class MainActivity extends AppCompatActivity {
         Button pause = (Button)findViewById(v.getId());
         if(ServiceHub.AlreadyLost)
         {
-            Timer.SetTimeDilation(0.f);
-            ServiceHub.Inst().GetCurrentScene().Init();
-
-            RemoveFromView(gameover_layout);
-
+            setContentView(R.layout.main_menu);
             ServiceHub.AlreadyLost = false;
             ServiceHub.LosingCondition = false;
-
             pause.setText("PAUSE");
             return;
         }

@@ -43,7 +43,7 @@ public class Monkey extends Enemy
         physics.SetMass(1.f);
 
         collision = new ActorCollision(COLLISION_TYPES.ENEMY);
-        collision.SetDimensions(0.1f, 0.35f);
+        collision.SetDimensions(0.06f, 0.35f);
 
         collision.SetCollisionCommands(COLLISION_TYPES.PLAYER, new ArrayList<Command>(){
             {

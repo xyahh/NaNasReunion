@@ -3,7 +3,6 @@ package yjj.nanasreunion.Services;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
@@ -15,7 +14,10 @@ import yjj.nanasreunion.Scenes.*;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback
 {
+
     private MyStack<Scene> m_Scenes;
+
+
 
     public GameView(Context context)
     {
@@ -62,6 +64,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     public void surfaceCreated(SurfaceHolder holder)
     {
         ServiceHub.Inst().HandleThreadCreation(holder, this);
+        MainActivity.GameplayBGM.start();
     }
 
     @Override
@@ -73,6 +76,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceDestroyed(SurfaceHolder holder)
     {
+        MainActivity.GameplayBGM.pause();
         ServiceHub.Inst().HandleThreadDestroy();
     }
 

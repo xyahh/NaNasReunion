@@ -6,10 +6,13 @@ import android.graphics.BitmapFactory;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.SurfaceHolder;
+import android.view.WindowManager;
 
 import yjj.nanasreunion.Scenes.GameplayScene;
 import yjj.nanasreunion.Scenes.Scene;
+import yjj.nanasreunion.Vector2f;
 import yjj.nanasreunion.Vector2i;
 
 public class ServiceHub
@@ -26,13 +29,15 @@ public class ServiceHub
     public static boolean LosingCondition = false;
     public static boolean AlreadyLost = false;
     private static  ServiceHub          m_Instance = new ServiceHub();
-    private         SoundManager        m_SoundManager;
+
     private         GameView            m_GameView;
     private         Resources           m_Resources;
     private         GameThread          m_Thread;
     private ServiceHub() {}
     private DisplayMetrics              m_DisplayMetrics;
     private         int                 m_Score;
+
+    private Vector2i m_ScreenSize;
 
     public Scene GetCurrentScene()
     {
@@ -43,7 +48,6 @@ public class ServiceHub
     {
         m_GameView = gameview;
         m_Resources     = m_GameView.getResources();
-        m_SoundManager  = SoundManager.Get(m_Assert);
         m_DisplayMetrics = m_GameView.getResources().getDisplayMetrics();
     }
 
@@ -84,9 +88,16 @@ public class ServiceHub
     }
     public int GetScore() { return m_Score;}
 
+
+
+    void SetScreenSize(Vector2i v)
+    {
+        m_ScreenSize = v;
+    }
+
     public Vector2i GetScreenSize()
     {
-        return new Vector2i(m_DisplayMetrics.widthPixels, m_DisplayMetrics.heightPixels);
+        return new Vector2i(m_ScreenSize);
     }
 
     public float GetDPI()
@@ -94,7 +105,6 @@ public class ServiceHub
         return m_DisplayMetrics.densityDpi / 420.f;
     }
 
-    public SoundManager GetSoundManager()   { return m_SoundManager;}
     public GameThread   GetGameThread()     { return m_Thread;      }
     public GameView     GetGameView()       { return m_GameView;    }
     public Resources    GetResources()      { return m_Resources;   }

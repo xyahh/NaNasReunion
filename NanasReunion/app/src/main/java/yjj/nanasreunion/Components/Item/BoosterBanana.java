@@ -14,12 +14,11 @@ import yjj.nanasreunion.Vector2f;
 
 public class BoosterBanana extends Item {
 
-    private Graphics original_graphics;
     Vector2f OriginalMaxVelocity;
 
     protected BoosterBanana()
     {
-        super("BoosterBanana", 3.f);
+        super("Booster Banana", 3.f);
     }
 
     @Override
@@ -29,15 +28,9 @@ public class BoosterBanana extends Item {
 
     @Override
     public void Use(Pawn pawn, Camera camera) {
-        original_graphics = pawn.graphics;
-
-        pawn.graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.moving_banana),
-                20, 6, 6);
-        pawn.graphics.SetScale(0.75f, 0.75f);
 
         OriginalMaxVelocity = pawn.physics.GetMaxVelocity();
         pawn.physics.SetMaxVelocity(new Vector2f(OriginalMaxVelocity.x * 2.5f, OriginalMaxVelocity.y));
-
     }
 
     @Override
@@ -47,7 +40,6 @@ public class BoosterBanana extends Item {
 
     @Override
     public void Stop(Pawn pawn, Camera camera) {
-        pawn.graphics=original_graphics;
         pawn.physics.SetMaxVelocity(OriginalMaxVelocity);
     }
 

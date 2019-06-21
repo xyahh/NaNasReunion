@@ -1,5 +1,7 @@
 package yjj.nanasreunion.Objects;
 
+import android.graphics.Rect;
+
 import java.util.ArrayList;
 
 import yjj.nanasreunion.Command.Command;
@@ -23,6 +25,7 @@ public class Bird extends Enemy
 
     public static void LoadAssets()
     {
+        Rect r = new Rect(0, 0, 0, 14);
         BirdGraphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.bird_moving),
                 10,9,9);
         BirdGraphics.SetScale(0.2f, 0.2f);
@@ -38,10 +41,10 @@ public class Bird extends Enemy
         physics.SetMass(1.f);
         physics.SetGravity(0.f);
 
-        pivot = new Vector2f(0.5f, 1.f);
+        pivot = new Vector2f(0.5f, 0.75f);
 
         collision = new ActorCollision(COLLISION_TYPES.ENEMY);
-        collision.SetDimensions(0.2f, 0.2f);
+        collision.SetDimensions(0.15f, 0.15f);
         collision.SetCollisionCommands(COLLISION_TYPES.PLAYER, new ArrayList<Command>(){
             {
                 add(new GameOverCommand());

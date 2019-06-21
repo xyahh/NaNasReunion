@@ -42,7 +42,7 @@ public class Nuclear extends Item {
     public void Use(Pawn pawn, Camera camera) {
 
         original_graphics = pawn.graphics;
-        Rect padding = new Rect(0, 0, 0, 32);
+        Rect padding = new Rect(0, 0, 0, 11);
         SpriteGraphics nuclear_graphics = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.nuclear),
                 10,6,6, padding);
         nuclear_graphics.SetScale(0.75f, 0.75f);
@@ -54,6 +54,7 @@ public class Nuclear extends Item {
         float Scale = 2.f;
         pawn.graphics.SetScale(OriginalScale.x * Scale, OriginalScale.y * Scale );
         pawn.collision.SetDimensions(OriginalDimension.x * Scale, OriginalDimension.y * Scale);
+        pawn.collision.SetCollisionType(COLLISION_TYPES.DEFAULT);
         OriginalCommandList = pawn.collision.GetCollisionCommands(COLLISION_TYPES.ENEMY);
         pawn.collision.SetCollisionCommands(COLLISION_TYPES.ENEMY, new ArrayList<Command>()
         {
@@ -73,6 +74,7 @@ public class Nuclear extends Item {
 
     @Override
     public void Stop(Pawn pawn, Camera camera) {
+        pawn.collision.SetCollisionType(COLLISION_TYPES.PLAYER);
         pawn.graphics.SetScale(OriginalScale.x, OriginalScale.y);
         pawn.collision.SetDimensions(OriginalDimension.x, OriginalDimension.y);
         pawn.collision.SetCollisionCommands(COLLISION_TYPES.ENEMY, OriginalCommandList);

@@ -20,6 +20,7 @@ import yjj.nanasreunion.Objects.*;
 import yjj.nanasreunion.Components.Graphics.SpriteGraphics;
 import yjj.nanasreunion.OtherClasses.Scrolling.ScrollingBackground;
 import yjj.nanasreunion.R;
+import yjj.nanasreunion.Services.MainActivity;
 import yjj.nanasreunion.Services.ServiceHub;
 import yjj.nanasreunion.Services.Timer;
 import yjj.nanasreunion.Vector2f;
@@ -70,7 +71,7 @@ public class GameplayScene implements Scene
 
         m_PlayerPawn.collision.SetCollisionType(COLLISION_TYPES.PLAYER);
         m_PlayerPawn.collision.SetCollisionEnabled(true);
-        m_PlayerPawn.collision.SetDimensions(0.15f, 0.4f);
+        m_PlayerPawn.collision.SetDimensions(0.1f, 0.4f);
 
         m_Actors.add(m_PlayerPawn);
     }
@@ -90,6 +91,8 @@ public class GameplayScene implements Scene
 
     private void InitBackground()
     {
+        ServiceHub.ClearColor = Color.argb(255, 135, 206, 235);
+
         m_Background = new ScrollingBackground();
         Vector2i ScreenSize = ServiceHub.Inst().GetScreenSize();
         Vector2f AbsoluteSpeedZero = new Vector2f();
@@ -121,6 +124,12 @@ public class GameplayScene implements Scene
         m_EnemySpawnTimer = 0.f;
         m_CountdownTimer = 5.f;
 
+        MainActivity.GameplayBGM.seekTo(0);
+        MainActivity.GameplayBGM.start();
+
+        ServiceHub.ItemName = "";
+        ServiceHub.EnemySpeedMultiplier = 1.f;
+        ServiceHub.RightwardGameplay = true;
         Timer.Reset();
     }
 

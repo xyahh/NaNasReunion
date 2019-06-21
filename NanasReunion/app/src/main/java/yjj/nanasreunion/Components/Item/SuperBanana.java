@@ -44,6 +44,7 @@ public class SuperBanana extends Item {
         SpriteGraphics sprite = new SpriteGraphics(ServiceHub.Inst().GetBitmap(R.drawable.super_banana), 12, 4, 4,padding);
         pawn.graphics = sprite;
         OriginalCommandList = pawn.collision.GetCollisionCommands(COLLISION_TYPES.ENEMY);
+        pawn.collision.SetCollisionType(COLLISION_TYPES.DEFAULT);
         pawn.collision.SetCollisionCommands(COLLISION_TYPES.ENEMY, new ArrayList<Command>()
         {
             {
@@ -68,6 +69,7 @@ public class SuperBanana extends Item {
 
     @Override
     public void Stop(Pawn pawn, Camera camera) {
+        pawn.collision.SetCollisionType(COLLISION_TYPES.PLAYER);
         pawn.physics.SetGravity(PrevGravity);
         pawn.collision.SetCollisionCommands(COLLISION_TYPES.ENEMY,OriginalCommandList);
         pawn.graphics = original_graphics;

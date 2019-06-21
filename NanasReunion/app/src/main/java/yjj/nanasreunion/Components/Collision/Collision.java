@@ -11,7 +11,7 @@ import yjj.nanasreunion.Vector2f;
 public class Collision
 {
     private RectF  m_CollisionRect;
-    private RectGraphics m_DebugRect;
+    //private RectGraphics m_DebugRect;
 
     private float m_Width;
     private float m_Height;
@@ -28,14 +28,14 @@ public class Collision
     {
         m_CollisionRect = new RectF();
         m_CollisionEnabled = true;
-        m_DebugRect = new RectGraphics(m_Paint);
+       // m_DebugRect = new RectGraphics(m_Paint);
     }
 
     public void SetDimensions(float width, float height)
     {
         m_Width = width;
         m_Height = height;
-        m_DebugRect.SetDimensions(m_Width, m_Height);
+       // m_DebugRect.SetDimensions(m_Width, m_Height);
     }
 
     public Vector2f GetDimensions()
@@ -45,9 +45,9 @@ public class Collision
 
     public void Draw(Canvas canvas, Camera camera, Vector2f pivot)
     {
-        m_DebugRect.Draw(canvas, camera,
-                new Vector2f(m_CollisionRect.left, m_CollisionRect.top),
-                m_Width, m_Height, pivot, m_Paint);
+       // m_DebugRect.Draw(canvas, camera,
+       //         new Vector2f(m_CollisionRect.left, m_CollisionRect.top),
+       //         m_Width, m_Height, pivot, m_Paint);
     }
 
     public void UpdateCollisionRect(Vector2f world_position)

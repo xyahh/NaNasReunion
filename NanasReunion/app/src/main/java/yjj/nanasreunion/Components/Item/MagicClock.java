@@ -54,8 +54,7 @@ public class MagicClock extends Item {
 
     @Override
     public void Draw(Canvas canvas, Camera camera, Pawn pawn) {
-        Vector2f position     = new Vector2f(pawn.position.x+0.3f, 0.8f);
-
+        Vector2f position     = new Vector2f(pawn.position.x + 0.1f, pawn.position.y + 0.5f);
         graphics.Draw(canvas, camera, position, pivot, 0.f);
     }
 }
